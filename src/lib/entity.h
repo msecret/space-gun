@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "component/component.h"
+#include "component.h"
 #include "renderer.h"
 
 
