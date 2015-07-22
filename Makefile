@@ -21,6 +21,7 @@ CFLAGS = ${XFLAGS} ${INCDIRS} ${LFLAGS}
 all: $(OBJS)
 	${CC} ${CFLAGS} $(MAIN) $(OBJS) -o $(BUILDDIR)/$(TARGET)
 
+# Libs
 $(BUILDDIR)/entity.o:
 	${CC} ${CFLAGS} -c ${LIBDIR}/entity.cpp -o $(BUILDDIR)/entity.o
 
