@@ -7,9 +7,10 @@
 class Moveable : Component
 {
   public:
-    Moveable() {};
+    Moveable() { };
+    void init(Entity* entity, Vector2d v);
     void update(Entity* entity, int dt);
 
-}
+};
 
 #endif

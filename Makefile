@@ -1,36 +1,33 @@
 
-CC = g++
-XFLAGS = -Wall -g
-LFLAGS = -lSDL
-TARGET = space-gun
-LIBS = $(BUILDDIR)/entity.o \
-			 $(BUILDDIR)/renderer.o \
-			 $(BUILDDIR)/component.o
-OBJS =
-
+export CC = g++
+export XFLAGS = -Wall -g
+export LFLAGS = -lSDL
 VPATH = src
-SRCDIR := src
-BUILDDIR := build
-INCDIRS := -I /usr/include/SDL
-LIBDIR := $(SRCDIR)/lib
+TARGET = space-gun
 
-MAIN := ${SRCDIR}/main.cpp
+export DISTDIR := build
 
-CFLAGS = ${XFLAGS} ${INCDIRS} ${LFLAGS}
+MAIN := src/main.cpp
+OBJECTS := ball.o
+DISTS := $(addprefix $(DISTDIR)/, $(OBJECTS))
 
-all: $(OBJS)
-	${CC} ${CFLAGS} $(MAIN) $(OBJS) -o $(BUILDDIR)/$(TARGET)
+SUBDIRS = src/lib
 
-# Libs
-$(BUILDDIR)/entity.o:
-	${CC} ${CFLAGS} -c ${LIBDIR}/entity.cpp -o $(BUILDDIR)/entity.o
+$(DISTDIR)/%.o: %.cpp
+	$(CC) -c $(CFLAGS) $< -o $@
 
-$(BUILDDIR)/renderer.o:
-	${CC} ${CFLAGS} -c ${LIBDIR}/renderer.h -o $(BUILDDIR)/renderer.o
+$(TARGET): $(DISTS) subdirs
+	$(CC) $(CFLAGS) $(MAIN) -o $(DISTDIR)/$@
 
-$(BUILDDIR)/component.o:
-	${CC} ${CFLAGS} -c ${LIBDIR}/component.h -o $(BUILDDIR)/renderer.o
+$(OBJS): | $(DISTDIR)
+$(DISTDIR):
+	mkdir -p $(DISTDIR)
+
+
+.PHONY: subdirs $(SUBDIRS)
+subdirs: $(SUBDIRS)
+$(SUBDIRS):
+	$(MAKE) -C $@
 
 clean:
-	-rm -r build/*
-	rm -rf `find . -name "*.dSYM" -print`
+	-@rm -rf build/* 2>/dev/null || true

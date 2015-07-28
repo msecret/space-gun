@@ -5,19 +5,21 @@
 #include <vector>
 
 #include "component.h"
+#include "positioning.h"
 #include "renderer.h"
 
 
 class Entity
 {
   public:
-    Entity(Renderer* renderer, std::vector<Component*> components);
+    Entity(std::vector<Component> components);
     void update(int dt);
     void render();
+    Vector2d v;
+    Vector2d pos;
 
   private:
-    Renderer* renderer_;
-    std::vector<Component*> components_;
+    std::vector<Component> components_;
 
 };
 
