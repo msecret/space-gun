@@ -7,8 +7,9 @@ class Entity;
 class Component
 {
   public:
-    void receive(int message);
-    void update(Entity& entity, int dt);
+    virtual ~Component() {}
+    virtual void receive(int message) = 0;
+    virtual void update(Entity& entity, int dt) = 0;
 };
 
 #endif

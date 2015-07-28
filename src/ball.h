@@ -7,6 +7,6 @@
 
 Entity* createBall()
 {
-  std::vector<Component> components;
+  std::vector<Component*> components;
   return new Entity(components);
 }
