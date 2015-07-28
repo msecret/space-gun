@@ -12,14 +12,14 @@
 class Entity
 {
   public:
-    Entity(std::vector<Component> components);
+    Entity(std::vector<Component*> components);
     void update(int dt);
     void render();
     Vector2d v;
     Vector2d pos;
 
   private:
-    std::vector<Component> components_;
+    std::vector<Component*> components_;
 
 };
 
