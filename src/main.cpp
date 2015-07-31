@@ -1,8 +1,13 @@
+
 #include <iostream>
-using namespace std;
+
+#include "ball.h"
+#include "lib/entity.h"
 
 int main()
 {
-  cout << "Hello World";
+  std::cout << "Hello World\n";
+  Entity *ball = game::createBall();
+
   return 0;
 }

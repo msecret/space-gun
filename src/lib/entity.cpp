@@ -11,7 +11,7 @@ void Entity::update(int dt)
 {
   for(std::vector<Component*>::iterator it = components_.begin();
       it != components_.end(); ++it) {
-    (*it)->update(*this, dt);
+    (*it)->update(this, dt);
   }
 }
 

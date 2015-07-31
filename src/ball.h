@@ -1,12 +1,11 @@
 
-#include <vector>
+#ifndef _h_Ball
+#define _h_Ball
 
 #include "lib/entity.h"
-#include "lib/component.h"
 
-
-Entity* createBall()
-{
-  std::vector<Component*> components;
-  return new Entity(components);
+namespace game {
+  Entity* createBall();
 }
+
+#endif
