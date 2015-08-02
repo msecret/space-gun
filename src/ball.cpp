@@ -9,6 +9,8 @@
 
 #include "ball.h"
 
+namespace game {
+
 Entity* createBall()
 {
   std::vector<Component*> components;
@@ -19,4 +21,6 @@ Entity* createBall()
 
   return ball;
 };
+
+}
 

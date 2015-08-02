@@ -5,7 +5,7 @@
 #include "lib/entity.h"
 
 namespace game {
-  Entity* createBall();
+Entity* createBall();
 }
 
 #endif
