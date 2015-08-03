@@ -4,14 +4,9 @@
 #include "lib/positioning.h"
 #include "moveable.h"
 
-Moveable::Moveable()
+Moveable::Moveable(Entity* entity, const Vector2d & v)
 {
-
-}
-
-void Moveable::init(Entity* entity, Vector2d v)
-{
-  entity->v = v;
+  entity_ = entity;
 }
 
 void Moveable::update(Entity* entity, int dt)

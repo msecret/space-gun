@@ -17,7 +17,8 @@ Entity* createBall()
   Moveable* moveable = new Moveable();
   components.push_back(moveable);
   Entity* ball = new Entity(components);
-  moveable->init(ball, Vector2d{x: 1, y: 1});
+  Vector2d velocity = (1, 2);
+  moveable->init(ball, velocity);
 
   return ball;
 };
