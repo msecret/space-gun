@@ -9,13 +9,8 @@
 class Moveable : public Component
 {
   public:
-    Moveable(Entity* entity, const Vector2d & v);
     ~Moveable();
-    void receive(int message);
     void update(Entity* entity, int dt);
-
-  private:
-    Entity* entity_;
 };
 
 #endif

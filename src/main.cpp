@@ -7,7 +7,7 @@
 int main()
 {
   std::cout << "Hello World\n";
-  Entity *ball = game::createBall();
+  Entity *ball = createBall();
 
   return 0;
 }

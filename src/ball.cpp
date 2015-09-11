@@ -9,7 +9,6 @@
 
 #include "ball.h"
 
-namespace game {
 
 Entity* createBall()
 {
@@ -18,10 +17,6 @@ Entity* createBall()
   components.push_back(moveable);
   Entity* ball = new Entity(components);
   Vector2d velocity = (1, 2);
-  moveable->init(ball, velocity);
 
   return ball;
 };
-
-}
-

@@ -4,8 +4,6 @@
 
 #include "lib/entity.h"
 
-namespace game {
 Entity* createBall();
-}
 
 #endif
