@@ -4,9 +4,9 @@
 #include "lib/positioning.h"
 #include "moveable.h"
 
-void Moveable::update(Entity* entity, const int dt)
+void Moveable::update(Entity &entity, const int dt)
 {
-  entity->pos.x += entity->v.x;
-  entity->pos.y += entity->v.y;
+  entity.pos.x += entity.v.x;
+  entity.pos.y += entity.v.y;
 }
 

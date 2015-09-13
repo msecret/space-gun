@@ -9,7 +9,7 @@ class Entity;
 class Component
 {
   public:
-    virtual void update(Entity* entity, const int dt) = 0;
+    virtual void update(Entity &entity, const int dt) = 0;
 };
 
 #endif

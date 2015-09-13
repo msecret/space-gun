@@ -12,7 +12,7 @@ Entity::Entity(std::vector<std::shared_ptr<Component>> components):
 void Entity::update(const int dt)
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->update(this, dt);
+    components_[i]->update(*this, dt);
   }
 }
 
