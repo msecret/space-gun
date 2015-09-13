@@ -9,6 +9,7 @@
 #include "positioning.h"
 #include "renderer.h"
 
+namespace aronnax {
 
 class Entity
 {
@@ -24,5 +25,7 @@ class Entity
     std::vector<std::shared_ptr<Component>> components_;
 
 };
+
+}
 
 #endif

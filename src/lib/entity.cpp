@@ -5,6 +5,8 @@
 #include "entity.h"
 #include "renderer.h"
 
+namespace aronnax {
+
 Entity::Entity(std::vector<std::shared_ptr<Component>> components):
   components_(components)
   { }
@@ -18,4 +20,6 @@ void Entity::update(const int dt)
 
 void Entity::render()
 {
+}
+
 }

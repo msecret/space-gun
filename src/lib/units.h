@@ -1,7 +1,8 @@
 
-#ifndef _h_Positioning
-#define _h_Positioning
+#ifndef _h_Units
+#define _h_Units
 
+namespace aronnax {
 
 struct Vector2d
 {
@@ -17,5 +18,7 @@ struct Vector2d
     return Vector2d(a.x + x, a.y + y);
   }
 };
+
+}
 
 #endif

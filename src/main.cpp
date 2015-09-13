@@ -8,7 +8,7 @@
 int main()
 {
   std::cout << "poop\n";
-  Entity *ball = createBall();
+  aronnax::Entity *ball = createBall();
   ball->v.x = 1.5;
 
   return 0;

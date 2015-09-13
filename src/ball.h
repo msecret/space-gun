@@ -4,6 +4,6 @@
 
 #include "lib/entity.h"
 
-Entity* createBall();
+aronnax::Entity* createBall();
 
 #endif

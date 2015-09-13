@@ -10,13 +10,12 @@
 
 #include "ball.h"
 
-
-Entity* createBall()
+aronnax::Entity* createBall()
 {
-  std::vector<std::shared_ptr<Component>> components;
+  std::vector<std::shared_ptr<aronnax::Component>> components;
   std::shared_ptr<Moveable> moveable(new Moveable());
   components.push_back(moveable);
-  Entity* ball = new Entity(components);
+  aronnax::Entity* ball = new aronnax::Entity(components);
 
   return ball;
 };

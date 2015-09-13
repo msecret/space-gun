@@ -6,11 +6,11 @@
 #include "lib/entity.h"
 #include "lib/positioning.h"
 
-class Moveable : public Component
+class Moveable : public aronnax::Component
 {
   public:
     ~Moveable() {};
-    void update(Entity &entity, const int dt);
+    void update(aronnax::Entity &entity, const int dt);
 };
 
 #endif
