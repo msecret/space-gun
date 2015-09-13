@@ -13,16 +13,15 @@
 class Entity
 {
   public:
-    // TODO use boost:shared_ptr to ensure components are freed.
     Entity(std::vector<std::shared_ptr<Component>> components);
     ~Entity();
-    void update(int dt);
+    void update(const int dt);
     void render();
     Vector2d v;
     Vector2d pos;
 
   private:
-    std::vector<Component*> components_;
+    std::vector<std::shared_ptr<Component>> components_;
 
 };
 

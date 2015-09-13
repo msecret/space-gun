@@ -9,7 +9,7 @@
 class Moveable : public Component
 {
   public:
-    ~Moveable();
+    ~Moveable() {};
     void update(Entity* entity, const int dt);
 };
 

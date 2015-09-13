@@ -1,4 +1,5 @@
 
+#include <memory>
 #include <vector>
 
 #include "lib/entity.h"
@@ -12,11 +13,10 @@
 
 Entity* createBall()
 {
-  std::vector<Component*> components;
-  Moveable* moveable = new Moveable();
+  std::vector<std::shared_ptr<Component>> components;
+  std::shared_ptr<Moveable> moveable(new Moveable());
   components.push_back(moveable);
   Entity* ball = new Entity(components);
-  Vector2d velocity = (1, 2);
 
   return ball;
 };
