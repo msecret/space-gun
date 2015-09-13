@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "component.h"
-#include "positioning.h"
+#include "units.h"
 #include "renderer.h"
 
 namespace aronnax {

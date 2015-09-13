@@ -2,7 +2,7 @@
 #ifndef _h_Component
 #define _h_Component
 
-#include "positioning.h"
+#include "units.h"
 
 namespace aronnax {
 

@@ -4,6 +4,10 @@
 
 #include "lib/entity.h"
 
+namespace spacegun {
+
 aronnax::Entity* createBall();
+
+}
 
 #endif

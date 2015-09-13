@@ -4,7 +4,9 @@
 
 #include "lib/component.h"
 #include "lib/entity.h"
-#include "lib/positioning.h"
+#include "lib/units.h"
+
+namespace spacegun {
 
 class Moveable : public aronnax::Component
 {
@@ -12,5 +14,7 @@ class Moveable : public aronnax::Component
     ~Moveable() {};
     void update(aronnax::Entity &entity, const int dt);
 };
+
+}
 
 #endif

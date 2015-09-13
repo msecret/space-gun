@@ -4,11 +4,13 @@
 
 #include "lib/entity.h"
 #include "lib/component.h"
-#include "lib/positioning.h"
+#include "lib/units.h"
 
 #include "moveable.h"
 
 #include "ball.h"
+
+namespace spacegun {
 
 aronnax::Entity* createBall()
 {
@@ -19,3 +21,5 @@ aronnax::Entity* createBall()
 
   return ball;
 };
+
+}
