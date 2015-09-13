@@ -9,8 +9,7 @@ class Entity;
 class Component
 {
   public:
-    virtual void receive(int message) = 0;
-    virtual void update(Entity* entity, int dt) = 0;
+    virtual void update(Entity* entity, const int dt) = 0;
 };
 
 #endif

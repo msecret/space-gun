@@ -1,8 +1,9 @@
 
 export CC = g++
 export LIBNAME = gaming.a
-export XFLAGS = -Wall -g
+export XFLAGS = -Wall -g -std=c++11
 export LFLAGS = -lSDL
+export CFLAGS = $(XFLAGS) $(LFLAGS)
 VPATH = src
 TARGET = space-gun
 

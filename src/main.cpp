@@ -1,13 +1,15 @@
 
 #include <iostream>
+#include <stdio.h>
 
 #include "ball.h"
 #include "lib/entity.h"
 
 int main()
 {
-  std::cout << "Hello World\n";
+  std::cout << "poop\n";
   Entity *ball = createBall();
+  ball->v.x = 1.5;
 
   return 0;
 }

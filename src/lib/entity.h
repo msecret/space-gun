@@ -2,6 +2,7 @@
 #ifndef _h_Entity
 #define _h_Entity
 
+#include <memory>
 #include <vector>
 
 #include "component.h"
@@ -12,7 +13,9 @@
 class Entity
 {
   public:
-    Entity(std::vector<Component*> components);
+    // TODO use boost:shared_ptr to ensure components are freed.
+    Entity(std::vector<std::shared_ptr<Component>> components);
+    ~Entity();
     void update(int dt);
     void render();
     Vector2d v;
