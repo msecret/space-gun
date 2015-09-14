@@ -5,29 +5,30 @@
 
 namespace aronnax {
 
-  inline uint64_t Clock::secondsToCycles(float timeSeconds)
-  {
-    return (uint64_t)(timeSeconds * cyclesPerSecond_);
+Clock::launch_()
+{
+  const uint32_t MS_PER_UPDATE = 8;
+  previous_ = getCurrentTime_();
+  uint32_t lag_ = 0.0;
+
+  while (isStarted_) {
+    tick();
+  }
+}
+
+Clock::tick()
+{
+  uint32_t current = getCurrentTime_();
+  uint32_t elapsed = current - previous_;
+  previous_ = current;
+  lag_ += elapsed;
+
+  while (lag_ >= MS_PER_UPDATE) {
+    tickConstantly();
+    lag_ -= MS_PER_UPDATE;
   }
 
-  inline float Clock::cylesToSeconds(uint64_t timeCycles)
-  {
-    return (float)timeCycles / cyclesPerSecond_;
-  }
-
-  Clock::void init()
-  {
-    cyclesPerSecond_ = (F32)
-  }
-
-  uint64_t Clock::getTimeCycles() const
-  {
-    return timeCycles_;
-  }
-
-  float Clock::calcDeltaSeconds(const Clock& other)
-  {
-
-  }
+  tickEveryFrame();
+}
 
 }

@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <memory>
 
 namespace aronnax {
@@ -11,33 +12,29 @@ namespace aronnax {
 class Clock 
 {
   private:
-    uint64_t timeCycles_;
-    float timeScale_;
-    bool isPaused_;
+    uint32_t previous_;
+    uint32_t lag_;
 
-    static float cyclesPerSecond_;
+    bool isStarted_;
 
-    static inline uint64_t secondsToCycles(float timeSeconds);
-
-    static inline float cylesToSeconds(uint64_t timeCycles);
+    void launch_();
+    uint32_t getCurrentTime_();
 
   public:
 
-    Clock(float startTimeSeconds=0.0f) :
-      timeCycles_(secondsToCycles(startTimeSeconds)),
-      timeScale_(1.0f),
-      isPaused_(false){ };
+    Clock();
 
     void start();
     void stop();
+    bool isStarted();
 
-    void pause();
-    void unpause();
-    bool isPaused() const;
+    void tick();
+    void tickConstantly();
+    void tickEveryFrame();
 
-    void onEverySecs(const uint64_t secs);
-
-    void singleStep();
+    void onConstantly();
+    void onEveryFrame();
+    void onEverySecs(double secs);
 
 };
 
