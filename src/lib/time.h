@@ -20,6 +20,9 @@ class Clock
     void launch_();
     uint32_t getCurrentTime_();
 
+    std::function<void()> f_onConstantly_;
+    std::function<void()> f_onEveryFrame_;
+
   public:
 
     Clock();
@@ -32,9 +35,9 @@ class Clock
     void tickConstantly();
     void tickEveryFrame();
 
-    void onConstantly();
-    void onEveryFrame();
-    void onEverySecs(double secs);
+    void onConstantly(std::function<void()>);
+    void onEveryFrame(std::function<void()>);
+    void onEverySecs(double secs, std::function<void()>);
 
 };
 
