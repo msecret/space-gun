@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <memory>
 #include <stdio.h>
 
 #include "ball.h"
@@ -16,6 +17,7 @@ int main()
 
   aronnax::Clock* clock = new aronnax::Clock();
   std::function<void(const uint32_t)> f_update= std::bind(&aronnax::Entity::update, ball, _1);
+
   clock->onConstantly(f_update);
 
   return 0;

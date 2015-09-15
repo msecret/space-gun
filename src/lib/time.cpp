@@ -1,9 +1,13 @@
 
 #include <cstdint>
+#include <memory>
+#include <vector>
 
 #include "time.h"
 
 namespace aronnax {
+
+Clock::Clock() {};
 
 void Clock::launch_()
 {
@@ -33,25 +37,25 @@ void Clock::tick()
 
 void Clock::onConstantly(std::function<void(const uint32_t)>& def)
 {
-  f_onConstantly_ = def;
+  f_onConstantlys_.push_back(def);
 }
 
 void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
 {
-  f_onEveryFrame_ = def;
+  f_onEveryFrames_.push_back(def);
 }
 
 void Clock::tickConstantly(const uint32_t d)
 {
-  if (f_onConstantly_) {
-    f_onConstantly_(d);
+  for (unsigned int i = 0; i < f_onConstantlys_.size(); ++i) {
+    f_onConstantlys_[i](d);
   }
 }
 
 void Clock::tickEveryFrame(const uint32_t d)
 {
-  if (f_onEveryFrame_) {
-    f_onEveryFrame_(d);
+  for (unsigned int i = 0; i < f_onEveryFrames_.size(); ++i) {
+    f_onEveryFrames_[i](d);
   }
 }
 

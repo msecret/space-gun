@@ -6,6 +6,11 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <vector>
+
+// TODO Initialize all private member vars even to 0
+// TODO consider an alias for uint32_t to make easy to change
+// TODO change name of onConstantly function list
 
 namespace aronnax {
 
@@ -20,12 +25,12 @@ class Clock
     void launch_();
     uint32_t getCurrentTime_();
 
-    std::function<void(const uint32_t)>& f_onConstantly_;
-    std::function<void(const uint32_t)>& f_onEveryFrame_;
+    std::vector<std::function<void(const uint32_t)>> f_onConstantlys_;
+    std::vector<std::function<void(const uint32_t)>> f_onEveryFrames_;
 
   public:
 
-    Clock() {};
+    Clock();
 
     void start();
     void stop();
