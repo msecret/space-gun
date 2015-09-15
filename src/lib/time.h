@@ -30,7 +30,12 @@ class Clock
 
   public:
 
-    Clock();
+    Clock() : previous_(0),
+              lag_(0),
+              isStarted_(false),
+              f_onConstantlys_(),
+              f_onEveryFrames_()
+    {};
 
     void start();
     void stop();
