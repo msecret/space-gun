@@ -7,17 +7,32 @@
 
 namespace aronnax {
 
-Clock::Clock() {};
-
-void Clock::launch_()
+void Clock::start()
 {
-  previous_ = getCurrentTime_();
-  lag_ = 0.0;
-
-  while (isStarted_) {
-    tick();
-  }
+  isStarted_ = true;
+  launch_();
 }
+
+void Clock::stop()
+{
+  isStarted_ = false;
+}
+
+bool Clock::isStarted()
+{
+  return isStarted_;
+}
+
+void Clock::onConstantly(std::function<void(const uint32_t)>& def)
+{
+  f_constantlys_.push_back(def);
+}
+
+void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
+{
+  f_everyFrames_.push_back(def);
+}
+
 
 void Clock::tick()
 {
@@ -35,44 +50,28 @@ void Clock::tick()
   tickEveryFrame(lag_);
 }
 
-void Clock::onConstantly(std::function<void(const uint32_t)>& def)
-{
-  f_onConstantlys_.push_back(def);
-}
-
-void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
-{
-  f_onEveryFrames_.push_back(def);
-}
-
 void Clock::tickConstantly(const uint32_t d)
 {
-  for (unsigned int i = 0; i < f_onConstantlys_.size(); ++i) {
-    f_onConstantlys_[i](d);
+  for (unsigned int i = 0; i < f_constantlys_.size(); ++i) {
+    f_constantlys_[i](d);
   }
 }
 
 void Clock::tickEveryFrame(const uint32_t d)
 {
-  for (unsigned int i = 0; i < f_onEveryFrames_.size(); ++i) {
-    f_onEveryFrames_[i](d);
+  for (unsigned int i = 0; i < f_everyFrames_.size(); ++i) {
+    f_everyFrames_[i](d);
   }
 }
 
-void Clock::start()
+void Clock::launch_()
 {
-  isStarted_ = true;
-  start();
-}
+  previous_ = getCurrentTime_();
+  lag_ = 0.0;
 
-void Clock::stop()
-{
-  isStarted_ = false;
-}
-
-bool Clock::isStarted()
-{
-  return isStarted_;
+  while (isStarted_) {
+    tick();
+  }
 }
 
 }

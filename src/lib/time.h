@@ -8,7 +8,6 @@
 #include <memory>
 #include <vector>
 
-// TODO Initialize all private member vars even to 0
 // TODO consider an alias for uint32_t to make easy to change
 // TODO change name of onConstantly function list
 
@@ -25,30 +24,29 @@ class Clock
     void launch_();
     uint32_t getCurrentTime_();
 
-    std::vector<std::function<void(const uint32_t)>> f_onConstantlys_;
-    std::vector<std::function<void(const uint32_t)>> f_onEveryFrames_;
+    std::vector<std::function<void(const uint32_t)>> f_constantlys_;
+    std::vector<std::function<void(const uint32_t)>> f_everyFrames_;
 
   public:
 
     Clock() : previous_(0),
               lag_(0),
               isStarted_(false),
-              f_onConstantlys_(),
-              f_onEveryFrames_()
+              f_constantlys_(),
+              f_everyFrames_()
     {};
 
     void start();
     void stop();
     bool isStarted();
 
-    void tick();
-    void tickConstantly(uint32_t d);
-    void tickEveryFrame(const uint32_t d);
-
     void onConstantly(std::function<void(const uint32_t)>& def);
     void onEveryFrame(std::function<void(const uint32_t)>& def);
     //void onEverySecs(double secs, std::function<void()>);
-
+    //
+    void tick();
+    void tickConstantly(uint32_t d);
+    void tickEveryFrame(const uint32_t d);
 };
 
 }
