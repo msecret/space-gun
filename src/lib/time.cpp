@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "SDL/SDL.h"
+
 #include "time.h"
 
 namespace aronnax {
@@ -72,6 +74,11 @@ void Clock::launch_()
   while (isStarted_) {
     tick();
   }
+}
+
+uint32_t Clock::getCurrentTime_()
+{
+  return SDL_GetTicks();
 }
 
 }
