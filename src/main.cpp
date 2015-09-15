@@ -4,16 +4,19 @@
 
 #include "ball.h"
 #include "lib/entity.h"
+#include "lib/time.h"
 
 int main()
 {
+  using namespace std::placeholders;
+
   std::cout << "poop\n";
   aronnax::Entity *ball = spacegun::createBall();
   ball->v.x = 1.5;
 
-  Clock clock = new Clock();
-  std::function<void(int)> f_update= std::bind(&Entity::update, &ball, _1);
-  clock.onConstantly(f_update);
+  aronnax::Clock* clock = new aronnax::Clock();
+  std::function<void(const int)> f_update= std::bind(&aronnax::Entity::update, ball, _1);
+  clock->onConstantly(f_update);
 
   return 0;
 }

@@ -7,9 +7,8 @@ namespace aronnax {
 
 void Clock::launch_()
 {
-  const uint32_t MS_PER_UPDATE = 8;
   previous_ = getCurrentTime_();
-  uint32_t lag_ = 0.0;
+  lag_ = 0.0;
 
   while (isStarted_) {
     tick();
@@ -18,6 +17,7 @@ void Clock::launch_()
 
 void Clock::tick()
 {
+  const uint32_t MS_PER_UPDATE = 8;
   uint32_t current = getCurrentTime_();
   uint32_t elapsed = current - previous_;
   previous_ = current;
@@ -31,6 +31,11 @@ void Clock::tick()
   tickEveryFrame();
 }
 
+void onConstantly(std::function<void(const int)>& def)
+{
+
+}
+
 void Clock::tickConstantly()
 {
   f_onConstantly_();
@@ -39,4 +44,6 @@ void Clock::tickConstantly()
 void Clock::tickEveryFrame()
 {
   f_onEveryFrame_();
+}
+
 }
