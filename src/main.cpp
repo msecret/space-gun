@@ -15,7 +15,7 @@ int main()
   ball->v.x = 1.5;
 
   aronnax::Clock* clock = new aronnax::Clock();
-  std::function<void(const int)> f_update= std::bind(&aronnax::Entity::update, ball, _1);
+  std::function<void(const uint32_t)> f_update= std::bind(&aronnax::Entity::update, ball, _1);
   clock->onConstantly(f_update);
 
   return 0;
