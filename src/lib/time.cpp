@@ -50,14 +50,12 @@ void Clock::tick()
   lag_ += elapsed;
 
   while (lag_ >= MS_PER_UPDATE) {
-    printf("update - %u\n", lag_);
     tickConstantly(lag_);
     lag_ -= MS_PER_UPDATE;
   }
 
   uint32_t lagOffset = lag_ / MS_PER_UPDATE;
 
-  printf("render - %u, %u\n", lag_, lagOffset);
   tickEveryFrame(lagOffset);
 }
 
