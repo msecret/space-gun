@@ -1,4 +1,7 @@
 
+#include <iostream>
+#include <stdio.h>
+
 #include <cstdint>
 #include <memory>
 #include <vector>
@@ -39,17 +42,23 @@ void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
 void Clock::tick()
 {
   const uint32_t MS_PER_UPDATE = 8;
+  const uint32_t MAX_LAG = 1000;
   uint32_t current = getCurrentTime_();
   uint32_t elapsed = current - previous_;
+  if (elapsed > MAX_LAG) elapsed = MAX_LAG;
   previous_ = current;
   lag_ += elapsed;
 
   while (lag_ >= MS_PER_UPDATE) {
+    printf("update - %u\n", lag_);
     tickConstantly(lag_);
     lag_ -= MS_PER_UPDATE;
   }
 
-  tickEveryFrame(lag_);
+  uint32_t lagOffset = lag_ / MS_PER_UPDATE;
+
+  printf("render - %u, %u\n", lag_, lagOffset);
+  tickEveryFrame(lagOffset);
 }
 
 void Clock::tickConstantly(const uint32_t d)
@@ -68,8 +77,8 @@ void Clock::tickEveryFrame(const uint32_t d)
 
 void Clock::launch_()
 {
-  previous_ = getCurrentTime_();
   lag_ = 0.0;
+  previous_ = getCurrentTime_();
 
   while (isStarted_) {
     tick();
