@@ -5,6 +5,7 @@
 
 #include "ball.h"
 #include "lib/entity.h"
+#include "lib/sdl_renderer.h"
 #include "lib/time.h"
 
 int main()

@@ -8,14 +8,11 @@
 
 namespace aronnax {
 
-class SDLRenderer
+class SDLRenderer : public Renderer
 {
   public:
-    SDLRenderer();
+    SDLRenderer() {};
     void render(const uint32_t dt);
-
-  private:
-    SDL_Surface* screen_;
 
 };
 
