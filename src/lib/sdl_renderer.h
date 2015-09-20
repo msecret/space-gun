@@ -2,7 +2,7 @@
 #ifndef _h_SDLRenderer
 #define _h_SDLRenderer
 
-#include "SDL/SDL.h"
+#include "SDL2/SDL_video.h"
 
 #include "renderer.h"
 

@@ -8,7 +8,7 @@ TARGET := $(LIBNAME)
 
 
 $(RDISTDIR)/%.o: %.cpp
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@ $(LFLAGS)
 
 $(RDISTDIR)/$(TARGET): $(DISTS)
 	@echo "Making shared lib: $(TARGET)"

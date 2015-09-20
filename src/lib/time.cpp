@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "SDL/SDL.h"
+#include <SDL2/SDL.h>
 
 #include "time.h"
 
