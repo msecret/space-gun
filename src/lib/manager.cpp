@@ -13,6 +13,16 @@ Manager::Manager(RendererPtr renderer, Entities entities):
   renderer_(renderer)
   { }
 
+void Manager::add(ComponentTypes types)
+{
+  std::vector<std::shared_ptr<aronnax::Component>> components;
+  for (auto type : types) {
+    std::shared_ptr<type> component(new type());
+    components.push_back(component)
+  }
+  return aronnax::Entity entity = new aronnax::Entity(components, renderer_);
+}
+
 void Manager::update(const uint32_t dt)
 {
   for (auto e : entities_) {

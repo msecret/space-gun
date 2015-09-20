@@ -31,4 +31,9 @@ void Entity::render()
   }
 }
 
+Renderer* Entity::getRenderer()
+{
+  return renderer_.get();
+}
+
 }

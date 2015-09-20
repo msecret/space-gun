@@ -20,6 +20,7 @@ class Entity
     ~Entity();
     void update(const uint32_t dt);
     void render();
+    Renderer* getRenderer();
     Vector2d v;
     Vector2d pos;
 
