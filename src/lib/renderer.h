@@ -7,7 +7,9 @@ namespace aronnax {
 class Renderer
 {
   public:
-    virtual void render(const uint32_t dt) = 0;
+    virtual void render() = 0;
+    virtual void beforeRender() = 0;
+    virtual void afterRender() = 0;
 };
 
 }

@@ -14,7 +14,7 @@ class Component
 {
   public:
     virtual void update(Entity &entity, const uint32_t dt) {};
-    virtual void render(Entity &entity, const uint32_t dt) {};
+    virtual void render(Entity &entity) {};
 };
 
 }

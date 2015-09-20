@@ -19,7 +19,7 @@ class Entity
            std::shared_ptr<Renderer> renderer);
     ~Entity();
     void update(const uint32_t dt);
-    void render(const uint32_t dt);
+    void render();
     Vector2d v;
     Vector2d pos;
 

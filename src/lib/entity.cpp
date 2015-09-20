@@ -24,10 +24,10 @@ void Entity::update(const uint32_t dt)
   }
 }
 
-void Entity::render(const uint32_t dt)
+void Entity::render()
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->render(*this, dt);
+    components_[i]->render(*this);
   }
 }
 

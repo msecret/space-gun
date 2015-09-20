@@ -2,7 +2,9 @@
 #ifndef _h_SDLRenderer
 #define _h_SDLRenderer
 
-#include "SDL2/SDL_video.h"
+#include <memory>
+
+#include "SDL2/SDL.h"
 
 #include "renderer.h"
 
@@ -12,7 +14,14 @@ class SDLRenderer : public Renderer
 {
   public:
     SDLRenderer() {};
-    void render(const uint32_t dt);
+    SDLRenderer(SDL_Window* window);
+    void render();
+    void beforeRender();
+    void afterRender();
+
+  private:
+    std::shared_ptr<SDL_Window> screen_;
+    std::shared_ptr<SDL_Renderer> renderer_;
 
 };
 
