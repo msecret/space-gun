@@ -11,15 +11,24 @@ Entity::Entity(std::vector<std::shared_ptr<Component>> components):
   components_(components)
   { }
 
-void Entity::update(const int dt)
+Entity::Entity(std::vector<std::shared_ptr<Component>> components,
+               std::shared_ptr<Renderer> renderer):
+  components_(components),
+  renderer_(renderer)
+  { }
+
+void Entity::update(const uint32_t dt)
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
     components_[i]->update(*this, dt);
   }
 }
 
-void Entity::render()
+void Entity::render(const uint32_t dt)
 {
+  for (unsigned int i = 0; i < components_.size(); ++i) {
+    components_[i]->render(*this, dt);
+  }
 }
 
 }

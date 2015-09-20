@@ -21,7 +21,7 @@ $(DISTDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TARGET): $(DISTS) subdirs
-	$(CC) $(CFLAGS) $(DISTS) $(LIBDISTS) $(MAIN) -o $(DISTDIR)/$@
+	$(CC) $(CFLAGS) $(DISTS) $(MAIN) -o $(DISTDIR)/$@ $(LIBDISTS)
 
 $(OBJS): | $(DISTDIR)
 $(DISTDIR):

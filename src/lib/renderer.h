@@ -2,11 +2,14 @@
 #ifndef _h_Renderer
 #define _h_Renderer
 
+namespace aronnax {
+
 class Renderer
 {
   public:
-    virtual ~Renderer() {}
-    virtual void render() = 0;
+    virtual void render(const uint32_t dt) = 0;
 };
+
+}
 
 #endif
