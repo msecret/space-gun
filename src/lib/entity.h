@@ -24,6 +24,7 @@ class Entity
     Vector2d pos;
 
   private:
+    // TODO typedef replace all of these
     std::vector<std::shared_ptr<Component>> components_;
     std::shared_ptr<aronnax::Renderer> renderer_;
 
