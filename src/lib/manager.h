@@ -5,6 +5,8 @@
 #include <set>
 #include <memory>
 
+#include "entity.h"
+
 namespace aronnax {
 
 class Entity;
@@ -19,9 +21,9 @@ class Manager
   public:
     Manager(RendererPtr renderer);
     Manager(RendererPtr renderer, Entities entities);
-    void add(
     void update(const uint32_t dt);
     void render();
+    EntityPtr add(std::initializer_list<Component> components);
 
   private:
     Entities entities_;

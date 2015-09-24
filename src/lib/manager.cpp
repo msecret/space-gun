@@ -1,4 +1,6 @@
 
+#include <initializer_list>
+
 #include "entity.h"
 #include "manager.h"
 
@@ -13,14 +15,20 @@ Manager::Manager(RendererPtr renderer, Entities entities):
   renderer_(renderer)
   { }
 
-void Manager::add(ComponentTypes types)
+EntityPtr Manager::add(std::initializer_list<Component> components)
 {
-  std::vector<std::shared_ptr<aronnax::Component>> components;
-  for (auto type : types) {
-    std::shared_ptr<type> component(new type());
-    components.push_back(component)
+  Components componentList;
+  for (auto component : components) {
+    componentList.push_back(component);
   }
-  return aronnax::Entity entity = new aronnax::Entity(components, renderer_);
+
+  aronnax::Entity ball = aronnax::Entity(componentList, renderer_);
+  std::shared_ptr<aronnax::Entity> entity = std::make_shared<aronnax::Entity>(
+      componentList, renderer_);
+
+  entities_.push_back(entity);
+
+  return entity;
 }
 
 void Manager::update(const uint32_t dt)

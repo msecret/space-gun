@@ -11,6 +11,8 @@
 
 namespace aronnax {
 
+typedef std::shared_ptr<Entity> EntityPtr;
+
 class Entity
 {
   public:

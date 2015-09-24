@@ -46,8 +46,9 @@ int main()
   aronnax::Manager manager = aronnax::Manager(renderer);
 
   // Set up entities
-  std::cout << "poop\n";
-  aronnax::Entity *ball = spacegun::createBall();
+  EntityPtr ball = manager.makeEntity(
+    new Moveable()
+  );
   ball->v.x = 1.5;
 
   // Set up loop
