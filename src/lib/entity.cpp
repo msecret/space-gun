@@ -7,11 +7,11 @@
 
 namespace aronnax {
 
-Entity::Entity(std::vector<std::shared_ptr<Component>> components):
+Entity::Entity(Components components):
   components_(components)
   { }
 
-Entity::Entity(std::vector<std::shared_ptr<Component>> components,
+Entity::Entity(Components components,
                std::shared_ptr<Renderer> renderer):
   components_(components),
   renderer_(renderer)
@@ -20,14 +20,14 @@ Entity::Entity(std::vector<std::shared_ptr<Component>> components,
 void Entity::update(const uint32_t dt)
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->update(*this, dt);
+    components_[i].update(*this, dt);
   }
 }
 
 void Entity::render()
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->render(*this);
+    components_[i].render(*this);
   }
 }
 

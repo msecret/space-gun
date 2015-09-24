@@ -5,11 +5,13 @@
 
 #include "SDL2/SDL.h"
 
-#include "ball.h"
+#include "lib/component.h"
 #include "lib/entity.h"
 #include "lib/manager.h"
 #include "lib/sdl_renderer.h"
 #include "lib/time.h"
+
+#include "moveable.h"
 
 const int WIDTH = 640;
 const int HEIGHT = 480;
@@ -46,14 +48,13 @@ int main()
   aronnax::Manager manager = aronnax::Manager(renderer);
 
   // Set up entities
-  EntityPtr ball = manager.makeEntity(
-    new Moveable()
-  );
-  ball->v.x = 1.5;
+  spacegun::Moveable moveable = spacegun::Moveable();
+  aronnax::EntityPtr ball = manager.add({moveable});
+  ball.get()->v.x = 1.5;
 
   // Set up loop
   aronnax::Clock* clock = new aronnax::Clock();
-  std::function<void(const uint32_t)> f_update= std::bind(&aronnax::Manager::update, &manager, _1);
+  std::function<void(const uint32_t)> f_update = std::bind(&aronnax::Manager::update, &manager, _1);
   clock->onConstantly(f_update);
   clock->start();
 

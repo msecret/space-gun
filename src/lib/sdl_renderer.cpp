@@ -20,7 +20,7 @@ SDLRenderer::SDLRenderer(SDL_Window* window)
   renderer_.reset(rawPtr, SDL_DestroyRenderer);
 }
 
-void SDLRenderer::render(const uint32_t dt)
+void SDLRenderer::render()
 {
 }
 

@@ -1,5 +1,7 @@
 
 #include <initializer_list>
+#include <iostream>
+#include <stdio.h>
 
 #include "entity.h"
 #include "manager.h"
@@ -22,11 +24,8 @@ EntityPtr Manager::add(std::initializer_list<Component> components)
     componentList.push_back(component);
   }
 
-  aronnax::Entity ball = aronnax::Entity(componentList, renderer_);
-  std::shared_ptr<aronnax::Entity> entity = std::make_shared<aronnax::Entity>(
+  EntityPtr entity = std::make_shared<aronnax::Entity>(
       componentList, renderer_);
-
-  entities_.push_back(entity);
 
   return entity;
 }
@@ -35,6 +34,7 @@ void Manager::update(const uint32_t dt)
 {
   for (auto e : entities_) {
     e->update(dt);
+    printf("e -> %f", e.get()->v.x);
   }
 }
 
