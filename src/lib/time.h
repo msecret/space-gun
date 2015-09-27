@@ -25,7 +25,7 @@ class Clock
     uint32_t getCurrentTime_();
 
     std::vector<std::function<void(const uint32_t)>> f_constantlys_;
-    std::vector<std::function<void(const uint32_t)>> f_everyFrames_;
+    std::vector<std::function<void()>> f_everyFrames_;
 
   public:
 
@@ -41,12 +41,12 @@ class Clock
     bool isStarted();
 
     void onConstantly(std::function<void(const uint32_t)>& def);
-    void onEveryFrame(std::function<void(const uint32_t)>& def);
+    void onEveryFrame(std::function<void()>& def);
     //void onEverySecs(double secs, std::function<void()>);
     //
     void tick();
     void tickConstantly(uint32_t d);
-    void tickEveryFrame(const uint32_t d);
+    void tickEveryFrame();
 };
 
 }
