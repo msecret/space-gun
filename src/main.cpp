@@ -51,14 +51,16 @@ int main()
   spacegun::Moveable moveable = spacegun::Moveable();
   aronnax::EntityPtr ball = manager.add({moveable});
   ball.get()->v.x = 1.5;
-  printf("e -> %f\n", ball.get()->pos.x);
-  ball.get()->update(0.0);
-  printf("e -> %f\n", ball.get()->pos.x);
 
   // Set up loop
   aronnax::Clock* clock = new aronnax::Clock();
-  std::function<void(const uint32_t)> f_update = std::bind(&aronnax::Manager::update, &manager, _1);
-  //clock->onConstantly(f_update);
+  std::function<void(const uint32_t)> f_update = std::bind(
+      &aronnax::Manager::update, &manager, _1);
+  std::function<void()> f_render = std::bind(
+      &aronnax::Manager::render, &manager);
+
+  clock->onConstantly(f_update);
+  clock->onEveryFrame(f_render);
   clock->start();
 
   return 0;

@@ -24,6 +24,7 @@ class Entity
     Renderer* getRenderer();
     Vector2d v;
     Vector2d pos;
+    Vector2d box;
 
   private:
     // TODO typedef replace all of these

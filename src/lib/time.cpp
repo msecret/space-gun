@@ -66,7 +66,6 @@ void Clock::tick()
 
 void Clock::tickConstantly(const uint32_t d)
 {
-  printf("update");
   for (unsigned int i = 0; i < f_constantlys_.size(); ++i) {
     f_constantlys_[i](d);
   }
@@ -74,7 +73,6 @@ void Clock::tickConstantly(const uint32_t d)
 
 void Clock::tickEveryFrame()
 {
-  printf("render");
   for (unsigned int i = 0; i < f_everyFrames_.size(); ++i) {
     f_everyFrames_[i]();
   }

@@ -9,6 +9,12 @@
 
 namespace aronnax {
 
+SDLRenderer::~SDLRenderer()
+{
+  SDL_DestroyRenderer(renderer_.get());
+  SDL_DestroyWindow(screen_.get());
+}
+
 SDLRenderer::SDLRenderer(SDL_Window* window)
 {
   screen_.reset(window, SDL_DestroyWindow);
@@ -36,6 +42,12 @@ void SDLRenderer::beforeRender()
 void SDLRenderer::afterRender()
 {
 
+}
+
+void SDLRenderer::drawCircle(Vector2d pos, Vector2d box)
+{
+  SDL_Rect rectToDraw = {int(pos.x), int(pos.y), int(box.x), int(box.y)};
+  SDL_RenderDrawRect(renderer_.get(), &rectToDraw);
 }
 
 }
