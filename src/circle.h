@@ -1,6 +1,6 @@
 
-#ifndef _h_Moveable
-#define _h_Moveable
+#ifndef _h_Circlular
+#define _h_Circular
 
 #include <cstdint>
 

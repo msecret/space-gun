@@ -11,6 +11,7 @@
 #include "lib/sdl_renderer.h"
 #include "lib/time.h"
 
+#include "circle.h"
 #include "moveable.h"
 
 const int WIDTH = 640;
@@ -51,6 +52,7 @@ int main()
   spacegun::Moveable moveable = spacegun::Moveable();
   aronnax::EntityPtr ball = manager.add({moveable});
   ball.get()->v.x = 1.5;
+  ball.get()->box = { 10.0, 10.0 };
 
   // Set up loop
   aronnax::Clock* clock = new aronnax::Clock();
