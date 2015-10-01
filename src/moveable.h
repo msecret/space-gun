@@ -13,7 +13,6 @@ namespace spacegun {
 class Moveable : public aronnax::Component
 {
   public:
-    ~Moveable() {};
     void update(aronnax::Entity &entity, const uint32_t dt);
 };
 

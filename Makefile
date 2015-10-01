@@ -11,7 +11,7 @@ TARGET = space-gun
 export DISTDIR := build
 
 MAIN := src/main.cpp
-OBJECTS := moveable.o
+OBJECTS := moveable.o circle.o
 LIBS := $(LIBNAME)
 DISTS := $(addprefix $(DISTDIR)/,$(OBJECTS))
 LIBDISTS = $(addprefix $(DISTDIR)/,$(LIBS))

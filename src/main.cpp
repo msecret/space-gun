@@ -38,7 +38,7 @@ int main()
   if (retval)
   {
       printf("SDL_Init: Couldn't start SDL\n");
-      printf("%s", SDL_GetError());
+      printf("%s\n", SDL_GetError());
   }
 
   // Setup graphic
@@ -50,9 +50,11 @@ int main()
 
   // Set up entities
   spacegun::Moveable moveable = spacegun::Moveable();
-  aronnax::EntityPtr ball = manager.add({moveable});
-  ball.get()->v.x = 1.5;
+  spacegun::Circular circular = spacegun::Circular();
+  aronnax::EntityPtr ball = manager.add({moveable, circular});
+  //ball.get()->v.x = 1.5;
   ball.get()->box = { 10.0, 10.0 };
+  SDL_Log("main");
 
   // Set up loop
   aronnax::Clock* clock = new aronnax::Clock();

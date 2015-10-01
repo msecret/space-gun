@@ -3,6 +3,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "SDL2/SDL.h"
+
 #include "entity.h"
 #include "manager.h"
 
@@ -26,6 +28,7 @@ EntityPtr Manager::add(std::initializer_list<Component> components)
 
   EntityPtr entity = std::make_shared<aronnax::Entity>(
       componentList, renderer_);
+  entities_.insert(entity);
 
   return entity;
 }
@@ -34,7 +37,7 @@ void Manager::update(const uint32_t dt)
 {
   for (auto e : entities_) {
     e->update(dt);
-    printf("e -> %f", e.get()->v.x);
+    //printf("e -> %f\n", e.get()->v.x);
   }
 }
 

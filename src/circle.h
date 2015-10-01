@@ -1,6 +1,6 @@
 
-#ifndef _h_Circlular
-#define _h_Circular
+#ifndef _h_Circle
+#define _h_Circle
 
 #include <cstdint>
 
@@ -10,10 +10,10 @@
 
 namespace spacegun {
 
-class Circlular : public aronnax::Component
+class Circular : public aronnax::Component
 {
   public:
-    ~Circlular() {};
+    Circular() {};
     void render(aronnax::Entity &entity);
 };
 
