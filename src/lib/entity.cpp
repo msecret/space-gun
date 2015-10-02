@@ -1,7 +1,10 @@
 
 #include <iostream>
-#include <stdio.h>
 #include <memory>
+#include <stdio.h>
+#include <string>
+
+#include "SDL2/SDL.h"
 
 #include "component.h"
 #include "entity.h"
@@ -17,19 +20,21 @@ Entity::Entity(Components components,
                std::shared_ptr<Renderer> renderer):
   components_(components),
   renderer_(renderer)
-  { }
+  { 
+  }
 
 void Entity::update(const uint32_t dt)
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i].update(*this, dt);
+    components_[i]->update(*this, dt);
   }
 }
 
 void Entity::render()
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i].render(*this);
+    //std::cout << "component type: " << components_[i].getType() << "\n";
+    components_[i]->render(*this);
   }
 }
 

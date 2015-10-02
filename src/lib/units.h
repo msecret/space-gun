@@ -9,7 +9,7 @@ struct Vector2d
   double x;
   double y;
 
-  Vector2d(const int x=0, const int y=0): x(x), y(y)
+  Vector2d(const double x=0, const double y=0): x(x), y(y)
   {
   }
 

@@ -1,6 +1,7 @@
 
 #include <cstdint>
 #include <iostream>
+#include <string>
 #include <stdio.h>
 
 #include "SDL2/SDL.h"
@@ -14,11 +15,15 @@ namespace spacegun {
 
 void Circular::render(aronnax::Entity &entity)
 {
-  SDL_Log("circle render");
   entity.getRenderer()->drawCircle(
     entity.pos,
     entity.box
     );
+}
+
+std::string Circular::getType()
+{
+  return "Circular";
 }
 
 }

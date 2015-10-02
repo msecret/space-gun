@@ -14,6 +14,7 @@ class Moveable : public aronnax::Component
 {
   public:
     void update(aronnax::Entity &entity, const uint32_t dt);
+    std::string getType();
 };
 
 }

@@ -19,13 +19,9 @@ Manager::Manager(RendererPtr renderer, Entities entities):
   renderer_(renderer)
   { }
 
-EntityPtr Manager::add(std::initializer_list<Component> components)
+EntityPtr Manager::add(Components componentList)
 {
-  Components componentList;
-  for (auto component : components) {
-    componentList.push_back(component);
-  }
-
+  std::cout << "in m component type: " << componentList[0]->getType() << "\n";
   EntityPtr entity = std::make_shared<aronnax::Entity>(
       componentList, renderer_);
   entities_.insert(entity);

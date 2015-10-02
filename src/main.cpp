@@ -49,9 +49,12 @@ int main()
   aronnax::Manager manager = aronnax::Manager(renderer);
 
   // Set up entities
-  spacegun::Moveable moveable = spacegun::Moveable();
-  spacegun::Circular circular = spacegun::Circular();
-  aronnax::EntityPtr ball = manager.add({moveable, circular});
+  aronnax::Components componentList;
+  spacegun::Moveable* moveable = new spacegun::Moveable();
+  spacegun::Circular* circular = new spacegun::Circular();
+  componentList.push_back(moveable);
+  componentList.push_back(circular);
+  aronnax::EntityPtr ball = manager.add(componentList);
   //ball.get()->v.x = 1.5;
   ball.get()->box = { 10.0, 10.0 };
   SDL_Log("main");

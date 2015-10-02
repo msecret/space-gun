@@ -6,6 +6,7 @@
 #include <set>
 #include <memory>
 
+#include "component.h"
 #include "entity.h"
 
 namespace aronnax {
@@ -16,7 +17,6 @@ class Renderer;
 typedef std::set<std::shared_ptr<Entity>> Entities;
 // TODO does this need to be a ptr?
 typedef std::shared_ptr<Renderer> RendererPtr;
-typedef std::vector<Component> Components;
 
 class Manager
 {
@@ -26,7 +26,7 @@ class Manager
     void update(const uint32_t dt);
     void render();
     // TODO use something besides init list here so you don't have {}.
-    EntityPtr add(std::initializer_list<Component> components);
+    EntityPtr add(Components components);
 
   private:
     Entities entities_;

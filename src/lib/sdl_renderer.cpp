@@ -46,7 +46,6 @@ void SDLRenderer::afterRender()
 
 void SDLRenderer::drawCircle(Vector2d pos, Vector2d box)
 {
-  printf("rect pos %f : %f", pos.x, box.x);
   SDL_Rect rectToDraw = {int(pos.x), int(pos.y), int(box.x), int(box.y)};
   SDL_SetRenderDrawColor(renderer_.get(), 255, 0, 0, 255);
   SDL_RenderDrawRect(renderer_.get(), &rectToDraw);

@@ -15,6 +15,7 @@ class Circular : public aronnax::Component
   public:
     Circular() {};
     void render(aronnax::Entity &entity);
+    std::string getType();
 };
 
 }
