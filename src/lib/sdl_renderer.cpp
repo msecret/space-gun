@@ -12,12 +12,12 @@ namespace aronnax {
 SDLRenderer::~SDLRenderer()
 {
   SDL_DestroyRenderer(renderer_.get());
-  SDL_DestroyWindow(screen_.get());
+  SDL_DestroyWindow(&screen_);
 }
 
-SDLRenderer::SDLRenderer(SDL_Window* window)
+SDLRenderer::SDLRenderer(SDL_Window* window):
+  screen_(*window)
 {
-  screen_.reset(window, SDL_DestroyWindow);
   SDL_Renderer *rawPtr = nullptr;
   rawPtr = SDL_CreateRenderer(window, -1, 0);
   if (rawPtr == nullptr) {

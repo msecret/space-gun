@@ -14,7 +14,6 @@ namespace aronnax {
 class SDLRenderer : public Renderer
 {
   public:
-    SDLRenderer() {};
     ~SDLRenderer();
     SDLRenderer(SDL_Window* window);
     void render();
@@ -23,7 +22,7 @@ class SDLRenderer : public Renderer
     void drawCircle(const Vector2d pos, const Vector2d box);
 
   private:
-    std::shared_ptr<SDL_Window> screen_;
+    SDL_Window& screen_;
     std::shared_ptr<SDL_Renderer> renderer_;
 
 };
