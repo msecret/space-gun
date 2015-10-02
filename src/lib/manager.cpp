@@ -43,6 +43,7 @@ void Manager::render()
   for (auto e : entities_) {
     e->render();
   }
+  renderer_.get()->afterRender();
 
 }
 

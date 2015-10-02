@@ -35,20 +35,22 @@ void SDLRenderer::beforeRender()
   // TODO move bg color elsewhere
   SDL_SetRenderDrawColor(renderer_.get(), 0, 0, 0, 255);
   SDL_RenderClear(renderer_.get());
-
-  SDL_RenderPresent(renderer_.get());
 }
 
 void SDLRenderer::afterRender()
 {
-
+  SDL_RenderPresent(renderer_.get());
 }
 
 void SDLRenderer::drawCircle(Vector2d pos, Vector2d box)
 {
-  SDL_Rect rectToDraw = {int(pos.x), int(pos.y), int(box.x), int(box.y)};
+  SDL_Rect r;
+  r.x = int(pos.x);
+  r.y = int(pos.y);
+  r.w = int(box.x);
+  r.h = int(box.y);
   SDL_SetRenderDrawColor(renderer_.get(), 255, 0, 0, 255);
-  SDL_RenderDrawRect(renderer_.get(), &rectToDraw);
+  SDL_RenderDrawRect(renderer_.get(), &r);
 }
 
 }
