@@ -12,6 +12,7 @@
 #include "lib/time.h"
 
 #include "circle.h"
+#include "keyboardable.h"
 #include "moveable.h"
 
 const int WIDTH = 640;
@@ -52,8 +53,10 @@ int main()
   aronnax::Components componentList;
   spacegun::Moveable* moveable = new spacegun::Moveable();
   spacegun::Circular* circular = new spacegun::Circular();
+  spacegun::Keyboardable* keyboardable = new spacegun::Keyboardable();
   componentList.push_back(moveable);
   componentList.push_back(circular);
+  componentList.push_back(keyboardable);
   aronnax::EntityPtr ball = manager.add(componentList);
   ball.get()->v.x = 1.5;
   ball.get()->box = { 20.0, 20.0 };
