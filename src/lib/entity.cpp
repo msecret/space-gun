@@ -1,5 +1,10 @@
 
+#include <iostream>
 #include <memory>
+#include <stdio.h>
+#include <string>
+
+#include "SDL2/SDL.h"
 
 #include "component.h"
 #include "entity.h"
@@ -7,15 +12,16 @@
 
 namespace aronnax {
 
-Entity::Entity(std::vector<std::shared_ptr<Component>> components):
+Entity::Entity(Components components):
   components_(components)
   { }
 
-Entity::Entity(std::vector<std::shared_ptr<Component>> components,
+Entity::Entity(Components components,
                std::shared_ptr<Renderer> renderer):
   components_(components),
   renderer_(renderer)
-  { }
+  { 
+  }
 
 void Entity::update(const uint32_t dt)
 {
@@ -24,11 +30,17 @@ void Entity::update(const uint32_t dt)
   }
 }
 
-void Entity::render(const uint32_t dt)
+void Entity::render()
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->render(*this, dt);
+    //std::cout << "component type: " << components_[i].getType() << "\n";
+    components_[i]->render(*this);
   }
+}
+
+Renderer* Entity::getRenderer()
+{
+  return renderer_.get();
 }
 
 }

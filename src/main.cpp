@@ -3,24 +3,81 @@
 #include <memory>
 #include <stdio.h>
 
-#include "ball.h"
+#include "SDL2/SDL.h"
+
+#include "lib/component.h"
 #include "lib/entity.h"
+#include "lib/manager.h"
 #include "lib/sdl_renderer.h"
 #include "lib/time.h"
+
+#include "circle.h"
+#include "keyboardable.h"
+#include "moveable.h"
+
+const int WIDTH = 640;
+const int HEIGHT = 480;
+
+// TODO move to a better place
+SDL_Window* setupVideo()
+{
+  return SDL_CreateWindow("Maximized text",
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      WIDTH,
+                                      HEIGHT,
+                                      SDL_WINDOW_RESIZABLE);
+}
 
 int main()
 {
   using namespace std::placeholders;
 
-  std::cout << "poop\n";
-  aronnax::Entity *ball = spacegun::createBall();
-  ball->v.x = 1.5;
+  // TODO move elsewhere
+  // Setup SDL
+  int retval = SDL_Init(SDL_INIT_EVERYTHING);
+  if (retval)
+  {
+      printf("SDL_Init: Couldn't start SDL\n");
+      printf("%s\n", SDL_GetError());
+  }
 
+  // Setup graphic
+  SDL_Window* window = setupVideo();
+  std::shared_ptr<aronnax::SDLRenderer> renderer = std::make_shared<
+    aronnax::SDLRenderer>(window);
+
+  atexit(SDL_Quit);
+
+  // Setup manager
+  aronnax::Manager manager = aronnax::Manager(renderer);
+
+  // Set up entities
+  aronnax::Components componentList;
+  spacegun::Moveable* moveable = new spacegun::Moveable();
+  spacegun::Circular* circular = new spacegun::Circular();
+  spacegun::Keyboardable* keyboardable = new spacegun::Keyboardable();
+  componentList.push_back(moveable);
+  componentList.push_back(circular);
+  componentList.push_back(keyboardable);
+  aronnax::EntityPtr ball = manager.add(componentList);
+  ball.get()->v.x = 1.5;
+  ball.get()->box = { 20.0, 20.0 };
+  ball.get()->pos = { 25.0, 30.0 };
+  SDL_Log("main");
+
+  // Set up loop
   aronnax::Clock* clock = new aronnax::Clock();
-  std::function<void(const uint32_t)> f_update= std::bind(&aronnax::Entity::update, ball, _1);
+  std::function<void(const uint32_t)> f_update = std::bind(
+      &aronnax::Manager::update, &manager, _1);
+  std::function<void(const uint32_t)> f_event = std::bind(
+      &aronnax::Manager::event, &manager, _1);
+  std::function<void()> f_render = std::bind(
+      &aronnax::Manager::render, &manager);
 
   clock->onConstantly(f_update);
-
+  clock->onConstantly(f_event);
+  clock->onEveryFrame(f_render);
   clock->start();
 
   return 0;

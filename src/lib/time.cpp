@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "SDL/SDL.h"
+#include <SDL2/SDL.h>
 
 #include "time.h"
 
@@ -33,7 +33,7 @@ void Clock::onConstantly(std::function<void(const uint32_t)>& def)
   f_constantlys_.push_back(def);
 }
 
-void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
+void Clock::onEveryFrame(std::function<void()>& def)
 {
   f_everyFrames_.push_back(def);
 }
@@ -54,9 +54,7 @@ void Clock::tick()
     lag_ -= MS_PER_UPDATE;
   }
 
-  uint32_t lagOffset = lag_ / MS_PER_UPDATE;
-
-  tickEveryFrame(lagOffset);
+  tickEveryFrame();
 }
 
 void Clock::tickConstantly(const uint32_t d)
@@ -66,10 +64,10 @@ void Clock::tickConstantly(const uint32_t d)
   }
 }
 
-void Clock::tickEveryFrame(const uint32_t d)
+void Clock::tickEveryFrame()
 {
   for (unsigned int i = 0; i < f_everyFrames_.size(); ++i) {
-    f_everyFrames_[i](d);
+    f_everyFrames_[i]();
   }
 }
 

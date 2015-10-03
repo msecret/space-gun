@@ -11,20 +11,24 @@
 
 namespace aronnax {
 
+typedef std::shared_ptr<Entity> EntityPtr;
+
 class Entity
 {
   public:
-    Entity(std::vector<std::shared_ptr<Component>> components);
-    Entity(std::vector<std::shared_ptr<Component>> components,
+    Entity(Components components);
+    Entity(Components components,
            std::shared_ptr<Renderer> renderer);
-    ~Entity();
     void update(const uint32_t dt);
-    void render(const uint32_t dt);
+    void render();
+    Renderer* getRenderer();
     Vector2d v;
     Vector2d pos;
+    Vector2d box;
 
   private:
-    std::vector<std::shared_ptr<Component>> components_;
+    // TODO typedef replace all of these
+    Components components_;
     std::shared_ptr<aronnax::Renderer> renderer_;
 
 };

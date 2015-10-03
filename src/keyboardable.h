@@ -1,6 +1,6 @@
 
-#ifndef _h_Moveable
-#define _h_Moveable
+#ifndef _h_Keyboardable
+#define _h_Keyboardable
 
 #include <cstdint>
 
@@ -10,11 +10,15 @@
 
 namespace spacegun {
 
-class Moveable : public aronnax::Component
+class Keyboardable : public aronnax::Component
 {
   public:
+    Keyboardable() {};
     void update(aronnax::Entity &entity, const uint32_t dt);
     std::string getType();
+
+  private:
+    void printKey(SDL_KeyboardEvent *key);
 };
 
 }

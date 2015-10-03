@@ -1,6 +1,6 @@
 
-#ifndef _h_Moveable
-#define _h_Moveable
+#ifndef _h_Circle
+#define _h_Circle
 
 #include <cstdint>
 
@@ -10,10 +10,11 @@
 
 namespace spacegun {
 
-class Moveable : public aronnax::Component
+class Circular : public aronnax::Component
 {
   public:
-    void update(aronnax::Entity &entity, const uint32_t dt);
+    Circular() {};
+    void render(aronnax::Entity &entity);
     std::string getType();
 };
 

@@ -9,19 +9,22 @@
 #include "lib/component.h"
 #include "lib/entity.h"
 #include "lib/units.h"
-#include "moveable.h"
+#include "circle.h"
 
 namespace spacegun {
 
-void Moveable::update(aronnax::Entity &entity, const uint32_t dt)
+void Circular::render(aronnax::Entity &entity)
 {
-  entity.pos.x += entity.v.x;
-  entity.pos.y += entity.v.y;
+  entity.getRenderer()->drawCircle(
+    entity.pos,
+    entity.box
+    );
 }
 
-std::string Moveable::getType()
+std::string Circular::getType()
 {
-  return "Moveable";
+  return "Circular";
 }
 
 }
+
