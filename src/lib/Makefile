@@ -1,7 +1,7 @@
 
 RDISTDIR = ../../$(DISTDIR)
 
-OBJECTS := component.o entity.o manager.o sdl_renderer.o units.o time.o
+OBJECTS := component.o entity.o event_emitter.o manager.o sdl_renderer.o units.o time.o
 DISTS = $(addprefix $(RDISTDIR)/,$(OBJECTS))
 
 TARGET := $(LIBNAME)

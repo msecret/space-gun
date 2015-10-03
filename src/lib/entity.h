@@ -5,15 +5,17 @@
 #include <memory>
 #include <vector>
 
+
 #include "component.h"
-#include "units.h"
+#include "event_emitter.h"
 #include "renderer.h"
+#include "units.h"
 
 namespace aronnax {
 
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity
+class Entity : public EventEmitter
 {
   public:
     Entity(Components components);
