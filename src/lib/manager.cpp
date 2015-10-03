@@ -47,4 +47,26 @@ void Manager::render()
 
 }
 
+void Manager::event(const uint32_t dt)
+{
+  SDL_Event event;
+  while(SDL_PollEvent(&event)) {
+    printf("poll1");
+    SDL_Log("poll1ds");
+    switch(event.type) {
+      case SDL_QUIT:
+        SDL_Log("quit");
+        exit(0);
+        break;
+
+      case SDL_KEYDOWN:
+      case SDL_KEYUP:
+        break;
+
+      default:
+          break;
+    }
+  }
+}
+
 }

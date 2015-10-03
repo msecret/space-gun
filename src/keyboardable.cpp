@@ -15,19 +15,6 @@ namespace spacegun {
 
 void Keyboardable::update(aronnax::Entity &entity, const uint32_t dt)
 {
-  SDL_Event event;
-  while(SDL_PollEvent(&event)) {
-    printf("poll");
-    switch(event.type) {
-      case SDL_KEYDOWN:
-      case SDL_KEYUP:
-        printKey(&event.key);
-        break;
-
-      default:
-          break;
-    }
-  }
 }
 
 void Keyboardable::printKey(SDL_KeyboardEvent *key)

@@ -24,6 +24,7 @@ class Manager
     Manager(RendererPtr renderer);
     Manager(RendererPtr renderer, Entities entities);
     void update(const uint32_t dt);
+    void event(const uint32_t dt);
     void render();
     // TODO use something besides init list here so you don't have {}.
     EntityPtr add(Components components);

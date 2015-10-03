@@ -44,7 +44,10 @@ int main()
 
   // Setup graphic
   SDL_Window* window = setupVideo();
-  std::shared_ptr<aronnax::SDLRenderer> renderer = std::make_shared<aronnax::SDLRenderer>(window);
+  std::shared_ptr<aronnax::SDLRenderer> renderer = std::make_shared<
+    aronnax::SDLRenderer>(window);
+
+  atexit(SDL_Quit);
 
   // Setup manager
   aronnax::Manager manager = aronnax::Manager(renderer);
@@ -67,10 +70,13 @@ int main()
   aronnax::Clock* clock = new aronnax::Clock();
   std::function<void(const uint32_t)> f_update = std::bind(
       &aronnax::Manager::update, &manager, _1);
+  std::function<void(const uint32_t)> f_event = std::bind(
+      &aronnax::Manager::event, &manager, _1);
   std::function<void()> f_render = std::bind(
       &aronnax::Manager::render, &manager);
 
   clock->onConstantly(f_update);
+  clock->onConstantly(f_event);
   clock->onEveryFrame(f_render);
   clock->start();
 

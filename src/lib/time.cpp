@@ -41,13 +41,6 @@ void Clock::onEveryFrame(std::function<void()>& def)
 
 void Clock::tick()
 {
-  SDL_Event e;
-  if (SDL_PollEvent(&e)) {
-    if (e.type == SDL_QUIT) {
-      isStarted_ = false;
-      SDL_Quit();
-    }
-  }
   const uint32_t MS_PER_UPDATE = 8;
   const uint32_t MAX_LAG = 1000;
   uint32_t current = getCurrentTime_();
