@@ -19,7 +19,7 @@ class Keyboardable : public aronnax::Component
     void init(aronnax::Entity &entity);
 
   private:
-    void printKey(SDL_KeyboardEvent *key);
+    void handleKeys(SDL_KeyboardEvent *key, aronnax::Entity &entity);
 };
 
 }

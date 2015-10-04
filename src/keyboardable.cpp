@@ -17,7 +17,7 @@ namespace spacegun {
 void Keyboardable::init(aronnax::Entity &entity)
 {
   entity.on(EV_KEYBOARD, [&](SDL_Event* ev) {
-    printKey(&ev->key);
+    handleKeys(&ev->key, entity);
   });
 }
 
@@ -25,15 +25,27 @@ void Keyboardable::update(aronnax::Entity &entity, const uint32_t dt)
 {
 }
 
-void Keyboardable::printKey(SDL_KeyboardEvent *key)
+void Keyboardable::handleKeys(SDL_KeyboardEvent *key, aronnax::Entity &entity)
 {
-  SDL_Log("print key");
-  if( key->type == SDL_KEYUP )
-    printf( "Release:- \n" );
-  else
-    printf( "Press:- \n" );
-
-  printf( ", Name: %s\n", SDL_GetKeyName( key->keysym.sym ) );
+  if( key->type == SDL_KEYDOWN ) {
+    std::string keyName = SDL_GetKeyName(key->keysym.sym);
+    std::cout << "key: " << keyName << "\n";
+    if (keyName == "A") {
+      entity.v.x = -1;
+      entity.v.y = 0;
+    } else if (keyName == "S"){
+      entity.v.x = 0;
+      entity.v.y = 1;
+    } else if (keyName == "D"){
+      entity.v.x = 1;
+      entity.v.y = 0;
+    } else if (keyName == "W"){
+      entity.v.x = 0;
+      entity.v.y = -1;
+    } else {
+      // Do nothing;
+    }
+  }
 }
 
 std::string Keyboardable::getType()
