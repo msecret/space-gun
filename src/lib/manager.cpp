@@ -6,6 +6,7 @@
 #include "SDL2/SDL.h"
 
 #include "entity.h"
+#include "events.h"
 #include "manager.h"
 
 namespace aronnax {
@@ -59,6 +60,9 @@ void Manager::event(const uint32_t dt)
 
       case SDL_KEYDOWN:
       case SDL_KEYUP:
+        for (auto e : entities_) {
+          e->emit(EV_KEYBOARD, &event);
+        }
         break;
 
       default:

@@ -14,6 +14,7 @@ class Keyboardable : public aronnax::Component
 {
   public:
     Keyboardable() {};
+    Keyboardable(aronnax::Entity &entity);
     void update(aronnax::Entity &entity, const uint32_t dt);
     std::string getType();
 

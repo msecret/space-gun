@@ -8,10 +8,18 @@
 
 #include "lib/component.h"
 #include "lib/entity.h"
+#include "lib/events.h"
 #include "lib/units.h"
 #include "keyboardable.h"
 
 namespace spacegun {
+
+Keyboardable::Keyboardable(aronnax::Entity &entity)
+{
+  entity.on(EV_KEYBOARD, [&](SDL_KeyboardEvent ev) {
+    printKey(&ev);
+  });
+}
 
 void Keyboardable::update(aronnax::Entity &entity, const uint32_t dt)
 {

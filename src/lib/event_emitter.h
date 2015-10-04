@@ -43,10 +43,20 @@ public:
 
     unsigned int add_listener(unsigned int event_id, std::function<void ()> cb);
 
+    template<typename LambdaType>
+    unsigned int add_listener(unsigned int event_id, LambdaType lambda) {
+        return add_listener(event_id, make_function(lambda));
+    }
+
     template <typename... Args>
     unsigned int on(unsigned int event_id, std::function<void (Args...)> cb);
     
     unsigned int on(unsigned int event_id, std::function<void ()> cb);
+
+    template<typename LambdaType>
+    unsigned int on(unsigned int event_id, LambdaType lambda) {
+        return on(event_id, make_function(lambda));
+    }
 
     void remove_listener(unsigned int listener_id);
 
@@ -83,6 +93,24 @@ private:
 
     EventEmitter(const EventEmitter&) = delete;  
     const EventEmitter& operator = (const EventEmitter&) = delete;
+
+
+
+    // http://stackoverflow.com/a/21000981
+    template <typename T>
+    struct function_traits
+       : public function_traits<decltype(&T::operator())>
+    {};
+
+    template <typename ClassType, typename ReturnType, typename... Args>
+    struct function_traits<ReturnType(ClassType::*)(Args...) const> {
+       typedef std::function<ReturnType (Args...)> f_type;
+    };
+
+    template <typename L> 
+    typename function_traits<L>::f_type make_function(L l){
+      return (typename function_traits<L>::f_type)(l);
+    }
 };
 
 template <typename... Args>
