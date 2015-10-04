@@ -61,6 +61,7 @@ int main()
   componentList.push_back(circular);
   componentList.push_back(keyboardable);
   aronnax::EntityPtr ball = manager.add(componentList);
+  keyboardable->init(*ball.get());
   ball.get()->v.x = 1.5;
   ball.get()->box = { 20.0, 20.0 };
   ball.get()->pos = { 25.0, 30.0 };
