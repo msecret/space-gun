@@ -11,12 +11,11 @@
 #include "lib/sdl_renderer.h"
 #include "lib/time.h"
 
+#include "bounded.h"
 #include "circle.h"
 #include "keyboardable.h"
 #include "moveable.h"
-
-const int WIDTH = 640;
-const int HEIGHT = 480;
+#include "world.h"
 
 // TODO move to a better place
 SDL_Window* setupVideo()
@@ -24,8 +23,8 @@ SDL_Window* setupVideo()
   return SDL_CreateWindow("Maximized text",
                                       SDL_WINDOWPOS_UNDEFINED,
                                       SDL_WINDOWPOS_UNDEFINED,
-                                      WIDTH,
-                                      HEIGHT,
+                                      WORLD_W,
+                                      WORLD_H,
                                       SDL_WINDOW_RESIZABLE);
 }
 
@@ -57,9 +56,11 @@ int main()
   spacegun::Moveable* moveable = new spacegun::Moveable();
   spacegun::Circular* circular = new spacegun::Circular();
   spacegun::Keyboardable* keyboardable = new spacegun::Keyboardable();
+  spacegun::Bounded* bounded = new spacegun::Bounded();
   componentList.push_back(moveable);
   componentList.push_back(circular);
   componentList.push_back(keyboardable);
+  componentList.push_back(bounded);
   aronnax::EntityPtr ball = manager.add(componentList);
   keyboardable->init(*ball.get());
   ball.get()->v.x = 1.5;

@@ -27,21 +27,18 @@ void Keyboardable::update(aronnax::Entity &entity, const uint32_t dt)
 
 void Keyboardable::handleKeys(SDL_KeyboardEvent *key, aronnax::Entity &entity)
 {
+  const double thrust = 0.1;
   if( key->type == SDL_KEYDOWN ) {
     std::string keyName = SDL_GetKeyName(key->keysym.sym);
     std::cout << "key: " << keyName << "\n";
     if (keyName == "A") {
-      entity.v.x = -1;
-      entity.v.y = 0;
+      entity.v.x += -(thrust);
     } else if (keyName == "S"){
-      entity.v.x = 0;
-      entity.v.y = 1;
+      entity.v.y += thrust;
     } else if (keyName == "D"){
-      entity.v.x = 1;
-      entity.v.y = 0;
+      entity.v.x += thrust;
     } else if (keyName == "W"){
-      entity.v.x = 0;
-      entity.v.y = -1;
+      entity.v.y += -(thrust);
     } else {
       // Do nothing;
     }
