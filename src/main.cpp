@@ -57,10 +57,25 @@ int main()
   spacegun::Circular* circular = new spacegun::Circular();
   spacegun::Keyboardable* keyboardable = new spacegun::Keyboardable();
   spacegun::Bounded* bounded = new spacegun::Bounded();
+
   componentList.push_back(moveable);
   componentList.push_back(circular);
-  componentList.push_back(keyboardable);
   componentList.push_back(bounded);
+
+  aronnax::EntityPtr asteroidA = manager.add(componentList);
+  asteroidA.get()->v.x = 0.55;
+  asteroidA.get()->v.y = 0.35;
+  asteroidA.get()->box = { 45.0, 55.0 };
+  aronnax::EntityPtr asteroidB = manager.add(componentList);
+  asteroidB.get()->v.x = 0.70;
+  asteroidB.get()->v.y = 0.85;
+  asteroidB.get()->box = { 45.0, 40.0 };
+  aronnax::EntityPtr asteroidC = manager.add(componentList);
+  asteroidC.get()->v.x = 0.40;
+  asteroidC.get()->v.y = 0.15;
+  asteroidC.get()->box = { 30.0, 27.0 };
+
+  componentList.push_back(keyboardable);
   aronnax::EntityPtr ball = manager.add(componentList);
   keyboardable->init(*ball.get());
   ball.get()->v.x = 1.5;

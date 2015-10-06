@@ -31,6 +31,7 @@ void Keyboardable::handleKeys(SDL_KeyboardEvent *key, aronnax::Entity &entity)
   if( key->type == SDL_KEYDOWN ) {
     std::string keyName = SDL_GetKeyName(key->keysym.sym);
     std::cout << "key: " << keyName << "\n";
+    // TODO ensure diagnonal movement if pressing down two keys.
     if (keyName == "A") {
       entity.v.x += -(thrust);
     } else if (keyName == "S"){
