@@ -61,7 +61,9 @@ void Manager::event(const uint32_t dt)
       case SDL_KEYDOWN:
       case SDL_KEYUP:
         for (auto e : entities_) {
-          e->emit(EV_KEYBOARD, &event);
+          if (e->hasComponent("Keyboardable")) {
+            e->emit(EV_KEYBOARD, &event);
+          }
         }
         break;
 
