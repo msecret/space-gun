@@ -43,4 +43,15 @@ Renderer* Entity::getRenderer()
   return renderer_.get();
 }
 
+// TODO improve performance by setting on constructor and addComponent.
+bool Entity::hasComponent(std::string componentType)
+{
+  for (unsigned int i = 0; i < components_.size(); ++i) {
+    if (components_[i]->getType() == componentType) {
+      return true;
+    }
+  }
+  return false;
+}
+
 }

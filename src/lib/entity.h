@@ -3,6 +3,7 @@
 #define _h_Entity
 
 #include <memory>
+#include <string>
 #include <vector>
 
 
@@ -27,6 +28,7 @@ class Entity : public EventEmitter
     Vector2d v;
     Vector2d pos;
     Vector2d box;
+    bool hasComponent(std::string componentType);
 
   private:
     // TODO typedef replace all of these
