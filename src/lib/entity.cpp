@@ -20,8 +20,8 @@ Entity::Entity(Components components,
                std::shared_ptr<Renderer> renderer):
   components_(components),
   renderer_(renderer)
-  { 
-  }
+{ 
+}
 
 void Entity::update(const uint32_t dt)
 {
