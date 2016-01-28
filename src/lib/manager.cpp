@@ -34,7 +34,6 @@ void Manager::update(const uint32_t dt)
 {
   for (auto e : entities_) {
     e->update(dt);
-    //printf("e -> %f\n", e.get()->v.x);
   }
 }
 
@@ -47,6 +46,19 @@ void Manager::render()
   renderer_.get()->afterRender();
 
 }
+
+/*
+void Manager::collision(const uint32_t dt)
+{
+  for (auto ea : collidableEntities_) {
+    for (auto eb: collidableEntities_) {
+      if (ea != eb) {
+        ea.getComponent("collidable")->update(ea, eb, dt);
+      }
+    }
+  }
+}
+*/
 
 void Manager::event(const uint32_t dt)
 {

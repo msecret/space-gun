@@ -49,7 +49,7 @@ void SDLRenderer::drawCircle(Vector2d pos, Vector2d box)
   r.y = int(pos.y);
   r.w = int(box.x);
   r.h = int(box.y);
-  SDL_SetRenderDrawColor(renderer_.get(), 255, 0, 0, 255);
+  SDL_SetRenderDrawColor(renderer_.get(), 255, 255, 0, 255);
   SDL_RenderDrawRect(renderer_.get(), &r);
 }
 

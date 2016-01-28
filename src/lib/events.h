@@ -1,6 +1,7 @@
 
 enum Events
 {
-  EV_KEYBOARD
+  EV_KEYBOARD,
+  COLLISION
 };
 

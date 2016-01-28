@@ -29,6 +29,7 @@ class Entity : public EventEmitter
     Vector2d pos;
     Vector2d box;
     bool hasComponent(std::string componentType);
+    Component* getComponent(std::string componentType);
 
   private:
     // TODO typedef replace all of these

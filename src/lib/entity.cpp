@@ -54,4 +54,14 @@ bool Entity::hasComponent(std::string componentType)
   return false;
 }
 
+Component* Entity::getComponent(std::string componentType)
+{
+  for (unsigned int i = 0; i < components_.size(); ++i) {
+    if (components_[i]->getType() == componentType) {
+      return components_[i];
+    }
+  }
+  throw std::runtime_error("Attempt to access non-existant component");
+}
+
 }
