@@ -14,10 +14,10 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = ../../../../googletest/googletest/
+GTEST_DIR = $(HOME)/Dev/googletest/googletest
 
 # Where to find user code.
-USER_DIR = ../
+USER_DIR = ..
 
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
@@ -33,30 +33,23 @@ LFLAGS = $(SDL_LDFLAGS)
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = component_test entity_test
+TESTS = component_test entity_test units_test test_run
+TEST_OBJS = component_test.o entity_test.o units_test.o
+OBJS = component.o entity.o event_emitter.o renderer.o units.o
+
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
 GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
                 $(GTEST_DIR)/include/gtest/internal/*.h
 
-# House-keeping build targets.
-
-all : $(TESTS)
-
-clean :
-	rm -f $(TESTS) gtest.a gtest_main.a *.o
-
-# Builds gtest.a and gtest_main.a.
-
-# Usually you shouldn't tweak such internal variables, indicated by a
-# trailing _.
 GTEST_SRCS_ = $(GTEST_DIR)/src/*.cc $(GTEST_DIR)/src/*.h $(GTEST_HEADERS)
 
-# For simplicity and to avoid depending on Google Test's
-# implementation details, the dependencies specified below are
-# conservative and not optimized.  This is fine as Google Test
-# compiles fast and for ordinary users its source rarely changes.
+all : test_run
+
+clean :
+	rm -f $(TESTS) test gtest.a gtest_main.a *.o
+
 gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) $(CXXFLAGS) -c \
             $(GTEST_DIR)/src/gtest-all.cc
@@ -75,36 +68,21 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-# tests
-component.o: $(USER_DIR)/component.cpp \
-						 $(USER_DIR)/component.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component.cpp $(LFLAGS)
-
-component_test.o: $(USER_DIR)/component_test.cc\
-									$(USER_DIR)/component.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cc $(LFLAGS)
-
-component_test: component.o component_test.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
 
+# libs
 entity.o: $(USER_DIR)/entity.cpp \
 					 $(USER_DIR)/component.h \
 					 $(USER_DIR)/event_emitter.h \
 					 $(USER_DIR)/renderer.h \
 					 $(USER_DIR)/units.h \
 					 $(USER_DIR)/component.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity.cpp $(LFLAGS)
+
+component.o: $(USER_DIR)/component.cpp \
+						 $(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component.cpp $(LFLAGS)
 
-entity_test.o: $(USER_DIR)/entity_test.cc \
-							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cc $(LFLAGS)
-
-entity_test: component.o event_emitter.o renderer.o units.o \
-						 entity.o entity_test.o gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
-
-# libs
 event_emitter.o: $(USER_DIR)/event_emitter.cpp \
 				 $(USER_DIR)/event_emitter.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/event_emitter.cpp $(LFLAGS)
@@ -115,5 +93,25 @@ renderer.o: $(USER_DIR)/renderer.cpp \
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/renderer.cpp $(LFLAGS)
 
 units.o: $(USER_DIR)/units.cpp \
-				 $(USER_DIR)/units.h
+				 $(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units.cpp $(LFLAGS)
+
+#
+# tests
+component_test.o: $(USER_DIR)/component_test.cc\
+									$(USER_DIR)/component.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cc $(LFLAGS)
+
+entity_test.o: $(USER_DIR)/entity_test.cc \
+							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cc $(LFLAGS)
+
+units_test.o: $(USER_DIR)/units_test.cpp \
+							$(USER_DIR)/units.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units_test.cpp $(LFLAGS)
+
+test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+test_run: $(OBJS) $(TEST_OBJS) gtest_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@

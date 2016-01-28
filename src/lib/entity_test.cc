@@ -36,4 +36,6 @@ TEST(Entity, DefaultConstructor) {
   EXPECT_EQ(0, ea_.pos.y);
   EXPECT_EQ(0, ea_.box.x);
   EXPECT_EQ(0, ea_.box.y);
+  EXPECT_EQ(0, ea_.v.x);
+  EXPECT_EQ(0, ea_.v.y);
 }
