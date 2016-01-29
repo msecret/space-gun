@@ -61,7 +61,7 @@ Component* Entity::getComponent(std::string componentType)
       return components_[i];
     }
   }
-  throw std::runtime_error("Attempt to access non-existant component");
+  exit(1);
 }
 
 }

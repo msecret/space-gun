@@ -74,3 +74,7 @@ TEST_F(EntityTest, getComponent) {
   auto actual = ea_->getComponent("TestComponent");
   EXPECT_EQ(actual, ca_);
 }
+
+TEST_F(EntityTest, getComponentFail) {
+  ASSERT_DEATH({ ea_->getComponent("NoComponent"); }, "");
+}
