@@ -33,7 +33,6 @@ void Entity::update(const uint32_t dt)
 void Entity::render()
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {
-    //std::cout << "component type: " << components_[i].getType() << "\n";
     components_[i]->render(*this);
   }
 }
