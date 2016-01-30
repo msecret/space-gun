@@ -69,3 +69,15 @@ TEST_F(ManagerTest, add) {
   EXPECT_EQ(2, testManager_->getEntities().size());
   EXPECT_EQ(1, testManager_->getEntities().count(actual));
 }
+
+TEST_F(ManagerTest, getEntities) {
+  aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
+      testComponentList_);
+  testEntities_.insert(testEntity);
+
+  std::shared_ptr<TestRenderer> tr = std::make_shared<TestRenderer>();
+  auto testManager = new aronnax::Manager(tr, testEntities_);
+
+  auto actual = testManager_->getEntities().size();
+  //EXPECT_EQ(1, actual);
+}
