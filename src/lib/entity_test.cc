@@ -1,19 +1,32 @@
 
+#include <cstdint>
+
 #include "component.h"
 #include "entity.h"
 #include "gtest/gtest.h"
+#include "gmock/gmock.h"
+
+using ::testing::_;
+using ::testing::NiceMock;
 
 class TestComponent : public aronnax::Component {
   public:
-    void update(aronnax::Entity &entity, const uint32_t dt)
-    {
-      return;
-    }
+  void update(aronnax::Entity &entity, const uint32_t dt)
+  {
+    return;
+  }
 
-    std::string getType()
-    {
-      return "TestComponent";
-    }
+  std::string getType()
+  {
+    return "TestComponent";
+  }
+};
+
+class MockComponent : public aronnax::Component {
+  public:
+    MOCK_METHOD2(update, void(aronnax::Entity &entity, const uint32_t dt));
+    MOCK_METHOD1(render, void(aronnax::Entity &entity));
+    MOCK_METHOD0(getType, std::string());
 };
 
 class TestRenderer : public aronnax::Renderer {
@@ -26,8 +39,7 @@ class TestRenderer : public aronnax::Renderer {
 };
 
 class EntityTest : public testing::Test {
-protected:
-
+  protected:
   virtual void SetUp() {
     ea_ = new aronnax::Entity(cla_);
     ca_ = new TestComponent();
@@ -77,4 +89,16 @@ TEST_F(EntityTest, getComponent) {
 
 TEST_F(EntityTest, getComponentFail) {
   ASSERT_DEATH({ ea_->getComponent("NoComponent"); }, "");
+}
+
+TEST_F(EntityTest, update) {
+  const uint32_t testDt = 1;
+  NiceMock<MockComponent> mockComponent;
+
+  cla_.push_back(&mockComponent);
+  ea_ = new aronnax::Entity(cla_);
+
+  EXPECT_CALL(mockComponent, update(_, testDt)).Times(1);
+
+  ea_->update(testDt);
 }
