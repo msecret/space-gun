@@ -15,22 +15,22 @@ Manager::Manager(RendererPtr renderer):
   renderer_(renderer)
   { }
 
-Manager::Manager(RendererPtr renderer, Entities entities):
+Manager::Manager(RendererPtr renderer, IEntities entities):
   entities_(entities),
   renderer_(renderer)
   { }
 
-EntityPtr Manager::add(Components componentList)
+IEntityPtr Manager::add(Components componentList)
 {
   std::cout << "in m component type: " << componentList[0]->getType() << "\n";
-  EntityPtr entity = std::make_shared<aronnax::Entity>(
+  EntityPtr entity = std::make_shared<Entity>(
       componentList, renderer_);
   entities_.insert(entity);
 
   return entity;
 }
 
-Entities Manager::getEntities()
+IEntities Manager::getEntities()
 {
   return entities_;
 }

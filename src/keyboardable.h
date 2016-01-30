@@ -17,9 +17,11 @@ class Keyboardable : public aronnax::Component
     void update(aronnax::Entity &entity, const uint32_t dt);
     std::string getType();
     void init(aronnax::Entity &entity);
+    void init(aronnax::IEntity &entity);
 
   private:
     void handleKeys(SDL_KeyboardEvent *key, aronnax::Entity &entity);
+    void handleKeys(SDL_KeyboardEvent *key, aronnax::IEntity &entity);
 };
 
 }

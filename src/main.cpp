@@ -62,21 +62,21 @@ int main()
   componentList.push_back(circular);
   componentList.push_back(bounded);
 
-  aronnax::EntityPtr asteroidA = manager.add(componentList);
+  aronnax::IEntityPtr asteroidA = manager.add(componentList);
   asteroidA.get()->v.x = 0.55;
   asteroidA.get()->v.y = 0.35;
   asteroidA.get()->box = { 45.0, 55.0 };
-  aronnax::EntityPtr asteroidB = manager.add(componentList);
+  aronnax::IEntityPtr asteroidB = manager.add(componentList);
   asteroidB.get()->v.x = 0.70;
   asteroidB.get()->v.y = 0.85;
   asteroidB.get()->box = { 45.0, 40.0 };
-  aronnax::EntityPtr asteroidC = manager.add(componentList);
+  aronnax::IEntityPtr asteroidC = manager.add(componentList);
   asteroidC.get()->v.x = 0.40;
   asteroidC.get()->v.y = 0.15;
   asteroidC.get()->box = { 30.0, 27.0 };
 
   componentList.push_back(keyboardable);
-  aronnax::EntityPtr ball = manager.add(componentList);
+  aronnax::IEntityPtr ball = manager.add(componentList);
   keyboardable->init(*ball.get());
   ball.get()->v.x = 1.5;
   ball.get()->box = { 20.0, 20.0 };

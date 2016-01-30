@@ -50,7 +50,7 @@ class ManagerTest: public testing::Test {
     }
 
     aronnax::Manager* testManager_;
-    aronnax::Entities testEntities_;
+    aronnax::IEntities testEntities_;
     aronnax::Components testComponentList_;
 };
 
