@@ -34,9 +34,9 @@ LFLAGS = $(SDL_LDFLAGS)
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = component_test entity_test units_test test_run
-TEST_OBJS = component_test.o entity_test.o units_test.o
-OBJS = component.o entity.o event_emitter.o renderer.o units.o
+TESTS = component_test entity_test manager_test units_test test_run
+TEST_OBJS = component_test.o entity_test.o manager_test.o units_test.o
+OBJS = component.o entity.o events.o event_emitter.o manager.o renderer.o units.o
 
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -88,9 +88,17 @@ component.o: $(USER_DIR)/component.cpp \
 						 $(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component.cpp $(LFLAGS)
 
+events.o: $(USER_DIR)/events.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/events.cpp $(LFLAGS)
+
 event_emitter.o: $(USER_DIR)/event_emitter.cpp \
-				 $(USER_DIR)/event_emitter.h
+								 $(USER_DIR)/event_emitter.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/event_emitter.cpp $(LFLAGS)
+
+manager.o: $(USER_DIR)/entity.cpp \
+					 $(USER_DIR)/events.cpp \
+					 $(USER_DIR)/manager.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager.cpp $(LFLAGS)
 
 renderer.o: $(USER_DIR)/renderer.cpp \
 					  $(USER_DIR)/renderer.h \
@@ -111,6 +119,10 @@ entity_test.o: $(USER_DIR)/entity_test.cc \
 							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cc $(LFLAGS)
 
+manager_test.o: $(USER_DIR)/manager_test.cpp \
+								$(USER_DIR/manager.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager_test.cpp $(LFLAGS)
+
 units_test.o: $(USER_DIR)/units_test.cpp \
 							$(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units_test.cpp $(LFLAGS)
@@ -119,4 +131,4 @@ test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
 
 test_run: $(OBJS) $(TEST_OBJS) gmock_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)

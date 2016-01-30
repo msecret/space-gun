@@ -16,7 +16,7 @@ namespace aronnax {
 
 typedef std::shared_ptr<Entity> EntityPtr;
 
-class Entity : EventEmitter
+class Entity : public EventEmitter
 {
   public:
     Entity(Components components);

@@ -30,6 +30,11 @@ EntityPtr Manager::add(Components componentList)
   return entity;
 }
 
+Entities Manager::getEntities()
+{
+  return entities_;
+}
+
 void Manager::update(const uint32_t dt)
 {
   for (auto e : entities_) {
