@@ -8,6 +8,7 @@
 
 #include "manager.h"
 
+using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
 
@@ -19,6 +20,13 @@ class TestRenderer : public aronnax::Renderer {
     void render() { };
     void beforeRender() { };
     void afterRender() { };
+};
+
+class MockRenderer: public TestRenderer {
+  public:
+    MOCK_METHOD0(render, void());
+    MOCK_METHOD0(beforeRender, void());
+    MOCK_METHOD0(afterRender, void());
 };
 
 // TODO move to shared testing file
@@ -80,4 +88,16 @@ TEST_F(ManagerTest, getEntities) {
 
   auto actual = testManager_->getEntities().size();
   //EXPECT_EQ(1, actual);
+}
+
+TEST_F(ManagerTest, render) {
+  std::shared_ptr<MockRenderer> mockRenderer = std::make_shared<MockRenderer>();
+  auto* testManager = new aronnax::Manager(mockRenderer, testEntities_);
+
+  EXPECT_CALL(*mockRenderer, beforeRender()).Times(1);
+  EXPECT_CALL(*mockRenderer, afterRender()).Times(1);
+
+  testManager->render();
+  Mock::AllowLeak(mockRenderer.get());
+  Mock::VerifyAndClearExpectations(mockRenderer.get());
 }
