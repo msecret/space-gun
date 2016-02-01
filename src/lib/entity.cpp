@@ -23,6 +23,14 @@ Entity::Entity(Components components,
 { 
 }
 
+Vector2d Entity::getPos() {
+  return this->pos;
+};
+
+void Entity::setPos(Vector2d pos) {
+  this->pos = pos;
+};
+
 void Entity::update(const uint32_t dt)
 {
   for (unsigned int i = 0; i < components_.size(); ++i) {

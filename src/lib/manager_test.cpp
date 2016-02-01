@@ -8,6 +8,7 @@
 
 #include "manager.h"
 
+using ::testing::_;
 using ::testing::Mock;
 using ::testing::NiceMock;
 using ::testing::Return;
@@ -101,3 +102,21 @@ TEST_F(ManagerTest, render) {
   Mock::AllowLeak(mockRenderer.get());
   Mock::VerifyAndClearExpectations(mockRenderer.get());
 }
+
+/*
+TEST_F(ManagerTest, collision) {
+  const uint32_t testDt = 10;
+  NiceMock<MockComponent> testComponent;
+  testComponentList_.push_back(&testComponent);
+
+  ON_CALL(testComponent, getType())
+      .WillByDefault(Return("collidable"));
+
+  auto ea = testManager_->add(testComponentList_);
+  auto eb = testManager_->add(testComponentList_);
+
+  EXPECT_CALL(testComponent, update(_, _, testDt)).Times(1);
+
+  testManager_->collision(testDt);
+}
+*/

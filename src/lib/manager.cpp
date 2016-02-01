@@ -52,18 +52,16 @@ void Manager::render()
 
 }
 
-/*
 void Manager::collision(const uint32_t dt)
 {
-  for (auto ea : collidableEntities_) {
-    for (auto eb: collidableEntities_) {
+  for (auto ea : entities_) {
+    for (auto eb: entities_) {
       if (ea != eb) {
-        ea.getComponent("collidable")->update(ea, eb, dt);
+        ea.get()->getComponent("collidable")->update(*ea.get(), *eb.get(), dt);
       }
     }
   }
 }
-*/
 
 void Manager::event(const uint32_t dt)
 {

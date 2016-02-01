@@ -19,14 +19,13 @@ typedef std::shared_ptr<Entity> EntityPtr;
 class IEntity : public EventEmitter
 {
   public:
+    virtual ~IEntity(){};
     virtual void update(const uint32_t dt) = 0;
     virtual void render() = 0;
     virtual Renderer* getRenderer() = 0;
     virtual bool hasComponent(std::string componentType) = 0;
     virtual Component* getComponent(std::string componentType) = 0;
-    Vector2d v;
-    Vector2d pos;
-    Vector2d box;
+    virtual void setPos(Vector2d pos) = 0;
 };
 
 typedef std::shared_ptr<IEntity> IEntityPtr;
@@ -41,16 +40,16 @@ class Entity : public IEntity
     void update(const uint32_t dt);
     void render();
     Renderer* getRenderer();
-    Vector2d v;
-    Vector2d pos;
-    Vector2d box;
     bool hasComponent(std::string componentType);
     Component* getComponent(std::string componentType);
+    Vector2d getPos();
+    void setPos(Vector2d pos);
 
   private:
     // TODO typedef replace all of these
     Components components_;
     std::shared_ptr<aronnax::Renderer> renderer_;
+    Vector2d pos;
 
 };
 

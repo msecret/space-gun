@@ -57,12 +57,8 @@ class EntityTest : public testing::Test {
 };
 
 TEST_F(EntityTest, DefaultConstructor) {
-  EXPECT_EQ(0, ea_->pos.x);
-  EXPECT_EQ(0, ea_->pos.y);
-  EXPECT_EQ(0, ea_->box.x);
-  EXPECT_EQ(0, ea_->box.y);
-  EXPECT_EQ(0, ea_->v.x);
-  EXPECT_EQ(0, ea_->v.y);
+  EXPECT_EQ(0, ea_->getPos().x);
+  EXPECT_EQ(0, ea_->getPos().y);
 }
 
 

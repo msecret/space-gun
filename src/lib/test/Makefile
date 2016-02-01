@@ -77,7 +77,6 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 # libs
 entity.o: $(USER_DIR)/entity.cpp \
-					 $(USER_DIR)/component.h \
 					 $(USER_DIR)/event_emitter.h \
 					 $(USER_DIR)/renderer.h \
 					 $(USER_DIR)/units.h \
@@ -109,8 +108,7 @@ units.o: $(USER_DIR)/units.cpp \
 				 $(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units.cpp $(LFLAGS)
 
-#
-# tests
+# tests objects
 component_test.o: $(USER_DIR)/component_test.cc\
 									$(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cc $(LFLAGS)
@@ -129,6 +127,18 @@ units_test.o: $(USER_DIR)/units_test.cpp \
 
 test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+manager.o: $(USER_DIR)/entity.cpp \
+					 $(USER_DIR)/events.cpp \
+					 $(USER_DIR)/manager.cpp $(GTEST_HEADERS)
+
+manager_test: entity.o events.o manager.o manager_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+# tests
+entity_test: component.o entity.o event_emitter.o renderer.o units.o \
+		entity_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 test_run: $(OBJS) $(TEST_OBJS) gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)

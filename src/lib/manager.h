@@ -27,7 +27,7 @@ class Manager
     Manager(RendererPtr renderer, IEntities entities);
     void update(const uint32_t dt);
     void event(const uint32_t dt);
-    //void collision(const uint32_t dt);
+    void collision(const uint32_t dt);
     void render();
     // TODO use something besides init list here so you don't have {}.
     IEntityPtr add(Components components);
