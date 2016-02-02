@@ -90,6 +90,20 @@ TEST_F(ManagerTest, create) {
   EXPECT_EQ(1, testManager_->getEntities().count(actual));
 }
 
+TEST_F(ManagerTest, update) {
+  const uint32_t testDt = 10;
+  NiceMock<MockComponent> testComponent;
+  testComponentList_.push_back(&testComponent);
+  aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
+      testComponentList_);
+
+  testManager_->add(testEntity);
+
+  EXPECT_CALL(testComponent, update(_, testDt)).Times(1);
+
+  testManager_->update(testDt);
+}
+
 TEST_F(ManagerTest, add) {
   aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
       testComponentList_);
@@ -122,13 +136,6 @@ TEST_F(ManagerTest, render) {
   testManager->render();
   Mock::AllowLeak(mockRenderer.get());
   Mock::VerifyAndClearExpectations(mockRenderer.get());
-}
-
-TEST_F(ManagerTest, update) {
-  NiceMock<MockComponent> testComponent;
-  testComponentList_.push_back(&testComponent);
-
-  auto actual = testManager_->create(testComponentList_);
 }
 
 /*
