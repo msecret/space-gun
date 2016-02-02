@@ -31,6 +31,7 @@ class Manager
     void render();
     // TODO use something besides init list here so you don't have {}.
     IEntityPtr create(Components components);
+    void add(IEntityPtr entity);
     IEntities getEntities();
 
   private:

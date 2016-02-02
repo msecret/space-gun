@@ -30,6 +30,11 @@ IEntityPtr Manager::create(Components componentList)
   return entity;
 }
 
+void Manager::add(IEntityPtr entity)
+{
+  entities_.insert(entity);
+}
+
 IEntities Manager::getEntities()
 {
   return entities_;

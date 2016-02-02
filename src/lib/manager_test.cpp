@@ -90,6 +90,16 @@ TEST_F(ManagerTest, create) {
   EXPECT_EQ(1, testManager_->getEntities().count(actual));
 }
 
+TEST_F(ManagerTest, add) {
+  aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
+      testComponentList_);
+
+  testManager_->add(testEntity);
+
+  EXPECT_EQ(1, testManager_->getEntities().size());
+  EXPECT_EQ(1, testManager_->getEntities().count(testEntity));
+}
+
 TEST_F(ManagerTest, getEntities) {
   aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
       testComponentList_);
