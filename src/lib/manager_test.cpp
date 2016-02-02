@@ -122,8 +122,8 @@ TEST_F(ManagerTest, getEntities) {
   std::shared_ptr<TestRenderer> tr = std::make_shared<TestRenderer>();
   auto testManager = new aronnax::Manager(tr, testEntities_);
 
-  auto actual = testManager_->getEntities().size();
-  //EXPECT_EQ(1, actual);
+  auto actual = testManager->getEntities().size();
+  EXPECT_EQ(1, actual);
 }
 
 TEST_F(ManagerTest, render) {
