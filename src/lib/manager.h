@@ -30,7 +30,7 @@ class Manager
     void collision(const uint32_t dt);
     void render();
     // TODO use something besides init list here so you don't have {}.
-    IEntityPtr add(Components components);
+    IEntityPtr create(Components components);
     IEntities getEntities();
 
   private:

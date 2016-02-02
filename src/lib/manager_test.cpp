@@ -1,5 +1,6 @@
 
 #include <cstdint>
+#include <string>
 
 #include "component.h"
 #include "entity.h"
@@ -38,6 +39,16 @@ class MockComponent : public aronnax::Component {
     MOCK_METHOD0(getType, std::string());
 };
 
+class MockEntity: public aronnax::IEntity {
+  public:
+    MOCK_METHOD1(update, void(const uint32_t dt));
+    MOCK_METHOD0(render, void());
+    MOCK_METHOD0(getRenderer, aronnax::Renderer*());
+    MOCK_METHOD1(hasComponent, bool(std::string componentType));
+    MOCK_METHOD1(getComponent, aronnax::Component*(std::string componentType));
+    MOCK_METHOD1(setPos, void(aronnax::Vector2d pos));
+};
+
 
 class ManagerTest: public testing::Test {
   protected:
@@ -60,21 +71,21 @@ TEST(manager, Constructor) {
   aronnax::Manager testManager(testRenderer);
 }
 
-TEST_F(ManagerTest, add) {
+TEST_F(ManagerTest, create) {
   NiceMock<MockComponent> testComponent;
   testComponentList_.push_back(&testComponent);
 
   ON_CALL(testComponent, getType())
       .WillByDefault(Return("TestComponentA"));
 
-  auto actual = testManager_->add(testComponentList_);
+  auto actual = testManager_->create(testComponentList_);
   EXPECT_EQ(1, testManager_->getEntities().size());
   EXPECT_EQ(1, testManager_->getEntities().count(actual));
 
   auto actualComponent = actual.get()->getComponent("TestComponentA");
   EXPECT_EQ(actualComponent, &testComponent);
 
-  actual = testManager_->add(testComponentList_);
+  actual = testManager_->create(testComponentList_);
   EXPECT_EQ(2, testManager_->getEntities().size());
   EXPECT_EQ(1, testManager_->getEntities().count(actual));
 }
@@ -103,6 +114,13 @@ TEST_F(ManagerTest, render) {
   Mock::VerifyAndClearExpectations(mockRenderer.get());
 }
 
+TEST_F(ManagerTest, update) {
+  NiceMock<MockComponent> testComponent;
+  testComponentList_.push_back(&testComponent);
+
+  auto actual = testManager_->create(testComponentList_);
+}
+
 /*
 TEST_F(ManagerTest, collision) {
   const uint32_t testDt = 10;
@@ -112,8 +130,8 @@ TEST_F(ManagerTest, collision) {
   ON_CALL(testComponent, getType())
       .WillByDefault(Return("collidable"));
 
-  auto ea = testManager_->add(testComponentList_);
-  auto eb = testManager_->add(testComponentList_);
+  auto ea = testManager_->create(testComponentList_);
+  auto eb = testManager_->create(testComponentList_);
 
   EXPECT_CALL(testComponent, update(_, _, testDt)).Times(1);
 

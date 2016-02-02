@@ -20,7 +20,7 @@ Manager::Manager(RendererPtr renderer, IEntities entities):
   renderer_(renderer)
   { }
 
-IEntityPtr Manager::add(Components componentList)
+IEntityPtr Manager::create(Components componentList)
 {
   std::cout << "in m component type: " << componentList[0]->getType() << "\n";
   EntityPtr entity = std::make_shared<Entity>(

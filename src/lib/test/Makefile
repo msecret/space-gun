@@ -132,7 +132,8 @@ manager.o: $(USER_DIR)/entity.cpp \
 					 $(USER_DIR)/events.cpp \
 					 $(USER_DIR)/manager.cpp $(GTEST_HEADERS)
 
-manager_test: entity.o events.o manager.o manager_test.o gmock_main.a
+manager_test: component.o entity.o events.o event_emitter.o manager.o \
+		manager_test.o renderer.o units.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 # tests
