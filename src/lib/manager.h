@@ -33,6 +33,7 @@ class Manager
     IEntityPtr create(Components components);
     void add(IEntityPtr entity);
     IEntities getEntities();
+    IEntities getEntitiesOfComponentType(std::string componentType);
 
   private:
     IEntities entities_;

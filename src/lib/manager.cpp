@@ -22,7 +22,6 @@ Manager::Manager(RendererPtr renderer, IEntities entities):
 
 IEntityPtr Manager::create(Components componentList)
 {
-  std::cout << "in m component type: " << componentList[0]->getType() << "\n";
   EntityPtr entity = std::make_shared<Entity>(
       componentList, renderer_);
   entities_.insert(entity);
@@ -38,6 +37,19 @@ void Manager::add(IEntityPtr entity)
 IEntities Manager::getEntities()
 {
   return entities_;
+}
+
+IEntities Manager::getEntitiesOfComponentType(std::string componentType)
+{
+  IEntities entityList;
+
+  for (auto e : entities_) {
+    if (e->hasComponent(componentType)) {
+      entityList.insert(e);
+    }
+  }
+
+  return entityList;
 }
 
 void Manager::update(const uint32_t dt)

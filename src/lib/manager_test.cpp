@@ -138,6 +138,37 @@ TEST_F(ManagerTest, render) {
   Mock::VerifyAndClearExpectations(mockRenderer.get());
 }
 
+TEST_F(ManagerTest, getEntitiesOfComponentType) {
+  auto entityA = testManager_->create(testComponentList_);
+
+  NiceMock<MockComponent> testComponentA;
+  NiceMock<MockComponent> testComponentB;
+  NiceMock<MockComponent> testComponentC;
+  testComponentList_.push_back(&testComponentA);
+  testComponentList_.push_back(&testComponentB);
+
+  ON_CALL(testComponentA, getType())
+      .WillByDefault(Return("TestComponentA"));
+  ON_CALL(testComponentB, getType())
+      .WillByDefault(Return("TestComponentB"));
+  ON_CALL(testComponentC, getType())
+      .WillByDefault(Return("TestComponentC"));
+
+  auto entityB = testManager_->create(testComponentList_);
+
+  testComponentList_.push_back(&testComponentC);
+  auto entityC = testManager_->create(testComponentList_);
+
+  auto actualA = testManager_->getEntitiesOfComponentType("TestComponentA");
+  auto actualB = testManager_->getEntitiesOfComponentType("TestComponentB");
+  auto actualC = testManager_->getEntitiesOfComponentType("TestComponentC");
+  EXPECT_EQ(3, testManager_->getEntities().size());
+  EXPECT_EQ(2, actualA.size());
+  EXPECT_EQ(2, actualB.size());
+  EXPECT_EQ(1, actualC.size());
+  EXPECT_EQ(1, actualC.count(entityC));
+}
+
 /*
 TEST_F(ManagerTest, collision) {
   const uint32_t testDt = 10;
