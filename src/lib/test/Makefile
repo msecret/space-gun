@@ -111,9 +111,9 @@ units.o: $(USER_DIR)/units.cpp \
 
 #
 # tests
-component_test.o: $(USER_DIR)/component_test.cc\
+component_test.o: $(USER_DIR)/component_test.cpp \
 									$(USER_DIR)/component.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cc $(LFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cpp $(LFLAGS)
 
 entity_test.o: $(USER_DIR)/entity_test.cc \
 							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
@@ -129,6 +129,9 @@ units_test.o: $(USER_DIR)/units_test.cpp \
 
 test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+component_test: component.o component_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 test_run: $(OBJS) $(TEST_OBJS) gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)

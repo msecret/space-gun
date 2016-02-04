@@ -6,22 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "units.h"
-
 namespace aronnax {
 
-class Entity;
+  const std::string COMPONENT_TYPE_BASE;
 
-class Component
-{
-  public:
-    virtual ~Component() {};
-    virtual void update(Entity &entity, const uint32_t dt) {};
-    virtual void render(Entity &entity) {};
-    virtual std::string getType() { return "base"; };
-};
+  class Component
+  {
+    public:
+      virtual ~Component() {};
+      virtual std::string getType() { return COMPONENT_TYPE_BASE; };
+  };
 
-typedef std::vector<Component*> Components;
+  using Components = std::vector<Component*>;
 
 }
 
