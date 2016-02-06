@@ -8,7 +8,7 @@
 
 namespace aronnax {
 
-  const std::string COMPONENT_TYPE_BASE;
+  const std::string COMPONENT_TYPE_BASE = "base";
 
   class Component
   {

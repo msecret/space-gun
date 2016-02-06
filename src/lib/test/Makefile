@@ -105,6 +105,11 @@ renderer.o: $(USER_DIR)/renderer.cpp \
 						$(USER_DIR)/units.h 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/renderer.cpp $(LFLAGS)
 
+system.o: $(USER_DIR)/system.h \
+					$(USER_DIR)/system.cpp \
+					$(USER_DIR)/component.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/system.cpp $(LFLAGS)
+
 units.o: $(USER_DIR)/units.cpp \
 				 $(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units.cpp $(LFLAGS)
@@ -123,6 +128,11 @@ manager_test.o: $(USER_DIR)/manager_test.cpp \
 								$(USER_DIR/manager.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager_test.cpp $(LFLAGS)
 
+system_test.o: $(USER_DIR)/system_test.cpp \
+							 $(USER_DIR)/component.h \
+							 $(USER_DIR)/system.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/system_test.cpp $(LFLAGS)
+
 units_test.o: $(USER_DIR)/units_test.cpp \
 							$(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units_test.cpp $(LFLAGS)
@@ -131,6 +141,9 @@ test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
 
 component_test: component.o component_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+system_test: component.o system.o system_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 test_run: $(OBJS) $(TEST_OBJS) gmock_main.a
