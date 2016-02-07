@@ -134,9 +134,9 @@ component_test.o: $(USER_DIR)/component_test.cpp \
 									$(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cpp $(LFLAGS)
 
-entity_test.o: $(USER_DIR)/entity_test.cc \
+entity_test.o: $(USER_DIR)/entity_test.cpp \
 							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cc $(LFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cpp $(LFLAGS)
 
 manager_test.o: $(USER_DIR)/manager_test.cpp \
 								$(USER_DIR/manager.h $(GTEST_HEADERS)
@@ -161,6 +161,9 @@ clock_test: clock.o clock_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 component_test: component.o component_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+entity_test: component.o entity.o event_emitter.o renderer.o units.o entity_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 sdl_renderer_test: renderer.o sdl_renderer.o units.o sdl_renderer_test.o gmock_main.a
