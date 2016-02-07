@@ -11,7 +11,7 @@ namespace aronnax {
   class IRenderer
   {
     public:
-      virtual void ~IRenderer() {};
+      virtual ~IRenderer() {};
       virtual void render() = 0;
       virtual void beforeRender() = 0;
       virtual void afterRender() = 0;

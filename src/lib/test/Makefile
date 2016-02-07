@@ -109,6 +109,12 @@ renderer.o: $(USER_DIR)/renderer.cpp \
 						$(USER_DIR)/units.h 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/renderer.cpp $(LFLAGS)
 
+sdl_renderer.o: $(USER_DIR)/sdl_renderer.cpp \
+								$(USER_DIR)/sdl_renderer.h \
+								$(USER_DIR)/renderer.h \
+								$(USER_DIR)/units.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sdl_renderer.cpp $(LFLAGS)
+
 system.o: $(USER_DIR)/system.h \
 					$(USER_DIR)/system.cpp \
 					$(USER_DIR)/component.h $(GTEST_HEADERS)
@@ -136,6 +142,9 @@ manager_test.o: $(USER_DIR)/manager_test.cpp \
 								$(USER_DIR/manager.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager_test.cpp $(LFLAGS)
 
+sdl_renderer_test.o: $(USER_DIR)/sdl_renderer_test.cpp 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sdl_renderer_test.cpp $(LFLAGS)
+
 system_test.o: $(USER_DIR)/system_test.cpp \
 							 $(USER_DIR)/component.h \
 							 $(USER_DIR)/system.h $(GTEST_HEADERS)
@@ -152,6 +161,9 @@ clock_test: clock.o clock_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 component_test: component.o component_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+sdl_renderer_test: renderer.o sdl_renderer.o units.o sdl_renderer_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 system_test: component.o system.o system_test.o gmock_main.a
