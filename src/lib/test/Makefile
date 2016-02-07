@@ -77,12 +77,16 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 # libs
 entity.o: $(USER_DIR)/entity.cpp \
-					 $(USER_DIR)/component.h \
-					 $(USER_DIR)/event_emitter.h \
-					 $(USER_DIR)/renderer.h \
-					 $(USER_DIR)/units.h \
-					 $(USER_DIR)/component.h $(GTEST_HEADERS)
+					$(USER_DIR)/component.h \
+					$(USER_DIR)/event_emitter.h \
+					$(USER_DIR)/renderer.h \
+					$(USER_DIR)/units.h \
+					$(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity.cpp $(LFLAGS)
+
+clock.o: $(USER_DIR)/clock.h \
+				 $(USER_DIR)/clock.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/clock.cpp $(LFLAGS)
 
 component.o: $(USER_DIR)/component.cpp \
 						 $(USER_DIR)/component.h $(GTEST_HEADERS)
@@ -116,6 +120,10 @@ units.o: $(USER_DIR)/units.cpp \
 
 #
 # tests
+clock_test.o: $(USER_DIR)/clock_test.cpp \
+	            $(USER_DIR)/clock.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/clock_test.cpp $(LFLAGS)
+
 component_test.o: $(USER_DIR)/component_test.cpp \
 									$(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cpp $(LFLAGS)
@@ -139,6 +147,9 @@ units_test.o: $(USER_DIR)/units_test.cpp \
 
 test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+clock_test: clock.o clock_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 component_test: component.o component_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
