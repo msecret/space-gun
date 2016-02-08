@@ -38,4 +38,9 @@ namespace aronnax {
     exit(1);
   }
 
+  Components Entity::getComponents()
+  {
+    return components_;
+  }
+
 }

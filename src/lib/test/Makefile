@@ -14,8 +14,12 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = $(HOME)/Dev/googletest/googletest
-GMOCK_DIR = $(HOME)/Dev/googletest/googlemock
+ifndef GTEST_DIR
+GTEST_DIR := $(HOME)/Dev/googletest/googletest
+endif
+ifndef GMOCK_DIR
+GMOCK_DIR := $(HOME)/Dev/googletest/googlemock
+endif
 
 # Where to find user code.
 USER_DIR = ..

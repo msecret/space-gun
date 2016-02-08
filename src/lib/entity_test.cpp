@@ -70,3 +70,12 @@ TEST_F(EntityTest, getComponentFail) {
   ASSERT_DEATH({ ea_->getComponent("NoComponent"); }, "");
 }
 
+TEST_F(EntityTest, getComponents) {
+  aronnax::Components expected;
+  expected.push_back(ca_);
+  aronnax::Entity* testEntity = new aronnax::Entity(expected);
+
+  auto actual = testEntity->getComponents();
+  
+  EXPECT_EQ(actual, expected);
+}

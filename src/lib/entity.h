@@ -19,7 +19,7 @@ namespace aronnax {
       virtual ~IEntity() {};
       virtual bool hasComponent(std::string componentType) = 0;
       virtual Component* getComponent(std::string componentType) = 0;
-      // virtual Components getComponents() = 0;
+      virtual Components getComponents() = 0;
   };
 
   class Entity : public IEntity
@@ -28,7 +28,7 @@ namespace aronnax {
       Entity(Components components);
       bool hasComponent(std::string componentType);
       Component* getComponent(std::string componentType);
-      // Components getComponents();
+      Components getComponents();
 
     private:
       Vector2d pos;
