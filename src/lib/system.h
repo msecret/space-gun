@@ -16,6 +16,7 @@ namespace aronnax {
     public:
       virtual ~System() {};
       virtual void update(const uint32_t dt) {};
+      virtual void render(const uint32_t dt) {};
       virtual std::string getType() { return COMPONENT_TYPE_BASE; };
   };
 

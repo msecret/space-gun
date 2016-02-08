@@ -3,41 +3,34 @@
 #define _h_Manager
 
 #include <initializer_list>
-#include <set>
 #include <memory>
+#include <string>
 
 #include "component.h"
 #include "entity.h"
+#include "system.h"
 
 namespace aronnax {
 
-class IEntity;
-class Entity;
-class Renderer;
+  class Manager
+  {
+    public:
+      Manager();
+      void update(const uint32_t dt);
+      void render(const uint32_t dt);
+      IEntity& createEntity(Components components);
+      void addEntity(IEntity& entity);
+      //void removeEntity(const IEntity& entity);
+      //void addSystem(const System& system);
+      //System& getSystem(const std::string& systemType); 
+      //void removeSystem(const System& system);
+      IEntitySet& getEntities();
 
-typedef std::set<std::shared_ptr<IEntity>> IEntities;
-typedef std::set<std::shared_ptr<Entity>> Entities;
-// TODO does this need to be a ptr?
-typedef std::shared_ptr<Renderer> RendererPtr;
+    private:
+      IEntitySet entities_;
+      Systems systems_;
 
-class Manager
-{
-  public:
-    Manager(RendererPtr renderer);
-    Manager(RendererPtr renderer, IEntities entities);
-    void update(const uint32_t dt);
-    void event(const uint32_t dt);
-    //void collision(const uint32_t dt);
-    void render();
-    // TODO use something besides init list here so you don't have {}.
-    IEntityPtr add(Components components);
-    IEntities getEntities();
-
-  private:
-    IEntities entities_;
-    RendererPtr renderer_;
-
-};
+  };
 
 }
 

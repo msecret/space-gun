@@ -40,7 +40,7 @@ LFLAGS = $(SDL_LDFLAGS)
 # created to the list.
 TESTS = component_test entity_test manager_test units_test test_run
 TEST_OBJS = component_test.o entity_test.o manager_test.o units_test.o
-OBJS = component.o entity.o events.o event_emitter.o manager.o renderer.o units.o
+OBJS = component.o entity.o event_emitter.o manager.o renderer.o units.o
 
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -96,15 +96,11 @@ component.o: $(USER_DIR)/component.cpp \
 						 $(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component.cpp $(LFLAGS)
 
-events.o: $(USER_DIR)/events.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/events.cpp $(LFLAGS)
-
 event_emitter.o: $(USER_DIR)/event_emitter.cpp \
 								 $(USER_DIR)/event_emitter.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/event_emitter.cpp $(LFLAGS)
 
 manager.o: $(USER_DIR)/entity.cpp \
-					 $(USER_DIR)/events.cpp \
 					 $(USER_DIR)/manager.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager.cpp $(LFLAGS)
 
@@ -168,6 +164,9 @@ component_test: component.o component_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 entity_test: component.o entity.o event_emitter.o renderer.o units.o entity_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+manager_test: component.o entity.o event_emitter.o renderer.o manager.o units.o manager_test.o gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 sdl_renderer_test: renderer.o sdl_renderer.o units.o sdl_renderer_test.o gmock_main.a

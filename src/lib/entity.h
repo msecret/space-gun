@@ -3,9 +3,8 @@
 #define _h_Entity
 
 #include <memory>
+#include <set>
 #include <string>
-#include <vector>
-
 
 #include "component.h"
 #include "event_emitter.h"
@@ -21,6 +20,8 @@ namespace aronnax {
       virtual Component* getComponent(std::string componentType) = 0;
       virtual Components getComponents() = 0;
   };
+
+  using IEntitySet = std::set<IEntity*>;
 
   class Entity : public IEntity
   {
