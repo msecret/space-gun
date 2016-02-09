@@ -7,7 +7,6 @@
 #include "gmock/gmock.h"
 
 using ::testing::_;
-using ::testing::NiceMock;
 
 class TestComponent : public aronnax::Component {
   public:

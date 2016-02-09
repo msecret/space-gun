@@ -21,8 +21,9 @@ namespace aronnax {
       IEntity& createEntity(Components components);
       void addEntity(IEntity& entity);
       //void removeEntity(const IEntity& entity);
-      //void addSystem(const System& system);
-      //System& getSystem(const std::string& systemType); 
+      void addSystem(System& system);
+      Systems& getSystems();
+      Systems getSystems(const std::string& systemType); 
       //void removeSystem(const System& system);
       IEntitySet& getEntities();
 

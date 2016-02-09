@@ -43,6 +43,29 @@ namespace aronnax {
     return *e;
   }
 
+  void Manager::addSystem(System& system)
+  {
+    systems_.push_back(&system);
+  }
+
+  Systems& Manager::getSystems()
+  {
+    return systems_;
+  }
+
+  Systems Manager::getSystems(const std::string& systemType)
+  {
+    Systems systemList;
+
+    for (auto s : systems_) {
+      if (s->getType() == systemType) {
+        systemList.push_back(s);  
+      }
+    }
+
+    return systemList;
+  }
+
   IEntitySet& Manager::getEntities()
   {
     return entities_;
