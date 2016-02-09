@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "component.h"
+#include "entity.h"
 
 namespace aronnax {
   extern const std::string COMPONENT_TYPE_BASE;
@@ -15,8 +16,8 @@ namespace aronnax {
   {
     public:
       virtual ~System() {};
-      virtual void update(const uint32_t dt) {};
-      virtual void render(const uint32_t dt) {};
+      virtual void update(const uint32_t dt, IEntities entities) {};
+      virtual void render(const uint32_t dt, IEntities entities) {};
       virtual std::string getType() { return COMPONENT_TYPE_BASE; };
   };
 

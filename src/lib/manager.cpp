@@ -17,7 +17,8 @@ namespace aronnax {
   void Manager::update(const uint32_t dt)
   {
     for (auto s : systems_) {
-      s->update(dt);
+      IEntities entityList = getEntities(s->getType());
+      s->update(dt, entityList);
     }
   }
 
@@ -25,7 +26,8 @@ namespace aronnax {
   {
     //renderer_.get()->beforeRender();
     for (auto s : systems_) {
-      s->render(dt);
+      IEntities entityList = getEntities(s->getType());
+      s->render(dt, entityList);
     }
     //renderer_.get()->afterRender();
   }
@@ -71,13 +73,13 @@ namespace aronnax {
     return entities_;
   }
 
-  IEntitySet Manager::getEntities(const std::string& comonentType)
+  IEntities Manager::getEntities(const std::string& comonentType)
   {
-    IEntitySet entityList;
+    IEntities entityList;
 
     for (auto e : entities_) {
       if (e->hasComponent(comonentType)) {
-        entityList.insert(e);
+        entityList.push_back(e);
       }
     }
 

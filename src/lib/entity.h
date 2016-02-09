@@ -5,6 +5,7 @@
 #include <memory>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "component.h"
 #include "event_emitter.h"
@@ -21,6 +22,7 @@ namespace aronnax {
       virtual Components getComponents() = 0;
   };
 
+  using IEntities = std::vector<IEntity*>;
   using IEntitySet = std::set<IEntity*>;
 
   class Entity : public IEntity

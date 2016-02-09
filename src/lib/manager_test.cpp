@@ -2,11 +2,11 @@
 #include <cstdint>
 #include <string>
 
-#include "component.h"
-#include "entity.h"
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
+#include "component.h"
+#include "entity.h"
 #include "manager.h"
 #include "system.h"
 
@@ -16,8 +16,8 @@ using ::testing::Return;
 
 class MockSystem: public aronnax::System {
   public:
-    MOCK_METHOD1(update, void(const uint32_t dt));
-    MOCK_METHOD1(render, void(const uint32_t dt));
+    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::IEntities entities));
+    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::IEntities entities));
     MOCK_METHOD0(getType, std::string());
 };
 
@@ -48,8 +48,8 @@ TEST_F(ManagerTest, update) {
   testManager_->addSystem(systemA);
   testManager_->addSystem(systemB);
 
-  EXPECT_CALL(systemA, update(testDt)).Times(2);
-  EXPECT_CALL(systemB, update(testDt)).Times(2);
+  EXPECT_CALL(systemA, update(testDt, _)).Times(2);
+  EXPECT_CALL(systemB, update(testDt, _)).Times(2);
 
   testManager_->update(testDt);
   testManager_->update(testDt);
@@ -63,8 +63,8 @@ TEST_F(ManagerTest, render) {
   testManager_->addSystem(systemA);
   testManager_->addSystem(systemB);
 
-  EXPECT_CALL(systemA, render(testDt)).Times(2);
-  EXPECT_CALL(systemB, render(testDt)).Times(2);
+  EXPECT_CALL(systemA, render(testDt, _)).Times(2);
+  EXPECT_CALL(systemB, render(testDt, _)).Times(2);
 
   testManager_->render(testDt);
   testManager_->render(testDt);
@@ -147,5 +147,4 @@ TEST_F(ManagerTest, getEntities) {
   auto actual = testManager_->getEntities("movement");
 
   EXPECT_EQ(1, actual.size());
-  EXPECT_EQ(1, actual.count(&entityA));
 }
