@@ -42,13 +42,30 @@ class ManagerTest: public testing::Test {
 
 TEST_F(ManagerTest, update) {
   const uint32_t testDt = 20;
+  std::string testType = "testType";
   NiceMock<MockSystem> systemA;
   NiceMock<MockSystem> systemB;
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
 
+  ON_CALL(systemA, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(systemB, getType())
+    .WillByDefault(Return("somethingelse"));
+
+  ON_CALL(entityA, hasComponent(testType))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent(testType))
+    .WillByDefault(Return(false));
+
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
   testManager_->addSystem(systemA);
   testManager_->addSystem(systemB);
 
-  EXPECT_CALL(systemA, update(testDt, _)).Times(2);
+  auto actualEntityList = testManager_->getEntities(testType);
+
+  EXPECT_CALL(systemA, update(testDt, actualEntityList)).Times(2);
   EXPECT_CALL(systemB, update(testDt, _)).Times(2);
 
   testManager_->update(testDt);
@@ -57,13 +74,30 @@ TEST_F(ManagerTest, update) {
 
 TEST_F(ManagerTest, render) {
   const uint32_t testDt = 25;
+  std::string testType = "testType";
   NiceMock<MockSystem> systemA;
   NiceMock<MockSystem> systemB;
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
 
+  ON_CALL(systemA, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(systemB, getType())
+    .WillByDefault(Return("somethingelse"));
+
+  ON_CALL(entityA, hasComponent(testType))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent(testType))
+    .WillByDefault(Return(false));
+
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
   testManager_->addSystem(systemA);
   testManager_->addSystem(systemB);
 
-  EXPECT_CALL(systemA, render(testDt, _)).Times(2);
+  auto actualEntityList = testManager_->getEntities(testType);
+
+  EXPECT_CALL(systemA, render(testDt, actualEntityList)).Times(2);
   EXPECT_CALL(systemB, render(testDt, _)).Times(2);
 
   testManager_->render(testDt);
