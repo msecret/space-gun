@@ -71,4 +71,17 @@ namespace aronnax {
     return entities_;
   }
 
+  IEntitySet Manager::getEntities(const std::string& comonentType)
+  {
+    IEntitySet entityList;
+
+    for (auto e : entities_) {
+      if (e->hasComponent(comonentType)) {
+        entityList.insert(e);
+      }
+    }
+
+    return entityList;
+  }
+
 }

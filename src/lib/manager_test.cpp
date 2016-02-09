@@ -21,6 +21,11 @@ class MockSystem: public aronnax::System {
     MOCK_METHOD0(getType, std::string());
 };
 
+class MockEntity: public aronnax::Entity {
+  public:
+    MOCK_METHOD1(hasComponent, bool(std::string componentType));
+};
+
 class ManagerTest: public testing::Test {
   protected:
     virtual void SetUp() {
@@ -127,3 +132,20 @@ TEST_F(ManagerTest, getSystemsAll) {
   EXPECT_EQ(1, actual.size());
 }
 
+TEST_F(ManagerTest, getEntities) {
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
+
+  ON_CALL(entityA, hasComponent("movement"))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent("movement"))
+    .WillByDefault(Return(false));
+
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
+
+  auto actual = testManager_->getEntities("movement");
+
+  EXPECT_EQ(1, actual.size());
+  EXPECT_EQ(1, actual.count(&entityA));
+}

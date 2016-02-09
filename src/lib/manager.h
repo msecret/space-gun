@@ -26,6 +26,7 @@ namespace aronnax {
       Systems getSystems(const std::string& systemType); 
       //void removeSystem(const System& system);
       IEntitySet& getEntities();
+      IEntitySet getEntities(const std::string& componentType);
 
     private:
       IEntitySet entities_;

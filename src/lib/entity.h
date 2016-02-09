@@ -26,6 +26,7 @@ namespace aronnax {
   class Entity : public IEntity
   {
     public:
+      Entity() {};
       Entity(Components components);
       bool hasComponent(std::string componentType);
       Component* getComponent(std::string componentType);
