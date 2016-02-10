@@ -1,6 +1,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
@@ -20,11 +21,13 @@ class MockSystem: public aronnax::System {
     MOCK_METHOD2(update, void(const uint32_t dt, aronnax::IEntities entities));
     MOCK_METHOD2(render, void(const uint32_t dt, aronnax::IEntities entities));
     MOCK_METHOD0(getType, std::string());
+    MOCK_METHOD1(onAddEntity, void(aronnax::IEntity* entity));
 };
 
 class MockEntity: public aronnax::Entity {
   public:
     MOCK_METHOD1(hasComponent, bool(std::string componentType));
+    MOCK_METHOD0(getComponentTypes, std::vector<std::string>());
 };
 
 class ManagerTest: public testing::Test {
@@ -107,14 +110,27 @@ TEST_F(ManagerTest, render) {
 }
 
 TEST_F(ManagerTest, addEntity) {
-  auto e = new aronnax::Entity(testComponentList_);
+  std::string testType = "testType";
+  NiceMock<MockSystem> testSystem;
+  NiceMock<MockEntity> entity;
 
-  testManager_->addEntity(*e);
+  std::vector<std::string> expectedComponentList; 
+  expectedComponentList.push_back(testType);
+
+  ON_CALL(testSystem, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(entity, getComponentTypes())
+    .WillByDefault(Return(expectedComponentList));
+
+  EXPECT_CALL(testSystem, onAddEntity(_)).Times(1);
+
+  testManager_->addSystem(testSystem);
+  testManager_->addEntity(entity);
 
   auto actual = testManager_->getEntities();
 
   EXPECT_EQ(1, actual.size());
-  EXPECT_EQ(1, actual.count(e));
+  EXPECT_EQ(1, actual.count(&entity));
 }
 
 TEST_F(ManagerTest, addSystem) {

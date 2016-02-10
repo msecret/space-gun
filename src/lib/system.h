@@ -19,7 +19,7 @@ namespace aronnax {
       virtual void init(IEntities entities) {};
       virtual void update(const uint32_t dt, IEntities entities) {};
       virtual void render(const uint32_t dt, IEntities entities) {};
-      virtual void onAddEntity(IEntity entity) {};
+      virtual void onAddEntity(IEntity* entity) {};
       virtual std::string getType() { return COMPONENT_TYPE_BASE; };
   };
 

@@ -34,10 +34,13 @@ namespace aronnax {
 
   void Manager::addEntity(IEntity& entity)
   {
-    // for each entity component
-    // // get component type
-    // // for each system 
-    // // // system->onAddEntity(entity)
+    auto entityTypes = entity.getComponentTypes();
+    for (auto t : entityTypes) {
+      auto systems = getSystems(t);
+      for (auto s : systems) {
+        s->onAddEntity(&entity);
+      }
+    }
     entities_.insert(&entity);
   }
 
