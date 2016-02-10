@@ -16,6 +16,7 @@ using ::testing::Return;
 
 class MockSystem: public aronnax::System {
   public:
+    MOCK_METHOD1(init, void(aronnax::IEntities entities));
     MOCK_METHOD2(update, void(const uint32_t dt, aronnax::IEntities entities));
     MOCK_METHOD2(render, void(const uint32_t dt, aronnax::IEntities entities));
     MOCK_METHOD0(getType, std::string());
@@ -117,7 +118,19 @@ TEST_F(ManagerTest, addEntity) {
 }
 
 TEST_F(ManagerTest, addSystem) {
-  aronnax::System expected;
+  std::string testType = "testType";
+  NiceMock<MockSystem> expected;
+  NiceMock<MockEntity> entity;
+
+  ON_CALL(expected, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(entity, hasComponent(testType))
+    .WillByDefault(Return(true));
+
+  testManager_->addEntity(entity);
+
+  auto expectedEntities = testManager_->getEntities(testType);
+  EXPECT_CALL(expected, init(expectedEntities)).Times(1);
 
   testManager_->addSystem(expected);
   auto actual = testManager_->getSystems();

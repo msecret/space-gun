@@ -1,5 +1,7 @@
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
 #include "component.h"
 #include "entity.h"
@@ -75,6 +77,18 @@ TEST_F(EntityTest, getComponents) {
   aronnax::Entity* testEntity = new aronnax::Entity(expected);
 
   auto actual = testEntity->getComponents();
+  
+  EXPECT_EQ(actual, expected);
+}
+
+TEST_F(EntityTest, getComponentTypes) {
+  cla_.push_back(ca_);
+  ea_ = new aronnax::Entity(cla_);
+
+  std::vector<std::string> expected;
+  expected.push_back(ca_->getType());
+
+  auto actual = ea_->getComponentTypes();
   
   EXPECT_EQ(actual, expected);
 }

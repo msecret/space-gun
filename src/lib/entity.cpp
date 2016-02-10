@@ -43,4 +43,15 @@ namespace aronnax {
     return components_;
   }
 
+  std::vector<std::string> Entity::getComponentTypes()
+  {
+    std::vector<std::string> componentTypes;
+
+    for (auto c : components_) {
+      componentTypes.push_back(c->getType());
+    }
+
+    return componentTypes;
+  }
+
 }
