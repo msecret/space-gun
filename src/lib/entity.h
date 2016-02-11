@@ -2,8 +2,10 @@
 #ifndef _h_Entity
 #define _h_Entity
 
+#include <iostream>
 #include <memory>
 #include <set>
+#include <stdio.h>
 #include <string>
 #include <vector>
 
@@ -33,7 +35,7 @@ namespace aronnax {
   using IEntities = vector<IEntity*>;
   using IEntitySet = set<IEntity*>;
 
-  class Entity : public IEntity
+  class Entity
   {
     public:
       Entity() {};
@@ -44,7 +46,8 @@ namespace aronnax {
 
       void addComponent(Component* component);
 
-      Component* getComponent(string componentType);
+      template <class TComponent>
+      TComponent* getComponent(string componentType);
 
       Components getComponents();
 
@@ -55,6 +58,17 @@ namespace aronnax {
       Components components_;
 
   };
+
+  template <class TComponent>
+  TComponent* Entity::getComponent(std::string componentType)
+  {
+    for (unsigned int i = 0; i < components_.size(); ++i) {
+      if (components_[i]->getType() == componentType) {
+        return static_cast<TComponent*>(components_[i]);
+      }
+    }
+    exit(1);
+  }
 
 }
 

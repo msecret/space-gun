@@ -29,17 +29,9 @@ namespace aronnax {
   }
 
   void Entity::addComponent(Component* component) {
-
-  }
-
-  Component* Entity::getComponent(std::string componentType)
-  {
-    for (unsigned int i = 0; i < components_.size(); ++i) {
-      if (components_[i]->getType() == componentType) {
-        return components_[i];
-      }
+    if (!hasComponent(component->getType())) {
+      components_.push_back(component);
     }
-    exit(1);
   }
 
   Components Entity::getComponents()

@@ -67,10 +67,11 @@ TEST_F(EntityTest, hasComponent) {
 
 TEST_F(EntityTest, addComponent) {
   TestComponent* expected = new TestComponent();  
+  auto testEntity = aronnax::Entity();
 
-  ea_->addComponent(expected);
+  testEntity.addComponent(expected);
 
-  auto actual = ea_->getComponent(expected->getType());
+  auto actual = testEntity.getComponent<TestComponent>(expected->getType());
 
   EXPECT_EQ(expected, actual);
 }
@@ -78,12 +79,12 @@ TEST_F(EntityTest, addComponent) {
 TEST_F(EntityTest, getComponent) {
   cla_.push_back(ca_);
   ea_ = new aronnax::Entity(cla_);
-  auto actual = ea_->getComponent("TestComponent");
+  auto actual = ea_->getComponent<TestComponent>("TestComponent");
   EXPECT_EQ(actual, ca_);
 }
 
 TEST_F(EntityTest, getComponentFail) {
-  ASSERT_DEATH({ ea_->getComponent("NoComponent"); }, "");
+  ASSERT_DEATH({ ea_->getComponent<TestComponent>("NoComponent"); }, "");
 }
 
 TEST_F(EntityTest, getComponents) {
