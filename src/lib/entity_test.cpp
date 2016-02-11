@@ -12,15 +12,20 @@ using ::testing::_;
 
 class TestComponent : public aronnax::Component {
   public:
-  void update(aronnax::Entity &entity, const uint32_t dt)
-  {
-    return;
-  }
+    void update(aronnax::Entity &entity, const uint32_t dt)
+    {
+      return;
+    }
+    aronnax::Vector2d getVel()
+    {
+      aronnax::Vector2d vel = { 10, 10 };
+      return vel;
+    }
 
-  std::string getType()
-  {
-    return "TestComponent";
-  }
+    std::string getType()
+    {
+      return "TestComponent";
+    }
 };
 
 class MockComponent : public aronnax::Component {
@@ -58,6 +63,16 @@ TEST_F(EntityTest, hasComponent) {
   EXPECT_TRUE(actual);
   actual = ea_->hasComponent("NoComponent");
   EXPECT_FALSE(actual);
+}
+
+TEST_F(EntityTest, addComponent) {
+  TestComponent* expected = new TestComponent();  
+
+  ea_->addComponent(expected);
+
+  auto actual = ea_->getComponent(expected->getType());
+
+  EXPECT_EQ(expected, actual);
 }
 
 TEST_F(EntityTest, getComponent) {

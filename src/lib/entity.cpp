@@ -28,6 +28,10 @@ namespace aronnax {
     return false;
   }
 
+  void Entity::addComponent(Component* component) {
+
+  }
+
   Component* Entity::getComponent(std::string componentType)
   {
     for (unsigned int i = 0; i < components_.size(); ++i) {
