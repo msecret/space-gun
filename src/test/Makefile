@@ -107,7 +107,8 @@ test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 movement_test: c_moveable.o s_movement.o movement_test.o gmock_main.a $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
-.PHONY: subdirs $(SUBDIRS)
-subdirs: $(SUBDIRS)
+
+.PHONY: $(SUBDIRS)/gaming.a $(SUBDIRS)
+$(SUBDIRS)/gaming.a: $(SUBDIRS)
 $(SUBDIRS):
 	$(MAKE) -C $@

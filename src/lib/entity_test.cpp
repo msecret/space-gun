@@ -108,3 +108,11 @@ TEST_F(EntityTest, getComponentTypes) {
   
   EXPECT_EQ(actual, expected);
 }
+
+TEST_F(EntityTest, movePos) {
+  aronnax::Vector2d testV = { 2, 2 };
+  aronnax::Entity testEntity;
+
+  testEntity.movePos(testV);
+  // TODO make actual test case
+}

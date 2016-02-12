@@ -50,4 +50,9 @@ namespace aronnax {
     return componentTypes;
   }
 
+  void Entity::movePos(const Vector2d& vel)
+  {
+    pos += vel;
+  }
+
 }
