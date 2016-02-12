@@ -18,18 +18,18 @@ namespace aronnax {
       Manager();
       void update(const uint32_t dt);
       void render(const uint32_t dt);
-      IEntity& createEntity(Components components);
-      void addEntity(IEntity& entity);
-      //void removeEntity(const IEntity& entity);
+      Entity& createEntity(Components components);
+      void addEntity(Entity& entity);
+      //void removeEntity(const Entity& entity);
       void addSystem(System& system);
       Systems& getSystems();
       Systems getSystems(const std::string& systemType); 
       //void removeSystem(const System& system);
-      IEntitySet& getEntities();
-      IEntities getEntities(const std::string& componentType);
+      Entities& getEntities();
+      Entities getEntities(const std::string& componentType);
 
     private:
-      IEntitySet entities_;
+      Entities entities_;
       Systems systems_;
 
   };

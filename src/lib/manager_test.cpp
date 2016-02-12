@@ -11,17 +11,18 @@
 #include "manager.h"
 #include "system.h"
 
+using namespace std;
 using ::testing::_;
 using ::testing::NiceMock;
 using ::testing::Return;
 
 class MockSystem: public aronnax::System {
   public:
-    MOCK_METHOD1(init, void(aronnax::IEntities entities));
-    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::IEntities entities));
-    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::IEntities entities));
+    MOCK_METHOD1(init, void(aronnax::Entities entities));
+    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::Entities entities));
+    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::Entities entities));
     MOCK_METHOD0(getType, std::string());
-    MOCK_METHOD1(onAddEntity, void(aronnax::IEntity* entity));
+    MOCK_METHOD1(onAddEntity, void(aronnax::Entity* entity));
 };
 
 class MockEntity: public aronnax::Entity {
@@ -130,7 +131,6 @@ TEST_F(ManagerTest, addEntity) {
   auto actual = testManager_->getEntities();
 
   EXPECT_EQ(1, actual.size());
-  EXPECT_EQ(1, actual.count(&entity));
 }
 
 TEST_F(ManagerTest, addSystem) {
@@ -155,12 +155,11 @@ TEST_F(ManagerTest, addSystem) {
 }
 
 TEST_F(ManagerTest, createEntity) {
-  aronnax::IEntity& actual = testManager_->createEntity(testComponentList_);
+  aronnax::Entity& actual = testManager_->createEntity(testComponentList_);
 
   auto entities = testManager_->getEntities();
 
   EXPECT_EQ(1, entities.size());
-  EXPECT_EQ(1, entities.count(&actual));
   EXPECT_EQ(testComponentList_, actual.getComponents());
 }
 

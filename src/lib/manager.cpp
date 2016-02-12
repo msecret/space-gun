@@ -17,7 +17,7 @@ namespace aronnax {
   void Manager::update(const uint32_t dt)
   {
     for (auto s : systems_) {
-      IEntities entityList = getEntities(s->getType());
+      Entities entityList = getEntities(s->getType());
       s->update(dt, entityList);
     }
   }
@@ -26,13 +26,13 @@ namespace aronnax {
   {
     //renderer_.get()->beforeRender();
     for (auto s : systems_) {
-      IEntities entityList = getEntities(s->getType());
+      Entities entityList = getEntities(s->getType());
       s->render(dt, entityList);
     }
     //renderer_.get()->afterRender();
   }
 
-  void Manager::addEntity(IEntity& entity)
+  void Manager::addEntity(Entity& entity)
   {
     auto entityTypes = entity.getComponentTypes();
     for (auto t : entityTypes) {
@@ -41,13 +41,13 @@ namespace aronnax {
         s->onAddEntity(&entity);
       }
     }
-    entities_.insert(&entity);
+    entities_.push_back(&entity);
   }
 
-  IEntity& Manager::createEntity(Components componentList)
+  Entity& Manager::createEntity(Components componentList)
   {
     Entity* e = new Entity(componentList);
-    entities_.insert(e);
+    entities_.push_back(e);
 
     return *e;
   }
@@ -79,14 +79,14 @@ namespace aronnax {
     return systemList;
   }
 
-  IEntitySet& Manager::getEntities()
+  Entities& Manager::getEntities()
   {
     return entities_;
   }
 
-  IEntities Manager::getEntities(const std::string& comonentType)
+  Entities Manager::getEntities(const std::string& comonentType)
   {
-    IEntities entityList;
+    Entities entityList;
 
     for (auto e : entities_) {
       if (e->hasComponent(comonentType)) {

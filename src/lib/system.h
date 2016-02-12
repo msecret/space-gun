@@ -16,10 +16,10 @@ namespace aronnax {
   {
     public:
       virtual ~System() {};
-      virtual void init(IEntities entities) {};
-      virtual void update(const uint32_t dt, IEntities entities) {};
-      virtual void render(const uint32_t dt, IEntities entities) {};
-      virtual void onAddEntity(IEntity* entity) {};
+      virtual void init(Entities entities) {};
+      virtual void update(const uint32_t dt, Entities entities) {};
+      virtual void render(const uint32_t dt, Entities entities) {};
+      virtual void onAddEntity(Entity* entity) {};
       virtual std::string getType() { return COMPONENT_TYPE_BASE; };
   };
 
