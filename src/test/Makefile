@@ -87,6 +87,14 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 
 # libs
+c_boundable.o : $(USER_DIR)/c_boundable.h \
+							$(USER_DIR)/c_boundable.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/c_boundable.cpp $(LFLAGS)
+
+s_bound.o : $(USER_DIR)/s_bound.h \
+						$(USER_DIR)/s_bound.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_bound.cpp $(LFLAGS)
+
 c_moveable.o : $(USER_DIR)/c_moveable.h \
 							 $(USER_DIR)/c_moveable.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/c_moveable.cpp $(LFLAGS)
@@ -96,6 +104,11 @@ s_movement.o: $(USER_DIR)/s_movement.h \
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_movement.cpp $(LFLAGS)
 
 # tests
+bound_test.o: $(USER_DIR)/bound_test.cpp \
+							$(USER_DIR)/c_boundable.h \
+							$(USER_DIR)/s_bound.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/bound_test.cpp $(LFLAGS)
+
 movement_test.o: $(USER_DIR)/movement_test.cpp \
 								 $(USER_DIR)/c_moveable.h  \
 								 $(USER_DIR)/s_movement.h $(GTEST_HEADERS)
@@ -103,6 +116,9 @@ movement_test.o: $(USER_DIR)/movement_test.cpp \
 
 test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+bound_test: c_boundable.o s_bound.o bound_test.o gmock_main.a $(SUBDIRS)/gaming.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 movement_test: c_moveable.o s_movement.o movement_test.o gmock_main.a $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)

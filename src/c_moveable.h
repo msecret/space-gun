@@ -9,7 +9,7 @@
 
 namespace spacegun {
 
-  const std::string COMPONENT_TYPE_MOVEABLE = "base";
+  const std::string COMPONENT_TYPE_MOVEABLE = "moveable";
 
   class Moveable : public aronnax::Component
   {
