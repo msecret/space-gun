@@ -1,48 +1,40 @@
 
 #include <cstdint>
+#include <string>
+#include <vector>
 
-#include "component.h"
-#include "entity.h"
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
 
+#include "component.h"
+#include "entity.h"
 #include "manager.h"
+#include "system.h"
 
-using ::testing::Mock;
+using namespace std;
+using ::testing::_;
 using ::testing::NiceMock;
 using ::testing::Return;
 
-// TODO move to shared testing file
-class TestRenderer : public aronnax::Renderer {
+class MockSystem: public aronnax::System {
   public:
-    TestRenderer() { };
-    ~TestRenderer() { };
-    void render() { };
-    void beforeRender() { };
-    void afterRender() { };
-};
-
-class MockRenderer: public TestRenderer {
-  public:
-    MOCK_METHOD0(render, void());
-    MOCK_METHOD0(beforeRender, void());
-    MOCK_METHOD0(afterRender, void());
-};
-
-// TODO move to shared testing file
-class MockComponent : public aronnax::Component {
-  public:
-    MOCK_METHOD2(update, void(aronnax::Entity &entity, const uint32_t dt));
-    MOCK_METHOD1(render, void(aronnax::Entity &entity));
+    MOCK_METHOD1(init, void(aronnax::Entities entities));
+    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::Entities entities));
+    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::Entities entities));
     MOCK_METHOD0(getType, std::string());
+    MOCK_METHOD1(onAddEntity, void(aronnax::Entity* entity));
 };
 
+class MockEntity: public aronnax::Entity {
+  public:
+    MOCK_METHOD1(hasComponent, bool(std::string componentType));
+    MOCK_METHOD0(getComponentTypes, std::vector<std::string>());
+};
 
 class ManagerTest: public testing::Test {
   protected:
     virtual void SetUp() {
-      std::shared_ptr<TestRenderer> tr = std::make_shared<TestRenderer>();
-      testManager_ = new aronnax::Manager(tr, testEntities_);
+      testManager_ = new aronnax::Manager();
     }
 
     virtual void TearDown() {
@@ -50,54 +42,171 @@ class ManagerTest: public testing::Test {
     }
 
     aronnax::Manager* testManager_;
-    aronnax::IEntities testEntities_;
     aronnax::Components testComponentList_;
 };
 
-TEST(manager, Constructor) {
-  std::shared_ptr<TestRenderer> testRenderer = std::make_shared<TestRenderer>();
-  aronnax::Manager testManager(testRenderer);
-}
+TEST_F(ManagerTest, update) {
+  const uint32_t testDt = 20;
+  std::string testType = "testType";
+  NiceMock<MockSystem> systemA;
+  NiceMock<MockSystem> systemB;
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
 
-TEST_F(ManagerTest, add) {
-  NiceMock<MockComponent> testComponent;
-  testComponentList_.push_back(&testComponent);
+  ON_CALL(systemA, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(systemB, getType())
+    .WillByDefault(Return("somethingelse"));
 
-  ON_CALL(testComponent, getType())
-      .WillByDefault(Return("TestComponentA"));
+  ON_CALL(entityA, hasComponent(testType))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent(testType))
+    .WillByDefault(Return(false));
 
-  auto actual = testManager_->add(testComponentList_);
-  EXPECT_EQ(1, testManager_->getEntities().size());
-  EXPECT_EQ(1, testManager_->getEntities().count(actual));
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
+  testManager_->addSystem(systemA);
+  testManager_->addSystem(systemB);
 
-  auto actualComponent = actual.get()->getComponent("TestComponentA");
-  EXPECT_EQ(actualComponent, &testComponent);
+  auto actualEntityList = testManager_->getEntities(testType);
 
-  actual = testManager_->add(testComponentList_);
-  EXPECT_EQ(2, testManager_->getEntities().size());
-  EXPECT_EQ(1, testManager_->getEntities().count(actual));
-}
+  EXPECT_CALL(systemA, update(testDt, actualEntityList)).Times(2);
+  EXPECT_CALL(systemB, update(testDt, _)).Times(2);
 
-TEST_F(ManagerTest, getEntities) {
-  aronnax::EntityPtr testEntity = std::make_shared<aronnax::Entity>(
-      testComponentList_);
-  testEntities_.insert(testEntity);
-
-  std::shared_ptr<TestRenderer> tr = std::make_shared<TestRenderer>();
-  auto testManager = new aronnax::Manager(tr, testEntities_);
-
-  auto actual = testManager_->getEntities().size();
-  //EXPECT_EQ(1, actual);
+  testManager_->update(testDt);
+  testManager_->update(testDt);
 }
 
 TEST_F(ManagerTest, render) {
-  std::shared_ptr<MockRenderer> mockRenderer = std::make_shared<MockRenderer>();
-  auto* testManager = new aronnax::Manager(mockRenderer, testEntities_);
+  const uint32_t testDt = 25;
+  std::string testType = "testType";
+  NiceMock<MockSystem> systemA;
+  NiceMock<MockSystem> systemB;
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
 
-  EXPECT_CALL(*mockRenderer, beforeRender()).Times(1);
-  EXPECT_CALL(*mockRenderer, afterRender()).Times(1);
+  ON_CALL(systemA, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(systemB, getType())
+    .WillByDefault(Return("somethingelse"));
 
-  testManager->render();
-  Mock::AllowLeak(mockRenderer.get());
-  Mock::VerifyAndClearExpectations(mockRenderer.get());
+  ON_CALL(entityA, hasComponent(testType))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent(testType))
+    .WillByDefault(Return(false));
+
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
+  testManager_->addSystem(systemA);
+  testManager_->addSystem(systemB);
+
+  auto actualEntityList = testManager_->getEntities(testType);
+
+  EXPECT_CALL(systemA, render(testDt, actualEntityList)).Times(2);
+  EXPECT_CALL(systemB, render(testDt, _)).Times(2);
+
+  testManager_->render(testDt);
+  testManager_->render(testDt);
+  testManager_->update(testDt);
+}
+
+TEST_F(ManagerTest, addEntity) {
+  std::string testType = "testType";
+  NiceMock<MockSystem> testSystem;
+  NiceMock<MockEntity> entity;
+
+  std::vector<std::string> expectedComponentList; 
+  expectedComponentList.push_back(testType);
+
+  ON_CALL(testSystem, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(entity, getComponentTypes())
+    .WillByDefault(Return(expectedComponentList));
+
+  EXPECT_CALL(testSystem, onAddEntity(_)).Times(1);
+
+  testManager_->addSystem(testSystem);
+  testManager_->addEntity(entity);
+
+  auto actual = testManager_->getEntities();
+
+  EXPECT_EQ(1, actual.size());
+}
+
+TEST_F(ManagerTest, addSystem) {
+  std::string testType = "testType";
+  NiceMock<MockSystem> expected;
+  NiceMock<MockEntity> entity;
+
+  ON_CALL(expected, getType())
+    .WillByDefault(Return(testType));
+  ON_CALL(entity, hasComponent(testType))
+    .WillByDefault(Return(true));
+
+  testManager_->addEntity(entity);
+
+  auto expectedEntities = testManager_->getEntities(testType);
+  EXPECT_CALL(expected, init(expectedEntities)).Times(1);
+
+  testManager_->addSystem(expected);
+  auto actual = testManager_->getSystems();
+
+  EXPECT_EQ(1, actual.size());
+}
+
+TEST_F(ManagerTest, createEntity) {
+  aronnax::Entity& actual = testManager_->createEntity(testComponentList_);
+
+  auto entities = testManager_->getEntities();
+
+  EXPECT_EQ(1, entities.size());
+  EXPECT_EQ(testComponentList_, actual.getComponents());
+}
+
+TEST_F(ManagerTest, getSystems) {
+  NiceMock<MockSystem> systemA;
+  NiceMock<MockSystem> systemB;
+  NiceMock<MockSystem> systemC;
+
+  ON_CALL(systemA, getType())
+    .WillByDefault(Return("Asystem"));
+  ON_CALL(systemB, getType())
+    .WillByDefault(Return("Asystem"));
+  ON_CALL(systemC, getType())
+    .WillByDefault(Return("Csystem"));
+
+  testManager_->addSystem(systemA);
+  testManager_->addSystem(systemB);
+  testManager_->addSystem(systemC);
+
+  auto actual = testManager_->getSystems("Asystem");
+  EXPECT_EQ(2, actual.size());
+}
+
+TEST_F(ManagerTest, getSystemsAll) {
+  auto actual = testManager_->getSystems();
+  EXPECT_EQ(0, actual.size());
+
+  aronnax::System testSystem;
+  testManager_->addSystem(testSystem);
+
+  actual = testManager_->getSystems();
+  EXPECT_EQ(1, actual.size());
+}
+
+TEST_F(ManagerTest, getEntities) {
+  NiceMock<MockEntity> entityA;
+  NiceMock<MockEntity> entityB;
+
+  ON_CALL(entityA, hasComponent("movement"))
+    .WillByDefault(Return(true));
+  ON_CALL(entityB, hasComponent("movement"))
+    .WillByDefault(Return(false));
+
+  testManager_->addEntity(entityA);
+  testManager_->addEntity(entityB);
+
+  auto actual = testManager_->getEntities("movement");
+
+  EXPECT_EQ(1, actual.size());
 }

@@ -1,0 +1,23 @@
+
+#include <string>
+
+#include "lib/units.h"
+
+#include "./c_boundable.h"
+
+namespace spacegun {
+  using namespace std;
+
+  extern const string COMPONENT_TYPE_BOUNDABLE;
+
+  string Boundable::getType()
+  {
+    return COMPONENT_TYPE_BOUNDABLE;
+  }
+
+  const aronnax::Vector2d& Boundable::getBounds()
+  {
+    return bounds_;
+  }
+  
+}

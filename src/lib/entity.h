@@ -2,57 +2,60 @@
 #ifndef _h_Entity
 #define _h_Entity
 
+#include <iostream>
 #include <memory>
+#include <set>
+#include <stdio.h>
 #include <string>
 #include <vector>
 
-
 #include "component.h"
 #include "event_emitter.h"
-#include "renderer.h"
 #include "units.h"
 
 namespace aronnax {
+  using namespace std;
 
-typedef std::shared_ptr<Entity> EntityPtr;
+  class Entity
+  {
+    public:
+      Entity() {};
 
-class IEntity : public EventEmitter
-{
-  public:
-    virtual void update(const uint32_t dt) = 0;
-    virtual void render() = 0;
-    virtual Renderer* getRenderer() = 0;
-    virtual bool hasComponent(std::string componentType) = 0;
-    virtual Component* getComponent(std::string componentType) = 0;
-    Vector2d v;
-    Vector2d pos;
-    Vector2d box;
-};
+      Entity(Components components);
 
-typedef std::shared_ptr<IEntity> IEntityPtr;
+      virtual bool hasComponent(string componentType);
 
-class Entity : public IEntity
-{
-  public:
-    Entity(Components components);
-    Entity(Components components,
-           std::shared_ptr<Renderer> renderer);
-    ~Entity() {};
-    void update(const uint32_t dt);
-    void render();
-    Renderer* getRenderer();
-    Vector2d v;
-    Vector2d pos;
-    Vector2d box;
-    bool hasComponent(std::string componentType);
-    Component* getComponent(std::string componentType);
+      void addComponent(Component* component);
 
-  private:
-    // TODO typedef replace all of these
-    Components components_;
-    std::shared_ptr<aronnax::Renderer> renderer_;
+      template <class TComponent>
+      TComponent* getComponent(string componentType);
 
-};
+      Components getComponents();
+
+      virtual vector<string> getComponentTypes();
+
+      Vector2d getPos();
+
+      void movePos(const Vector2d& vel);
+
+    private:
+      Vector2d pos;
+      Components components_;
+
+  };
+
+  using Entities = vector<Entity*>;
+
+  template <class TComponent>
+  TComponent* Entity::getComponent(std::string componentType)
+  {
+    for (unsigned int i = 0; i < components_.size(); ++i) {
+      if (components_[i]->getType() == componentType) {
+        return static_cast<TComponent*>(components_[i]);
+      }
+    }
+    exit(1);
+  }
 
 }
 

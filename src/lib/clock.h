@@ -1,6 +1,6 @@
 
-#ifndef _h_Time
-#define _h_Time
+#ifndef _h_Clock
+#define _h_Clock
 
 #include <chrono>
 #include <cstdint>
@@ -9,7 +9,6 @@
 #include <vector>
 
 // TODO consider an alias for uint32_t to make easy to change
-// TODO change name of onConstantly function list
 
 namespace aronnax {
 
@@ -25,7 +24,7 @@ class Clock
     uint32_t getCurrentTime_();
 
     std::vector<std::function<void(const uint32_t)>> f_constantlys_;
-    std::vector<std::function<void()>> f_everyFrames_;
+    std::vector<std::function<void(const uint32_t)>> f_everyFrames_;
 
   public:
 
@@ -41,12 +40,12 @@ class Clock
     bool isStarted();
 
     void onConstantly(std::function<void(const uint32_t)>& def);
-    void onEveryFrame(std::function<void()>& def);
+    void onEveryFrame(std::function<void(const uint32_t)>& def);
     //void onEverySecs(double secs, std::function<void()>);
     //
     void tick();
-    void tickConstantly(uint32_t d);
-    void tickEveryFrame();
+    void tickConstantly(const uint32_t d);
+    void tickEveryFrame(const uint32_t d);
 };
 
 }

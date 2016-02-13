@@ -17,6 +17,19 @@ struct Vector2d
   {
     return Vector2d(a.x + x, a.y + y);
   }
+
+  Vector2d& operator+=(const Vector2d& v) 
+  { 
+    x += v.x;
+    y += v.y; 
+
+    return *this; 
+  }
+
+  bool operator==(const Vector2d& a) const
+  {
+    return a.x == x && a.y == y;
+  }
 };
 
 }

@@ -2,13 +2,16 @@
 #include <iostream>
 #include <stdio.h>
 
+#include <chrono>
 #include <cstdint>
 #include <memory>
+#include <thread>
 #include <vector>
+#include <unistd.h>
 
 #include <SDL2/SDL.h>
 
-#include "time.h"
+#include "clock.h"
 
 namespace aronnax {
 
@@ -33,7 +36,7 @@ void Clock::onConstantly(std::function<void(const uint32_t)>& def)
   f_constantlys_.push_back(def);
 }
 
-void Clock::onEveryFrame(std::function<void()>& def)
+void Clock::onEveryFrame(std::function<void(const uint32_t)>& def)
 {
   f_everyFrames_.push_back(def);
 }
@@ -54,7 +57,7 @@ void Clock::tick()
     lag_ -= MS_PER_UPDATE;
   }
 
-  tickEveryFrame();
+  tickEveryFrame(lag_);
 }
 
 void Clock::tickConstantly(const uint32_t d)
@@ -64,10 +67,10 @@ void Clock::tickConstantly(const uint32_t d)
   }
 }
 
-void Clock::tickEveryFrame()
+void Clock::tickEveryFrame(const uint32_t d)
 {
   for (unsigned int i = 0; i < f_everyFrames_.size(); ++i) {
-    f_everyFrames_[i]();
+    f_everyFrames_[i](d);
   }
 }
 

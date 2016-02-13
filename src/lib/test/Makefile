@@ -14,8 +14,12 @@
 
 # Points to the root of Google Test, relative to where this file is.
 # Remember to tweak this if you move this file.
-GTEST_DIR = $(HOME)/Dev/googletest/googletest
-GMOCK_DIR = $(HOME)/Dev/googletest/googlemock
+ifndef GTEST_DIR
+GTEST_DIR := $(HOME)/Dev/googletest/googletest
+endif
+ifndef GMOCK_DIR
+GMOCK_DIR := $(HOME)/Dev/googletest/googlemock
+endif
 
 # Where to find user code.
 USER_DIR = ..
@@ -36,7 +40,7 @@ LFLAGS = $(SDL_LDFLAGS)
 # created to the list.
 TESTS = component_test entity_test manager_test units_test test_run
 TEST_OBJS = component_test.o entity_test.o manager_test.o units_test.o
-OBJS = component.o entity.o events.o event_emitter.o manager.o renderer.o units.o
+OBJS = component.o entity.o event_emitter.o manager.o renderer.o units.o
 
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -77,26 +81,26 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 # libs
 entity.o: $(USER_DIR)/entity.cpp \
-					 $(USER_DIR)/component.h \
-					 $(USER_DIR)/event_emitter.h \
-					 $(USER_DIR)/renderer.h \
-					 $(USER_DIR)/units.h \
-					 $(USER_DIR)/component.h $(GTEST_HEADERS)
+					$(USER_DIR)/component.h \
+					$(USER_DIR)/event_emitter.h \
+					$(USER_DIR)/renderer.h \
+					$(USER_DIR)/units.h \
+					$(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity.cpp $(LFLAGS)
+
+clock.o: $(USER_DIR)/clock.h \
+				 $(USER_DIR)/clock.cpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/clock.cpp $(LFLAGS)
 
 component.o: $(USER_DIR)/component.cpp \
 						 $(USER_DIR)/component.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component.cpp $(LFLAGS)
-
-events.o: $(USER_DIR)/events.cpp
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/events.cpp $(LFLAGS)
 
 event_emitter.o: $(USER_DIR)/event_emitter.cpp \
 								 $(USER_DIR)/event_emitter.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/event_emitter.cpp $(LFLAGS)
 
 manager.o: $(USER_DIR)/entity.cpp \
-					 $(USER_DIR)/events.cpp \
 					 $(USER_DIR)/manager.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager.cpp $(LFLAGS)
 
@@ -105,23 +109,46 @@ renderer.o: $(USER_DIR)/renderer.cpp \
 						$(USER_DIR)/units.h 
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/renderer.cpp $(LFLAGS)
 
+sdl_renderer.o: $(USER_DIR)/sdl_renderer.cpp \
+								$(USER_DIR)/sdl_renderer.h \
+								$(USER_DIR)/renderer.h \
+								$(USER_DIR)/units.h
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sdl_renderer.cpp $(LFLAGS)
+
+system.o: $(USER_DIR)/system.h \
+					$(USER_DIR)/system.cpp \
+					$(USER_DIR)/component.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/system.cpp $(LFLAGS)
+
 units.o: $(USER_DIR)/units.cpp \
 				 $(USER_DIR)/units.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/units.cpp $(LFLAGS)
 
 #
 # tests
-component_test.o: $(USER_DIR)/component_test.cc\
-									$(USER_DIR)/component.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cc $(LFLAGS)
+clock_test.o: $(USER_DIR)/clock_test.cpp \
+	            $(USER_DIR)/clock.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/clock_test.cpp $(LFLAGS)
 
-entity_test.o: $(USER_DIR)/entity_test.cc \
+component_test.o: $(USER_DIR)/component_test.cpp \
+									$(USER_DIR)/component.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/component_test.cpp $(LFLAGS)
+
+entity_test.o: $(USER_DIR)/entity_test.cpp \
 							 $(USER_DIR)/entity.h $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cc $(LFLAGS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/entity_test.cpp $(LFLAGS)
 
 manager_test.o: $(USER_DIR)/manager_test.cpp \
 								$(USER_DIR/manager.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/manager_test.cpp $(LFLAGS)
+
+sdl_renderer_test.o: $(USER_DIR)/sdl_renderer_test.cpp 
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/sdl_renderer_test.cpp $(LFLAGS)
+
+system_test.o: $(USER_DIR)/system_test.cpp \
+							 $(USER_DIR)/component.h \
+							 $(USER_DIR)/system.h $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/system_test.cpp $(LFLAGS)
 
 units_test.o: $(USER_DIR)/units_test.cpp \
 							$(USER_DIR)/units.h $(GTEST_HEADERS)
@@ -129,6 +156,27 @@ units_test.o: $(USER_DIR)/units_test.cpp \
 
 test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
+
+clock_test: clock.o clock_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+component_test: component.o component_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+entity_test: component.o entity.o event_emitter.o renderer.o units.o entity_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+manager_test: component.o entity.o event_emitter.o renderer.o manager.o units.o manager_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+sdl_renderer_test: renderer.o sdl_renderer.o units.o sdl_renderer_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+system_test: component.o system.o system_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+units_test: units.o units_test.o gmock_main.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 test_run: $(OBJS) $(TEST_OBJS) gmock_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)

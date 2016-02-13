@@ -12,55 +12,52 @@
 
 namespace aronnax {
 
-Entity::Entity(Components components):
-  components_(components)
-  { }
+  Entity::Entity(Components components):
+    components_(components)
+    { }
 
-Entity::Entity(Components components,
-               std::shared_ptr<Renderer> renderer):
-  components_(components),
-  renderer_(renderer)
-{ 
-}
 
-void Entity::update(const uint32_t dt)
-{
-  for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->update(*this, dt);
+  // TODO improve performance by setting on constructor and addComponent.
+  bool Entity::hasComponent(std::string componentType)
+  {
+    for (unsigned int i = 0; i < components_.size(); ++i) {
+      if (components_[i]->getType() == componentType) {
+        return true;
+      }
+    }
+    return false;
   }
-}
 
-void Entity::render()
-{
-  for (unsigned int i = 0; i < components_.size(); ++i) {
-    components_[i]->render(*this);
-  }
-}
-
-Renderer* Entity::getRenderer()
-{
-  return renderer_.get();
-}
-
-// TODO improve performance by setting on constructor and addComponent.
-bool Entity::hasComponent(std::string componentType)
-{
-  for (unsigned int i = 0; i < components_.size(); ++i) {
-    if (components_[i]->getType() == componentType) {
-      return true;
+  void Entity::addComponent(Component* component) {
+    if (!hasComponent(component->getType())) {
+      components_.push_back(component);
     }
   }
-  return false;
-}
 
-Component* Entity::getComponent(std::string componentType)
-{
-  for (unsigned int i = 0; i < components_.size(); ++i) {
-    if (components_[i]->getType() == componentType) {
-      return components_[i];
-    }
+  Components Entity::getComponents()
+  {
+    return components_;
   }
-  exit(1);
-}
+
+  std::vector<std::string> Entity::getComponentTypes()
+  {
+    std::vector<std::string> componentTypes;
+
+    for (auto c : components_) {
+      componentTypes.push_back(c->getType());
+    }
+
+    return componentTypes;
+  }
+
+  Vector2d Entity::getPos()
+  {
+    return pos;
+  }
+
+  void Entity::movePos(const Vector2d& vel)
+  {
+    pos += vel;
+  }
 
 }
