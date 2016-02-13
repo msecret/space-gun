@@ -1,8 +1,9 @@
 
 #include "gtest/gtest.h"
 
-#include "c_moveable.h"
 #include "lib/units.h"
+
+#include "c_moveable.h"
 #include "s_movement.h";
 
 TEST(Movement, getType) {

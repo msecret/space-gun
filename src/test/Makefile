@@ -65,7 +65,7 @@ GMOCK_SRCS_ = $(GMOCK_DIR)/src/*.cc $(GMOCK_HEADERS)
 all : test_run
 
 clean :
-	rm -f $(TESTS) moveable_test test gtest.a gtest_main.a *.o gmock.a gmock_main.a
+	rm -f $(TESTS) moveable_test test gtest.a gtest_main.a *.o gmock.a gmock_main.a $(SUBDIRS)/gaming.a
 
 gtest-all.o : $(GTEST_SRCS_)
 	$(CXX) $(CPPFLAGS) -I$(GTEST_DIR) -I$(GMOCK_DIR) $(CXXFLAGS) \
@@ -88,12 +88,21 @@ gmock_main.a : gmock-all.o gtest-all.o gmock_main.o
 
 # libs
 c_boundable.o : $(USER_DIR)/c_boundable.h \
-							$(USER_DIR)/c_boundable.cpp
+								$(USER_DIR)/c_boundable.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/c_boundable.cpp $(LFLAGS)
 
 s_bound.o : $(USER_DIR)/s_bound.h \
 						$(USER_DIR)/s_bound.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_bound.cpp $(LFLAGS)
+
+c_evented.o : $(USER_DIR)/c_evented.h \
+							$(USER_DIR)/c_evented.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/c_evented.cpp $(LFLAGS)
+
+s_sdl_events.o : $(USER_DIR)/c_evented.h \
+								 $(USER_DIR)/s_sdl_events.h \
+								 $(USER_DIR)/s_sdl_events.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_sdl_events.cpp $(LFLAGS)
 
 c_moveable.o : $(USER_DIR)/c_moveable.h \
 							 $(USER_DIR)/c_moveable.cpp
@@ -109,6 +118,11 @@ bound_test.o: $(USER_DIR)/bound_test.cpp \
 							$(USER_DIR)/s_bound.h
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/bound_test.cpp $(LFLAGS)
 
+events_test.o : $(USER_DIR)/c_evented.h \
+								$(USER_DIR)/s_sdl_events.h \
+								$(USER_DIR)/events_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/events_test.cpp $(LFLAGS)
+
 movement_test.o: $(USER_DIR)/movement_test.cpp \
 								 $(USER_DIR)/c_moveable.h  \
 								 $(USER_DIR)/s_movement.h $(GTEST_HEADERS)
@@ -118,6 +132,9 @@ test_run.o: $(USER_DIR)/test_run.cpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/test_run.cpp $(LFLAGS)
 
 bound_test: c_boundable.o s_bound.o bound_test.o gmock_main.a $(SUBDIRS)/gaming.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+events_test: c_evented.o s_sdl_events.o events_test.o gmock_main.a $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 movement_test: c_moveable.o s_movement.o movement_test.o gmock_main.a $(SUBDIRS)/gaming.a

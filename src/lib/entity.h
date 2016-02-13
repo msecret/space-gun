@@ -16,7 +16,7 @@
 namespace aronnax {
   using namespace std;
 
-  class Entity
+  class Entity : public EventEmitter
   {
     public:
       Entity() {};
