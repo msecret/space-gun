@@ -8,6 +8,7 @@
 
 #include "component.h"
 #include "entity.h"
+#include "renderer.h"
 #include "system.h"
 
 namespace aronnax {
@@ -16,6 +17,7 @@ namespace aronnax {
   {
     public:
       Manager();
+      Manager(IRenderer& renderer);
       void update(const uint32_t dt);
       void render(const uint32_t dt);
       Entity& createEntity(Components components);
@@ -31,6 +33,7 @@ namespace aronnax {
     private:
       Entities entities_;
       Systems systems_;
+      IRenderer* renderer_;
 
   };
 

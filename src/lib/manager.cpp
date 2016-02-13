@@ -11,8 +11,14 @@
 
 namespace aronnax {
 
-  Manager::Manager() {
+  Manager::Manager()
+  { 
+    renderer_ = nullptr; 
   }
+
+  Manager::Manager(IRenderer& renderer) :
+    renderer_(&renderer)
+  { }
 
   void Manager::update(const uint32_t dt)
   {
@@ -24,12 +30,16 @@ namespace aronnax {
 
   void Manager::render(const uint32_t dt)
   {
-    //renderer_.get()->beforeRender();
+    if (renderer_) {
+      renderer_->beforeRender();
+    }
     for (auto s : systems_) {
       Entities entityList = getEntities(s->getType());
       s->render(dt, entityList);
     }
-    //renderer_.get()->afterRender();
+    if (renderer_) {
+      renderer_->afterRender();
+    }
   }
 
   void Manager::addEntity(Entity& entity)
