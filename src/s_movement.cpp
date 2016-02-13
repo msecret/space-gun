@@ -5,9 +5,11 @@
 #include "c_moveable.h"
 
 namespace spacegun {
-  extern const std::string COMPONENT_TYPE_MOVEABLE;
+  using namespace std;
 
-  std::string Movement::getType()
+  extern const string COMPONENT_TYPE_MOVEABLE;
+
+  string Movement::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
   }
