@@ -28,6 +28,11 @@ struct Vector2d
     return Vector2d(a.x * x, a.y * y);
   }
 
+  Vector2d operator/(const Vector2d& a) const
+  {
+    return Vector2d(x / a.x, y / a.y);
+  }
+
   Vector2d& operator+=(const Vector2d& v) 
   { 
     x += v.x;
@@ -39,6 +44,11 @@ struct Vector2d
   bool operator==(const Vector2d& a) const
   {
     return a.x == x && a.y == y;
+  }
+
+  bool operator!=(const Vector2d& a) const
+  {
+    return x != a.x && y != a.y;
   }
 };
 
