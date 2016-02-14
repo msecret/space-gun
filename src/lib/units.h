@@ -20,7 +20,7 @@ struct Vector2d
 
   Vector2d operator-(const Vector2d& a) const
   {
-    return Vector2d(a.x - x, a.y - y);
+    return Vector2d(x - a.x, y - a.y);
   }
 
   Vector2d operator*(const Vector2d& a) const
