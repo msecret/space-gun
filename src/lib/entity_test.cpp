@@ -67,11 +67,10 @@ TEST_F(EntityTest, hasComponent) {
 
 TEST_F(EntityTest, addComponent) {
   TestComponent* expected = new TestComponent();  
-  auto testEntity = aronnax::Entity();
 
-  testEntity.addComponent(expected);
+  ea_->addComponent(expected);
 
-  auto actual = testEntity.getComponent<TestComponent>(expected->getType());
+  auto actual = ea_->getComponent<TestComponent>(expected->getType());
 
   EXPECT_EQ(expected, actual);
 }

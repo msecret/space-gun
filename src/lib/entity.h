@@ -19,9 +19,11 @@ namespace aronnax {
   class Entity : public EventEmitter
   {
     public:
-      Entity() {};
+      Entity();
 
       Entity(Components components);
+
+      virtual ~Entity() {};
 
       virtual bool hasComponent(string componentType);
 

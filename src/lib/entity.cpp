@@ -12,9 +12,13 @@
 
 namespace aronnax {
 
+  Entity::Entity():
+    components_()
+  { }
+
   Entity::Entity(Components components):
     components_(components)
-    { }
+  { }
 
 
   // TODO improve performance by setting on constructor and addComponent.
