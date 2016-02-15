@@ -16,7 +16,7 @@ namespace aronnax {
     renderer_ = nullptr; 
   }
 
-  Manager::Manager(IRenderer& renderer) :
+  Manager::Manager(const IRenderer& renderer) :
     renderer_(&renderer)
   { }
 

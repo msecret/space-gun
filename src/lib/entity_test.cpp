@@ -115,6 +115,14 @@ TEST_F(EntityTest, getPos) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST_F(EntityTest, setPos) {
+  auto expected = aronnax::Vector2d(2, 2);
+  ea_->setPos(expected);
+  auto actual = ea_->getPos();
+
+  EXPECT_EQ(expected, actual);
+}
+
 TEST_F(EntityTest, movePos) {
   aronnax::Vector2d testV = { 2, 2 };
   aronnax::Entity testEntity;

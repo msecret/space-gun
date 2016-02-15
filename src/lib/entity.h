@@ -30,13 +30,15 @@ namespace aronnax {
       void addComponent(Component* component);
 
       template <class TComponent>
-      TComponent* getComponent(string componentType);
+      TComponent* getComponent(const string& componentType);
 
-      Components getComponents();
+      Components& getComponents();
 
       virtual vector<string> getComponentTypes();
 
-      Vector2d getPos();
+      const Vector2d& getPos();
+
+      void setPos(const Vector2d& p);
 
       void movePos(const Vector2d& vel);
 
@@ -49,7 +51,7 @@ namespace aronnax {
   using Entities = vector<Entity*>;
 
   template <class TComponent>
-  TComponent* Entity::getComponent(std::string componentType)
+  TComponent* Entity::getComponent(const string& componentType)
   {
     for (unsigned int i = 0; i < components_.size(); ++i) {
       if (components_[i]->getType() == componentType) {

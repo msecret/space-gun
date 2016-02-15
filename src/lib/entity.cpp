@@ -11,6 +11,7 @@
 #include "renderer.h"
 
 namespace aronnax {
+  using namespace std;
 
   Entity::Entity():
     components_()
@@ -22,7 +23,7 @@ namespace aronnax {
 
 
   // TODO improve performance by setting on constructor and addComponent.
-  bool Entity::hasComponent(const std::string& componentType)
+  bool Entity::hasComponent(const string& componentType)
   {
     for (unsigned int i = 0; i < components_.size(); ++i) {
       if (components_[i]->getType() == componentType) {
@@ -38,14 +39,14 @@ namespace aronnax {
     }
   }
 
-  Components Entity::getComponents()
+  Components& Entity::getComponents()
   {
     return components_;
   }
 
-  std::vector<std::string> Entity::getComponentTypes()
+  vector<string> Entity::getComponentTypes()
   {
-    std::vector<std::string> componentTypes;
+    vector<string> componentTypes;
 
     for (auto c : components_) {
       componentTypes.push_back(c->getType());
@@ -54,9 +55,14 @@ namespace aronnax {
     return componentTypes;
   }
 
-  Vector2d Entity::getPos()
+  const Vector2d& Entity::getPos()
   {
     return pos;
+  }
+
+  void Entity::setPos(const Vector2d& p)
+  {
+    pos = p;
   }
 
   void Entity::movePos(const Vector2d& vel)

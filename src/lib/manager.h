@@ -17,7 +17,7 @@ namespace aronnax {
   {
     public:
       Manager();
-      Manager(IRenderer& renderer);
+      Manager(const IRenderer& renderer);
       void update(const uint32_t dt);
       void render(const uint32_t dt);
       Entity& createEntity(Components components);
