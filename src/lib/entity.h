@@ -25,7 +25,7 @@ namespace aronnax {
 
       virtual ~Entity() {};
 
-      virtual bool hasComponent(string componentType);
+      virtual bool hasComponent(const string& componentType);
 
       void addComponent(Component* component);
 

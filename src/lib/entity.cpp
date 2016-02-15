@@ -22,7 +22,7 @@ namespace aronnax {
 
 
   // TODO improve performance by setting on constructor and addComponent.
-  bool Entity::hasComponent(std::string componentType)
+  bool Entity::hasComponent(const std::string& componentType)
   {
     for (unsigned int i = 0; i < components_.size(); ++i) {
       if (components_[i]->getType() == componentType) {
