@@ -9,6 +9,7 @@ VPATH = src
 TARGET = space-gun
 
 export DISTDIR := build
+export RDISTDIR := ../../build
 
 MAIN := src/main.cpp
 OBJECTS := c_boundable.o c_evented.o c_moveable.o s_bound.o s_movement.o s_sdl_events.o

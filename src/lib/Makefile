@@ -1,5 +1,5 @@
 
-RDISTDIR = ../../$(DISTDIR)
+RDISTDIR ?= $(DISTDIR)
 
 OBJECTS := clock.o component.o entity.o event_emitter.o manager.o renderer.o sdl_renderer.o system.o units.o
 DISTS = $(addprefix $(RDISTDIR)/,$(OBJECTS))

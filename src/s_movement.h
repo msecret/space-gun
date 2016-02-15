@@ -14,6 +14,7 @@ namespace spacegun {
   {
     public:
       Movement() {};
+      ~Movement() {};
       void init(aronnax::Entities entities) {};
       void update(const uint32_t dt, aronnax::Entities entities);
       void render(const uint32_t dt, aronnax::Entities entities) {};

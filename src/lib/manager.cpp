@@ -67,13 +67,13 @@ namespace aronnax {
     return *e;
   }
 
-  void Manager::addSystem(System& system)
+  void Manager::addSystem(System* system)
   {
-    auto systemEntities = getEntities(system.getType());
+    auto systemEntities = getEntities(system->getType());
 
-    system.init(systemEntities);
+    system->init(systemEntities);
 
-    systems_.push_back(&system);
+    systems_.push_back(system);
   }
 
   Systems& Manager::getSystems()

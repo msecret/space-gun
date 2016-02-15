@@ -47,7 +47,7 @@ LFLAGS = $(SDL_LDFLAGS)
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-OBJS = movement.o
+OBJS := c_boundable.o c_evented.o c_moveable.o s_bound.o s_movement.o s_sdl_events.o
 
 
 # All Google Test headers.  Usually you shouldn't change this
@@ -123,6 +123,9 @@ events_test.o : $(USER_DIR)/c_evented.h \
 								$(USER_DIR)/events_test.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/events_test.cpp $(LFLAGS)
 
+integration_test.o: $(USER_DIR)/integration_test.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/integration_test.cpp $(LFLAGS)
+
 movement_test.o: $(USER_DIR)/movement_test.cpp \
 								 $(USER_DIR)/c_moveable.h  \
 								 $(USER_DIR)/s_movement.h $(GTEST_HEADERS)
@@ -135,6 +138,9 @@ bound_test: c_boundable.o s_bound.o bound_test.o gmock_main.a $(SUBDIRS)/gaming.
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 events_test: c_evented.o s_sdl_events.o events_test.o gmock_main.a $(SUBDIRS)/gaming.a
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
+
+integration_test: integration_test.o gmock_main.a $(OBJS) $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 movement_test: c_moveable.o s_movement.o movement_test.o gmock_main.a $(SUBDIRS)/gaming.a
