@@ -8,8 +8,9 @@
 #include "lib/units.h"
 
 namespace spacegun {
+  using namespace std;
 
-  const std::string COMPONENT_TYPE_MOVEABLE = "moveable";
+  const string COMPONENT_TYPE_MOVEABLE = "moveable";
 
   class Moveable : public aronnax::Component
   {
@@ -17,7 +18,7 @@ namespace spacegun {
       Moveable() {};
       Moveable(const aronnax::Vector2d& initialVel)
         : vel_(initialVel) {};
-      std::string getType();
+      const string getType();
       aronnax::Vector2d getVel();
       void setVel(aronnax::Vector2d newVel);
 

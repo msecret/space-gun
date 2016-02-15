@@ -3,6 +3,7 @@
 #include <iostream>
 #include <set>
 #include <stdio.h>
+#include <string>
 
 #include "SDL2/SDL.h"
 
@@ -11,12 +12,16 @@
 
 namespace aronnax {
 
-  Manager::Manager()
+  Manager::Manager() :
+    systems_(),
+    entities_()
   { 
     renderer_ = nullptr; 
   }
 
-  Manager::Manager(const IRenderer& renderer) :
+  Manager::Manager(IRenderer& renderer) :
+    systems_(),
+    entities_(),
     renderer_(&renderer)
   { }
 
@@ -48,7 +53,7 @@ namespace aronnax {
     for (auto t : entityTypes) {
       auto systems = getSystems(t);
       for (auto s : systems) {
-        s->onAddEntity(&entity);
+        s->onAddEntity(entity);
       }
     }
     entities_.push_back(&entity);
@@ -80,6 +85,10 @@ namespace aronnax {
   {
     Systems systemList;
 
+    if (systems_.size() <= 0) {
+      return systemList;
+    }
+
     for (auto s : systems_) {
       if (s->getType() == systemType) {
         systemList.push_back(s);  
@@ -94,12 +103,12 @@ namespace aronnax {
     return entities_;
   }
 
-  Entities Manager::getEntities(const std::string& comonentType)
+  Entities Manager::getEntities(const std::string& componentType)
   {
     Entities entityList;
 
     for (auto e : entities_) {
-      if (e->hasComponent(comonentType)) {
+      if (e->hasComponent(componentType)) {
         entityList.push_back(e);
       }
     }

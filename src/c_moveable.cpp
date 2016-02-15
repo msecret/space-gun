@@ -2,10 +2,11 @@
 #include "./c_moveable.h"
 
 namespace spacegun {
+  using namespace std;
 
-  extern const std::string COMPONENT_TYPE_MOVEABLE;
+  extern const string COMPONENT_TYPE_MOVEABLE;
 
-  std::string Moveable::getType()
+  const string Moveable::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
   } 

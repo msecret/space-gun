@@ -9,12 +9,12 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_BOUNDABLE;
 
-  string Bound::getType()
+  const string& Bound::getType()
   {
     return COMPONENT_TYPE_BOUNDABLE;
   }
 
-  void Bound::update(const uint32_t dt, aronnax::Entities entities)
+  void Bound::update(const uint32_t dt, aronnax::Entities& entities)
   {
     for (auto e : entities) {
       this->checkBounds(dt, *e);

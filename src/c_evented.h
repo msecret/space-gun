@@ -16,7 +16,7 @@ namespace spacegun {
   {
     public:
       Evented() {};
-      string getType();
+      const string getType();
   };
 }
 

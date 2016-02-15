@@ -9,7 +9,7 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
-  string Movement::getType()
+  const string& Movement::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
   }

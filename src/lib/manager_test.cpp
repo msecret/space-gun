@@ -13,16 +13,18 @@
 
 using namespace std;
 using ::testing::_;
+using ::testing::ByRef;
 using ::testing::NiceMock;
 using ::testing::Return;
+using ::testing::ReturnRef;
 
 class MockSystem: public aronnax::System {
   public:
-    MOCK_METHOD1(init, void(aronnax::Entities entities));
-    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::Entities entities));
-    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::Entities entities));
-    MOCK_METHOD0(getType, std::string());
-    MOCK_METHOD1(onAddEntity, void(aronnax::Entity* entity));
+    MOCK_METHOD1(init, void(aronnax::Entities& entities));
+    MOCK_METHOD2(update, void(const uint32_t dt, aronnax::Entities& entities));
+    MOCK_METHOD2(render, void(const uint32_t dt, aronnax::Entities& entities));
+    MOCK_METHOD0(getType, const std::string&());
+    MOCK_METHOD1(onAddEntity, void(aronnax::Entity& entity));
 };
 
 class MockEntity: public aronnax::Entity {
@@ -54,9 +56,9 @@ TEST_F(ManagerTest, update) {
   NiceMock<MockEntity> entityB;
 
   ON_CALL(systemA, getType())
-    .WillByDefault(Return(testType));
+    .WillByDefault(ReturnRef(testType));
   ON_CALL(systemB, getType())
-    .WillByDefault(Return("somethingelse"));
+    .WillByDefault(ReturnRef("somethingelse"));
 
   ON_CALL(entityA, hasComponent(testType))
     .WillByDefault(Return(true));
@@ -86,9 +88,9 @@ TEST_F(ManagerTest, render) {
   NiceMock<MockEntity> entityB;
 
   ON_CALL(systemA, getType())
-    .WillByDefault(Return(testType));
+    .WillByDefault(ReturnRef(testType));
   ON_CALL(systemB, getType())
-    .WillByDefault(Return("somethingelse"));
+    .WillByDefault(ReturnRef("somethingelse"));
 
   ON_CALL(entityA, hasComponent(testType))
     .WillByDefault(Return(true));
@@ -119,7 +121,7 @@ TEST_F(ManagerTest, addEntity) {
   expectedComponentList.push_back(testType);
 
   ON_CALL(testSystem, getType())
-    .WillByDefault(Return(testType));
+    .WillByDefault(ReturnRef(testType));
   ON_CALL(entity, getComponentTypes())
     .WillByDefault(Return(expectedComponentList));
 
@@ -139,7 +141,7 @@ TEST_F(ManagerTest, addSystem) {
   NiceMock<MockEntity> entity;
 
   ON_CALL(expected, getType())
-    .WillByDefault(Return(testType));
+    .WillByDefault(ReturnRef(testType));
   ON_CALL(entity, hasComponent(testType))
     .WillByDefault(Return(true));
 
@@ -164,16 +166,18 @@ TEST_F(ManagerTest, createEntity) {
 }
 
 TEST_F(ManagerTest, getSystems) {
+  string testTypeA = "Asystem";
+  string testTypeB = "Bsystem";
   NiceMock<MockSystem> systemA;
   NiceMock<MockSystem> systemB;
   NiceMock<MockSystem> systemC;
 
   ON_CALL(systemA, getType())
-    .WillByDefault(Return("Asystem"));
+    .WillByDefault(ReturnRef(testTypeA));
   ON_CALL(systemB, getType())
-    .WillByDefault(Return("Asystem"));
+    .WillByDefault(ReturnRef(testTypeA));
   ON_CALL(systemC, getType())
-    .WillByDefault(Return("Csystem"));
+    .WillByDefault(ReturnRef(testTypeB));
 
   testManager_->addSystem(systemA);
   testManager_->addSystem(systemB);
@@ -195,18 +199,19 @@ TEST_F(ManagerTest, getSystemsAll) {
 }
 
 TEST_F(ManagerTest, getEntities) {
+  string testType = "movement";
   NiceMock<MockEntity> entityA;
   NiceMock<MockEntity> entityB;
 
-  ON_CALL(entityA, hasComponent("movement"))
+  ON_CALL(entityA, hasComponent(testType))
     .WillByDefault(Return(true));
-  ON_CALL(entityB, hasComponent("movement"))
+  ON_CALL(entityB, hasComponent(testType))
     .WillByDefault(Return(false));
 
   testManager_->addEntity(entityA);
   testManager_->addEntity(entityB);
 
-  auto actual = testManager_->getEntities("movement");
+  auto actual = testManager_->getEntities(testType);
 
-  EXPECT_EQ(1, actual.size());
+  EXPECT_EQ(0, actual.size());
 }

@@ -14,12 +14,12 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_EVENTED;
   extern const unsigned int EV_SDL_EVENT;
 
-  string Events::getType()
+  const string& Events::getType()
   {
     return COMPONENT_TYPE_EVENTED;
   }
 
-  void Events::update(const uint32_t dt, aronnax::Entities entities)
+  void Events::update(const uint32_t dt, aronnax::Entities& entities)
   {
     this->poll(dt, entities);
   }

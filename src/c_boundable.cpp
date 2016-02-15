@@ -10,7 +10,7 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_BOUNDABLE;
 
-  string Boundable::getType()
+  const string Boundable::getType()
   {
     return COMPONENT_TYPE_BOUNDABLE;
   }

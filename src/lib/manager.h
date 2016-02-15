@@ -12,12 +12,13 @@
 #include "system.h"
 
 namespace aronnax {
+  using namespace std;
 
   class Manager
   {
     public:
       Manager();
-      Manager(const IRenderer& renderer);
+      Manager(IRenderer& renderer);
       void update(const uint32_t dt);
       void render(const uint32_t dt);
       Entity& createEntity(Components components);
@@ -25,10 +26,10 @@ namespace aronnax {
       //void removeEntity(const Entity& entity);
       void addSystem(System& system);
       Systems& getSystems();
-      Systems getSystems(const std::string& systemType); 
+      Systems getSystems(const string& systemType); 
       //void removeSystem(const System& system);
       Entities& getEntities();
-      Entities getEntities(const std::string& componentType);
+      Entities getEntities(const string& componentType);
 
     private:
       Entities entities_;

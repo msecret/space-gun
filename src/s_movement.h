@@ -8,6 +8,7 @@
 #include "lib/system.h"
 
 namespace spacegun {
+  using namespace std;
   
   class Movement: public aronnax::System 
   {
@@ -16,8 +17,8 @@ namespace spacegun {
       void init(aronnax::Entities entities) {};
       void update(const uint32_t dt, aronnax::Entities entities);
       void render(const uint32_t dt, aronnax::Entities entities) {};
-      void onAddEntity(aronnax::Entity* entity) {};
-      std::string getType();
+      void onAddEntity(aronnax::Entity& entity) {};
+      const string& getType();
       
     private:
       void processMovement(const uint32_t dt, aronnax::Entity& entity);

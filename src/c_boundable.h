@@ -18,7 +18,7 @@ namespace spacegun {
       Boundable() {};
       Boundable(const aronnax::Vector2d& worldMax)
         : bounds_(worldMax) {};
-      string getType();
+      const string getType();
       const aronnax::Vector2d& getBounds();
 
 

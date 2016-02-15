@@ -24,6 +24,7 @@ class SDLRenderer : public IRenderer
     void drawPolygon(const Vector2d& pos);
 
   private:
+    // TODO should this be a pointer?
     SDL_Window& screen_;
     SDL_Renderer* renderer_;
 };
