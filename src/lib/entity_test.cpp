@@ -22,7 +22,7 @@ class TestComponent : public aronnax::Component {
       return vel;
     }
 
-    std::string getType()
+    const std::string getType()
     {
       return "TestComponent";
     }
@@ -32,7 +32,7 @@ class MockComponent : public aronnax::Component {
   public:
     MOCK_METHOD2(update, void(aronnax::Entity &entity, const uint32_t dt));
     MOCK_METHOD1(render, void(aronnax::Entity &entity));
-    MOCK_METHOD0(getType, std::string());
+    MOCK_METHOD0(getType, const std::string());
 };
 
 class EntityTest : public testing::Test {

@@ -7,17 +7,18 @@
 #include <vector>
 
 namespace aronnax {
+  using namespace std;
 
-  const std::string COMPONENT_TYPE_BASE = "base";
+  const string COMPONENT_TYPE_BASE = "base";
 
   class Component
   {
     public:
       virtual ~Component() {};
-      virtual std::string getType() { return COMPONENT_TYPE_BASE; };
+      virtual const string getType() { return COMPONENT_TYPE_BASE; };
   };
 
-  using Components = std::vector<Component*>;
+  using Components = vector<Component*>;
 
 }
 

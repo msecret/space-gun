@@ -42,7 +42,7 @@ namespace aronnax {
     SDL_RenderPresent(renderer_);
   }
 
-  void SDLRenderer::drawRectangle(const Vector2d pos, const Vector2d box) 
+  void SDLRenderer::drawRectangle(const Vector2d& pos, const Vector2d& box) 
   {
     SDL_Rect r;
     r.x = int(pos.x);
@@ -53,11 +53,11 @@ namespace aronnax {
     SDL_RenderDrawRect(renderer_, &r);
   }
 
-  void SDLRenderer::drawCircle(const Vector2d pos, const Vector2d r)
+  void SDLRenderer::drawCircle(const Vector2d& pos, const Vector2d& r)
   {
   }
 
-  void SDLRenderer::drawPolygon(const Vector2d pos)
+  void SDLRenderer::drawPolygon(const Vector2d& pos)
   {
   }
 

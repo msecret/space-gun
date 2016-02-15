@@ -19,9 +19,9 @@ class SDLRenderer : public IRenderer
     void render();
     void beforeRender();
     void afterRender();
-    void drawCircle(const Vector2d pos, const Vector2d r);
-    void drawRectangle(const Vector2d pos, const Vector2d box);
-    void drawPolygon(const Vector2d pos);
+    void drawCircle(const Vector2d& pos, const Vector2d& r);
+    void drawRectangle(const Vector2d& pos, const Vector2d& box);
+    void drawPolygon(const Vector2d& pos);
 
   private:
     SDL_Window& screen_;
