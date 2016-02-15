@@ -2,7 +2,7 @@
 export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -std=c++11 `sdl2-config --cflags`
-SDL_LDFLAGS := $(shell sdl2-config --libs)
+export SDL_LDFLAGS := $(shell sdl2-config --libs)
 export LFLAGS = $(SDL_LDFLAGS)
 export CFLAGS = $(XFLAGS)
 VPATH = src
@@ -11,7 +11,7 @@ TARGET = space-gun
 export DISTDIR := build
 
 MAIN := src/main.cpp
-OBJECTS := bounded.o circle.o keyboardable.o moveable.o world.o
+OBJECTS := c_boundable.o c_evented.o c_moveable.o s_bound.o s_movement.o s_sdl_events.o
 LIBS := $(LIBNAME)
 DISTS := $(addprefix $(DISTDIR)/,$(OBJECTS))
 LIBDISTS = $(addprefix $(DISTDIR)/,$(LIBS))

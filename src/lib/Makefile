@@ -1,7 +1,7 @@
 
-RDISTDIR = $(DISTDIR)
+RDISTDIR = ../../$(DISTDIR)
 
-OBJECTS := clock.o component.o entity.o event_emitter.o manager.o sdl_renderer.o units.o 
+OBJECTS := clock.o component.o entity.o event_emitter.o manager.o renderer.o sdl_renderer.o system.o units.o
 DISTS = $(addprefix $(RDISTDIR)/,$(OBJECTS))
 
 TARGET := $(LIBNAME)
@@ -10,7 +10,7 @@ TARGET := $(LIBNAME)
 $(RDISTDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@ $(LFLAGS)
 
-$(RDISTDIR)/$(TARGET): $(OBJECTS)
+$(RDISTDIR)/$(TARGET): $(DISTS)
 	@echo "Making shared lib: $(TARGET)"
 	ar -rcs $@ $^
 
