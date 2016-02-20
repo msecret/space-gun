@@ -39,7 +39,7 @@ LFLAGS = $(SDL_LDFLAGS)
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
 TESTS = component_test entity_test manager_test units_test test_run
-TEST_OBJS = component_test.o entity_test.o manager_test.o units_test.o
+TEST_OBJS = component_test.o entity_test.o manager_test.o sdl_renderer_test.o system_test.o units_test.o
 OBJS = component.o entity.o event_emitter.o manager.o renderer.o units.o
 
 
