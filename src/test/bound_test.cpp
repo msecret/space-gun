@@ -1,7 +1,8 @@
 
-#include "c_boundable.h"
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include "../c_boundable.h"
 
 class BoundTest : public testing::Test {
   protected:

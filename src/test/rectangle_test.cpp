@@ -1,13 +1,13 @@
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
-#include "lib/entity.h"
-#include "lib/renderer.h"
-#include "lib/units.h"
+#include "../lib/entity.h"
+#include "../lib/renderer.h"
+#include "../lib/units.h"
 
-#include "c_rectangular.h"
-#include "s_rectangle_renderer.h"
+#include "../c_rectangular.h"
+#include "../s_rectangle_renderer.h"
 
 using namespace std;
 using ::testing::_;

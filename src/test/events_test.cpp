@@ -1,8 +1,8 @@
 
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
-#include "c_evented.h"
-#include "s_sdl_events.h"
+#include "../c_evented.h"
+#include "../s_sdl_events.h"
 
 TEST(Events, getType) {
   spacegun::Events testEvents;
