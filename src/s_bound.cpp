@@ -1,4 +1,7 @@
 
+#include <cstdio>
+#include <iostream>
+
 #include "lib/entity.h"
 
 #include "c_boundable.h"
@@ -30,6 +33,8 @@ namespace spacegun {
 
     newPos.x = wrapAround(currentPos.x, bounds.x); 
     newPos.y = wrapAround(currentPos.y, bounds.y); 
+
+    entity.setPos(newPos);
   }
 
   double Bound::wrapAround(double coordinate, double max)

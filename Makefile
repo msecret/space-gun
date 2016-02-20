@@ -12,7 +12,7 @@ export DISTDIR := build
 export RDISTDIR := ../../build
 
 MAIN := src/main.cpp
-OBJECTS := c_boundable.o c_evented.o c_moveable.o s_bound.o s_movement.o s_sdl_events.o
+OBJECTS := c_boundable.o c_evented.o c_rectangular.o c_moveable.o s_bound.o s_movement.o s_sdl_events.o s_rectangle_renderer.o
 LIBS := $(LIBNAME)
 DISTS := $(addprefix $(DISTDIR)/,$(OBJECTS))
 LIBDISTS = $(addprefix $(DISTDIR)/,$(LIBS))

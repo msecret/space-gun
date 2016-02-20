@@ -14,7 +14,7 @@ namespace spacegun {
     return COMPONENT_TYPE_MOVEABLE;
   }
 
-  void Movement::update(const uint32_t dt, aronnax::Entities entities)
+  void Movement::update(const uint32_t dt, aronnax::Entities& entities)
   {
     for (auto e : entities) {
       this->processMovement(dt, *e);
