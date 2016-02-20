@@ -116,6 +116,10 @@ s_movement.o: $(USER_DIR)/s_movement.h \
 							$(USER_DIR)/s_movement.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_movement.cpp $(LFLAGS)
 
+s_rectangle_renderer.o: $(USER_DIR)/s_rectangle_renderer.h \
+												$(USER_DIR)/s_rectangle_renderer.cpp
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/s_rectangle_renderer.cpp $(LFLAGS)
+
 # tests
 bound_test.o: $(USER_DIR)/bound_test.cpp \
 							$(USER_DIR)/c_boundable.h \
@@ -136,6 +140,7 @@ movement_test.o: $(USER_DIR)/movement_test.cpp \
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/movement_test.cpp $(LFLAGS)
 
 rectangle_test.o: $(USER_DIR)/rectangle_test.cpp \
+									$(USER_DIR)/s_rectangle_renderer.o \
 									$(USER_DIR)/c_rectangular.h $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/rectangle_test.cpp $(LFLAGS)
 
@@ -154,7 +159,7 @@ integration_test: integration_test.o gmock_main.a $(OBJS) $(SUBDIRS)/gaming.a
 movement_test: c_moveable.o s_movement.o movement_test.o gmock_main.a $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
-rectangle_test: c_rectangular.o rectangle_test.o gmock_main.a $(SUBDIRS)/gaming.a
+rectangle_test: c_rectangular.o s_rectangle_renderer.o rectangle_test.o gmock_main.a $(SUBDIRS)/gaming.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@ $(LFLAGS)
 
 
