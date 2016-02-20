@@ -47,8 +47,8 @@ $(DISTDIR)/%.o: %.cpp
 $(TARGET): $(OBJS) subdirs
 	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LFLAGS)
 
-$(TEST): $(OBJS) $(LIBDISTS)
-	$(CC) $(CFLAGS) -o $@ $^ -I $(GTEST_HEADERS) -I $(GMOCK_HEADERS) $(TESTDIR)/*.cpp $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LFLAGS)
+$(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
+	$(CC) $(CFLAGS) -o $@ $^ -I $(GTEST_HEADERS) -I $(GMOCK_HEADERS) $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LFLAGS)
 	./$(TEST)
 
 $(OBJS): | $(DISTDIR)
