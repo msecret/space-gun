@@ -4,7 +4,7 @@
 #include "../lib/units.h"
 
 #include "../c_moveable.h"
-#include "../s_movement.h";
+#include "../s_movement.h"
 
 TEST(Movement, getType) {
   spacegun::Moveable c;
