@@ -3,6 +3,7 @@
 #include "lib/renderer.h"
 
 #include "c_rectangular.h"
+#include "c_painted.h"
 #include "s_rectangle_renderer.h"
 
 namespace spacegun {
@@ -43,6 +44,12 @@ namespace spacegun {
     aronnax::Vector2d pos = entity.getPos();
     aronnax::Vector2d box = { c->getW(), c->getH() };
 
-    renderer_->drawRectangle(pos, box);
+    aronnax::Color color = { 0, 0, 0, 0 };
+    if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
+      auto cb = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
+      color = cb->getColor();
+    }
+
+    renderer_->drawRectangle(pos, box, color);
   }
 }

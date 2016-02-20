@@ -20,7 +20,8 @@ class SDLRenderer : public IRenderer
     void beforeRender();
     void afterRender();
     void drawCircle(const Vector2d& pos, const Vector2d& r);
-    void drawRectangle(const Vector2d& pos, const Vector2d& box);
+    void drawRectangle(const Vector2d& pos, const Vector2d& box,
+        const Color& color);
     void drawPolygon(const Vector2d& pos);
 
   private:

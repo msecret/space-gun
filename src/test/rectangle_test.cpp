@@ -7,6 +7,7 @@
 #include "../lib/units.h"
 
 #include "../c_rectangular.h"
+#include "../c_painted.h"
 #include "../s_rectangle_renderer.h"
 
 using namespace std;
@@ -18,8 +19,8 @@ class MockRenderer: public aronnax::IRenderer
     MOCK_METHOD0(render, void());
     MOCK_METHOD0(beforeRender, void());
     MOCK_METHOD0(afterRender, void());
-    MOCK_METHOD2(drawRectangle, void(const aronnax::Vector2d& pos,
-          const aronnax::Vector2d& box));
+    MOCK_METHOD3(drawRectangle, void(const aronnax::Vector2d& pos,
+          const aronnax::Vector2d& box, const aronnax::Color& c));
     MOCK_METHOD2(drawCircle, void(const aronnax::Vector2d& pos,
           const aronnax::Vector2d& r));
     MOCK_METHOD1(drawPolygon, void(const aronnax::Vector2d& pos));
@@ -74,19 +75,22 @@ TEST(RectangleSystem, getType) {
 
 TEST(RectangleSystem, render) {
   uint32_t testDt = 12;
+  aronnax::Color expectedC = { 255, 100, 150, 123 };
   aronnax::Vector2d expectedP = { 1, 3 };
   aronnax::Vector2d expectedB = { 5, 7 };
   MockRenderer mockRenderer;
   aronnax::Entities entities;
   auto testC = spacegun::Rectangular(5, 7);
+  auto testP = spacegun::Painted(expectedC);
   auto testEntity = new aronnax::Entity();
   auto testRR = spacegun::RectangleRenderer(&mockRenderer);
 
   testEntity->setPos(expectedP);
   testEntity->addComponent(&testC);
+  testEntity->addComponent(&testP);
   entities.push_back(testEntity);
 
-  EXPECT_CALL(mockRenderer, drawRectangle(_, _)).Times(1);
+  EXPECT_CALL(mockRenderer, drawRectangle(_, _, expectedC)).Times(1);
 
   testRR.render(testDt, entities);
 }
