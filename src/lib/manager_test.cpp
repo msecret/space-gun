@@ -67,8 +67,8 @@ TEST_F(ManagerTest, update) {
 
   testManager_->addEntity(entityA);
   testManager_->addEntity(entityB);
-  testManager_->addSystem(systemA);
-  testManager_->addSystem(systemB);
+  testManager_->addSystem(&systemA);
+  testManager_->addSystem(&systemB);
 
   auto actualEntityList = testManager_->getEntities(testType);
 
@@ -99,8 +99,8 @@ TEST_F(ManagerTest, render) {
 
   testManager_->addEntity(entityA);
   testManager_->addEntity(entityB);
-  testManager_->addSystem(systemA);
-  testManager_->addSystem(systemB);
+  testManager_->addSystem(&systemA);
+  testManager_->addSystem(&systemB);
 
   auto actualEntityList = testManager_->getEntities(testType);
 
@@ -127,7 +127,7 @@ TEST_F(ManagerTest, addEntity) {
 
   EXPECT_CALL(testSystem, onAddEntity(_)).Times(1);
 
-  testManager_->addSystem(testSystem);
+  testManager_->addSystem(&testSystem);
   testManager_->addEntity(entity);
 
   auto actual = testManager_->getEntities();
@@ -150,7 +150,7 @@ TEST_F(ManagerTest, addSystem) {
   auto expectedEntities = testManager_->getEntities(testType);
   EXPECT_CALL(expected, init(expectedEntities)).Times(1);
 
-  testManager_->addSystem(expected);
+  testManager_->addSystem(&expected);
   auto actual = testManager_->getSystems();
 
   EXPECT_EQ(1, actual.size());
@@ -179,9 +179,9 @@ TEST_F(ManagerTest, getSystems) {
   ON_CALL(systemC, getType())
     .WillByDefault(ReturnRef(testTypeB));
 
-  testManager_->addSystem(systemA);
-  testManager_->addSystem(systemB);
-  testManager_->addSystem(systemC);
+  testManager_->addSystem(&systemA);
+  testManager_->addSystem(&systemB);
+  testManager_->addSystem(&systemC);
 
   auto actual = testManager_->getSystems("Asystem");
   EXPECT_EQ(2, actual.size());
@@ -192,7 +192,7 @@ TEST_F(ManagerTest, getSystemsAll) {
   EXPECT_EQ(0, actual.size());
 
   aronnax::System testSystem;
-  testManager_->addSystem(testSystem);
+  testManager_->addSystem(&testSystem);
 
   actual = testManager_->getSystems();
   EXPECT_EQ(1, actual.size());
