@@ -1,16 +1,16 @@
 
 ifndef GTEST_DIR
-GTEST_DIR := $(HOME)/Dev/googletest/googletest
+GTEST_DIR := /usr/include/gtest
 endif
 ifndef GMOCK_DIR
-GMOCK_DIR := $(HOME)/Dev/googletest/googlemock
+GMOCK_DIR := /usr/include/gmock
 endif
 
 export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -w -std=c++11 -fmax-errors=5 `sdl2-config --cflags`
 export SDL_LDFLAGS := $(shell sdl2-config --libs)
-export LFLAGS = $(SDL_LDFLAGS)
+export LFLAGS = -lpthread $(SDL_LDFLAGS)
 export CFLAGS = $(XFLAGS)
 VPATH = src
 
@@ -23,8 +23,8 @@ TEST = $(DISTDIR)/test_run
 
 MAIN := src/main.cpp
 
-HEADERS = $(shell find ./src -name *.h -maxdepth 1)
-SRCS=$(shell find ./src -name *.cpp -maxdepth 1)
+HEADERS = $(shell find ./src -maxdepth 1 -name *.h)
+SRCS=$(shell find ./src -maxdepth 1 -name *.cpp )
 OBJS:=$(HEADERS:.h=.o)
 OBJS:=$(subst $(SRCDIR),$(DISTDIR),$(OBJS))
 
@@ -33,11 +33,10 @@ DISTS := $(addprefix $(DISTDIR)/,$(OBJS))
 LIBDISTS = $(addprefix $(DISTDIR)/,$(LIBS))
 
 GTEST_HEADERS = $(GTEST_DIR)/include
-
 GMOCK_HEADERS = $(GMOCK_DIR)/include
 
-LIBGTEST = /usr/local/lib/libgtest_main.a /usr/local/lib/libgtest.a
-LIBGMOCK = /usr/local/lib/libgmock_main.a /usr/local/lib/libgmock.a
+LIBGTEST = /usr/lib/libgtest_main.a /usr/lib/libgtest.a
+LIBGMOCK = /usr/lib/libgmock_main.a /usr/lib/libgmock.a
 
 SUBDIRS = src/lib
 
@@ -48,7 +47,7 @@ $(TARGET): $(OBJS) subdirs
 	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LFLAGS)
 
 $(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
-	$(CC) $(CFLAGS) -o $@ $^ -I $(GTEST_HEADERS) -I $(GMOCK_HEADERS) $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LFLAGS)
 	./$(TEST)
 
 $(OBJS): | $(DISTDIR)
