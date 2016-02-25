@@ -13,12 +13,6 @@ namespace spacegun {
 
   const string COMPONENT_TYPE_KEYBOARDABLE = "keyboardable";
 
-  const unsigned int EV_MOVEMENT = 100;
-  const unsigned int EV_MOVEMENT_UP = 101;
-  const unsigned int EV_MOVEMENT_DOWN = 102;
-  const unsigned int EV_MOVEMENT_RIGHT = 103;
-  const unsigned int EV_MOVEMENT_LEFT = 104;
-
   class Keyboardable : public aronnax::Component
   {
     public:
@@ -26,7 +20,7 @@ namespace spacegun {
       Keyboardable(map<string, unsigned int> keyMap);
       const string getType();
       vector<string> getKeys();
-      unsigned int getMovement(const string& key);
+      unsigned int getAction(const string& key);
 
     private:
       map<string, unsigned int> keyMap_;

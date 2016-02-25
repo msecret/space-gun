@@ -10,11 +10,6 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_KEYBOARDABLE;
 
-  extern const unsigned int EV_MOVEMENT;
-  extern const unsigned int EV_MOVEMENT_UP;
-  extern const unsigned int EV_MOVEMENT_DOWN;
-  extern const unsigned int EV_MOVEMENT_RIGHT;
-  extern const unsigned int EV_MOVEMENT_LEFT;
 
   map<const string, const unsigned int> DEFAULT_CONTROLS;
 
@@ -40,7 +35,7 @@ namespace spacegun {
     return keys;
   }
 
-  unsigned int Keyboardable::getMovement(const string& key)
+  unsigned int Keyboardable::getAction(const string& key)
   {
     return keyMap_[key];
   }

@@ -16,7 +16,7 @@ TEST(Keyboardable, Constructor) {
 
   Keyboardable c = Keyboardable(keyMap);
 
-  auto actual = c.getMovement("testa");
+  auto actual = c.getAction("testa");
 
   EXPECT_EQ(expected, actual);
 }
@@ -46,7 +46,7 @@ TEST(Keyboardable, getKeys) {
   EXPECT_EQ(expectedB, actualB);
 }
 
-TEST(Keyboardable, getMovement) {
+TEST(Keyboardable, getAction) {
   unsigned int testA = 1;
   unsigned int testB = 2;
   map<string, unsigned int> expected;
@@ -55,8 +55,8 @@ TEST(Keyboardable, getMovement) {
 
   Keyboardable c = Keyboardable(expected);
 
-  auto actualA = c.getMovement("testa");
-  auto actualB = c.getMovement("testb");
+  auto actualA = c.getAction("testa");
+  auto actualB = c.getAction("testb");
 
   EXPECT_EQ(expected["testa"], actualA);
   EXPECT_EQ(expected["testb"], actualB);
