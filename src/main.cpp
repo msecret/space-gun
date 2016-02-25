@@ -17,6 +17,7 @@
 #include "c_evented.h"
 #include "c_moveable.h"
 #include "c_rectangular.h"
+#include "c_painted.h"
 
 #include "s_bound.h"
 #include "s_movement.h"
@@ -28,6 +29,9 @@ using namespace spacegun;
 
 const int WORLD_W = 640;
 const int WORLD_H = 480;
+
+const Color RED = Color(204, 0, 0, 255);
+const Color YELLOW = Color(255, 255, 0, 255);
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -49,18 +53,20 @@ void setupSDL()
   }
 }
 
-Entity* setupEntity(Vector2d initP, Vector2d initV, double w, double h) 
+Entity* setupEntity(Vector2d initP, Vector2d initV, double w, double h, Color c)
 {
-  Vector2d bounds = { WORLD_W, WORLD_H };
+  Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
   Moveable* moveable = new Moveable(initV);
   Rectangular* rectangular = new Rectangular(w, h);
   Boundable* boundable = new Boundable(bounds);
+  Painted* painted = new Painted(c);
 
   auto entity = new Entity();
   entity->setPos(initP);
   entity->addComponent(moveable);
   entity->addComponent(rectangular);
   entity->addComponent(boundable);
+  entity->addComponent(painted);
 
   return entity;
 }
@@ -68,6 +74,7 @@ Entity* setupEntity(Vector2d initP, Vector2d initV, double w, double h)
 int main()
 {
   using namespace std::placeholders;
+
 
   // SDL setup
   setupSDL();
@@ -88,11 +95,11 @@ int main()
   double initHA = 55;
   double initWB = 60;
   double initHB = 50;
-  
+
 
   // setup asteroids
-  auto asteroidA = setupEntity(initPosA, initVelA, initWA, initHA);
-  auto asteroidB = setupEntity(initPosB, initVelB, initWB, initHB);
+  auto asteroidA = setupEntity(initPosA, initVelA, initWA, initHA, RED);
+  auto asteroidB = setupEntity(initPosB, initVelB, initWB, initHB, YELLOW);
 
   // setup systems
   Bound bound;

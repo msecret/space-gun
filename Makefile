@@ -8,7 +8,7 @@ endif
 
 export CC = g++
 export LIBNAME = gaming.a
-export XFLAGS = -Wall -g -w -std=c++11 -fmax-errors=5 `sdl2-config --cflags`
+export XFLAGS = -Wall -g -std=c++11 `sdl2-config --cflags`
 export SDL_LDFLAGS := $(shell sdl2-config --libs)
 export LFLAGS = -lpthread $(SDL_LDFLAGS)
 export CFLAGS = $(XFLAGS)

@@ -77,7 +77,6 @@ TEST(RectangleSystem, render) {
   uint32_t testDt = 12;
   aronnax::Color expectedC = { 255, 100, 150, 123 };
   aronnax::Vector2d expectedP = { 1, 3 };
-  aronnax::Vector2d expectedB = { 5, 7 };
   MockRenderer mockRenderer;
   aronnax::Entities entities;
   auto testC = spacegun::Rectangular(5, 7);

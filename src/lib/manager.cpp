@@ -13,15 +13,15 @@
 namespace aronnax {
 
   Manager::Manager() :
-    systems_(),
-    entities_()
+    entities_(),
+    systems_()
   { 
     renderer_ = nullptr; 
   }
 
   Manager::Manager(IRenderer& renderer) :
-    systems_(),
     entities_(),
+    systems_(),
     renderer_(&renderer)
   { }
 

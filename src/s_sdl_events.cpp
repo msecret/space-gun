@@ -12,7 +12,7 @@ namespace spacegun {
   using namespace std;
 
   extern const string COMPONENT_TYPE_EVENTED;
-  extern const unsigned int EV_SDL_EVENT;
+  extern const unsigned int EV_KEY;
 
   const string& Events::getType()
   {
@@ -37,7 +37,7 @@ namespace spacegun {
         case SDL_KEYDOWN:
         case SDL_KEYUP:
           for (auto e : entities) {
-            e->emit(EV_SDL_EVENT, &event);
+            e->emit(EV_KEY, &event);
           }
           break;
 
