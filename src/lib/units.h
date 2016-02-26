@@ -1,8 +1,11 @@
 
 #include <cstdint>
+#include <string>
 
 #ifndef _h_Units
 #define _h_Units
+
+using namespace std;
 
 namespace aronnax {
 
@@ -35,12 +38,12 @@ namespace aronnax {
       return Vector2d(x / a.x, y / a.y);
     }
 
-    Vector2d& operator+=(const Vector2d& v) 
-    { 
+    Vector2d& operator+=(const Vector2d& v)
+    {
       x += v.x;
-      y += v.y; 
+      y += v.y;
 
-      return *this; 
+      return *this;
     }
 
     bool operator==(const Vector2d& a) const
@@ -54,9 +57,9 @@ namespace aronnax {
     }
   };
 
-  struct Color 
+  struct Color
   {
-    uint8_t r, g, b, a; 
+    uint8_t r, g, b, a;
 
     Color(const uint8_t red=0,
           const uint8_t green=0,
@@ -79,6 +82,35 @@ namespace aronnax {
     }
   };
 
+  struct Ev
+  {
+    bool active;
+
+    Ev() :
+      active(true)
+    { }
+  };
+
+  enum EvKeyState { STATE_DOWN, STATE_UP };
+  struct EvKeyboard : Ev
+  {
+    string key;
+    EvKeyState keyState;
+
+    EvKeyboard(string key, EvKeyState state) :
+      key(key),
+      keyState(state)
+    { }
+  };
+
+  struct EvUserMovement : Ev
+  {
+    Vector2d direction;
+
+    EvUserMovement(Vector2d dir) :
+      direction(dir)
+    { }
+  };
 }
 
 #endif

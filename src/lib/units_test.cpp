@@ -1,6 +1,10 @@
 
+#include <string>
+
 #include "units.h"
 #include "gtest/gtest.h"
+
+using namespace std;
 
 TEST(VectorUnits, DefaultConstructor) {
   const aronnax::Vector2d va;
@@ -84,4 +88,27 @@ TEST(ColorUnits, InequalityOperator) {
   aronnax::Color cb(255, 110, 200, 0);
 
   EXPECT_NE(ca, cb);
+}
+
+using namespace aronnax;
+TEST(Ev, Constructor) {
+  Ev ev;
+
+  EXPECT_EQ(true, ev.active);
+}
+
+TEST(EvKeyState, Constructor) {
+  string expectedKey = "A";
+  EvKeyState expectedState = EvKeyState::STATE_DOWN;
+  EvKeyboard ev = EvKeyboard(expectedKey, expectedState);
+
+  EXPECT_EQ(expectedKey, ev.key);
+  EXPECT_EQ(expectedState, ev.keyState);
+}
+
+TEST(EvUserMovement, Constructor) {
+  Vector2d expected = { 2, 5 };
+  EvUserMovement ev = EvUserMovement(expected);
+
+  EXPECT_EQ(expected, ev.direction);
 }
