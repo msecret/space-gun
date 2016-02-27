@@ -3,6 +3,7 @@
 
 #include "SDL2/SDL.h"
 #include "lib/entity.h"
+#include "lib/units.h"
 
 #include "c_evented.h"
 #include "s_movement.h"
@@ -36,10 +37,13 @@ namespace spacegun {
 
         case SDL_KEYDOWN:
         case SDL_KEYUP:
-          for (auto e : entities) {
-            e->emit(EV_KEY, &event);
+          {
+            aronnax::EvKeyboard ev(event.key);
+            for (auto e : entities) {
+              e->emit(EV_KEY, ev);
+            }
+            break;
           }
-          break;
 
         default:
             break;

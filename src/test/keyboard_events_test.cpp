@@ -1,10 +1,13 @@
 
-#include <gtest/gtest.h>
-
-#include "../c_keyboardable.h"
-
 #include <map>
 #include <string>
+
+#include <gtest/gtest.h>
+
+#include "../lib/entity.h"
+
+#include "../c_keyboardable.h"
+#include "../s_keyboard_events.h"
 
 using namespace std;
 using namespace spacegun;
@@ -60,4 +63,25 @@ TEST(Keyboardable, getAction) {
 
   EXPECT_EQ(expected["testa"], actualA);
   EXPECT_EQ(expected["testb"], actualB);
+}
+
+TEST(KeyboardEvents, getType) {
+  KeyboardEvents s;
+
+  auto actual = s.getType();
+
+  EXPECT_EQ(COMPONENT_TYPE_KEYBOARDABLE, actual);
+}
+
+TEST(KeyboardEvents, onAddEntity) {
+  map<string, unsigned int> keyMap;
+  string expectedKey = "A";
+  unsigned int expectedEv = 101;
+
+  KeyboardEvents s;
+  Keyboardable c(keyMap);
+  SDL_Event* expected = new SDL_Event;
+  aronnax::Entity* e = new aronnax::Entity;
+
+  e->addComponent(c);
 }

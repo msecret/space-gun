@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <string>
 
+#include "SDL2/SDL.h"
+
 #ifndef _h_Units
 #define _h_Units
 
@@ -82,6 +84,7 @@ namespace aronnax {
     }
   };
 
+  const unsigned int EV = 100;
   struct Ev
   {
     bool active;
@@ -91,18 +94,35 @@ namespace aronnax {
     { }
   };
 
+  const unsigned int EV_KEY = 101;
   enum EvKeyState { STATE_DOWN, STATE_UP };
   struct EvKeyboard : Ev
   {
     string key;
     EvKeyState keyState;
 
+    // TODO create constructor for SDL key state.
     EvKeyboard(string key, EvKeyState state) :
       key(key),
       keyState(state)
     { }
+
+    EvKeyboard(const SDL_KeyboardEvent& sdlEvent)
+    {
+      string keyName = SDL_GetKeyName(sdlEvent.keysym.sym);
+      EvKeyState keyState;
+      if (sdlEvent.state == SDL_PRESSED) {
+        keyState = STATE_UP;
+      } else {
+        keyState = STATE_DOWN;
+      }
+
+      key = keyName;
+      keyState = keyState;
+    }
   };
 
+  const unsigned int EV_USER_MOVEMENT = 101;
   struct EvUserMovement : Ev
   {
     Vector2d direction;
