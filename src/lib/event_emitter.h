@@ -1,22 +1,22 @@
 //
 // Copyright (c) 2014 Sean Farrell
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy 
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights 
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-// copies of the Software, and to permit persons to whom the Software is 
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in 
+// The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
 
@@ -33,7 +33,7 @@
 class EventEmitter
 {
 public:
-    
+
     EventEmitter();
 
     ~EventEmitter();
@@ -50,7 +50,7 @@ public:
 
     template <typename... Args>
     unsigned int on(unsigned int event_id, std::function<void (Args...)> cb);
-    
+
     unsigned int on(unsigned int event_id, std::function<void ()> cb);
 
     template<typename LambdaType>
@@ -91,7 +91,7 @@ private:
     unsigned int last_listener;
     std::multimap<unsigned int, std::shared_ptr<ListenerBase>> listeners;
 
-    EventEmitter(const EventEmitter&) = delete;  
+    EventEmitter(const EventEmitter&) = delete;
     const EventEmitter& operator = (const EventEmitter&) = delete;
 
 
@@ -107,7 +107,7 @@ private:
        typedef std::function<ReturnType (Args...)> f_type;
     };
 
-    template <typename L> 
+    template <typename L>
     typename function_traits<L>::f_type make_function(L l){
       return (typename function_traits<L>::f_type)(l);
     }
@@ -126,7 +126,7 @@ unsigned int EventEmitter::add_listener(unsigned int event_id, std::function<voi
     unsigned int listener_id = ++last_listener;
     listeners.insert(std::make_pair(event_id, std::make_shared<Listener<Args...>>(listener_id, cb)));
 
-    return listener_id;        
+    return listener_id;
 }
 
 template <typename... Args>
@@ -139,7 +139,7 @@ template <typename... Args>
 void EventEmitter::emit(unsigned int event_id, Args... args)
 {
     std::list<std::shared_ptr<Listener<Args...>>> handlers;
-    
+
     {
         std::lock_guard<std::mutex> lock(mutex);
 
@@ -150,7 +150,8 @@ void EventEmitter::emit(unsigned int event_id, Args... args)
             if (l)
             {
                 return l;
-            }
+
+   }
             else
             {
                 throw std::logic_error("EventEmitter::emit: Invalid event signature.");
@@ -161,7 +162,7 @@ void EventEmitter::emit(unsigned int event_id, Args... args)
     for (auto& h : handlers)
     {
         h->cb(args...);
-    }        
+    }
 }
 
 #endif

@@ -13,6 +13,7 @@
 namespace spacegun {
   using namespace std;
 
+  template <class TEvent>
   class KeyboardEvents: public aronnax::System
   {
     public:
@@ -27,6 +28,23 @@ namespace spacegun {
       void bindEntity(aronnax::Entity& entity);
       void handleKeys(const aronnax::EvKeyboard& ev, aronnax::Entity& entity);
   };
+
+  template <class TEvent>
+  void KeyboardEvents<TEvent>::handleKeys(const aronnax::EvKeyboard& ev,
+      aronnax::Entity& entity)
+  {
+    auto c = entity.getComponent<Keyboardable>(COMPONENT_TYPE_KEYBOARDABLE);
+    auto boundKeys = c->getKeys();
+    auto keyName = ev.key;
+    // TODO this has to be checked for every key, is it too slow?
+    if (find(boundKeys.begin(), boundKeys.end(), keyName) != boundKeys.end()) {
+      auto action = c->getAction(keyName);
+      const TEvent* castedAction = static_cast<const TEvent*>(action);
+      auto eventCode = c->getEventCode();
+      entity.emit(eventCode, castedAction);
+    }
+
+  }
 }
 
 #endif

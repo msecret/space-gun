@@ -16,14 +16,17 @@ namespace spacegun {
   class Keyboardable : public aronnax::Component
   {
     public:
-      Keyboardable();
-      Keyboardable(map<string, unsigned int> keyMap);
+      Keyboardable(const unsigned int eventCode);
+      Keyboardable(const unsigned int eventCode,
+          const map<string, aronnax::Ev*>& keyMap);
       const string getType();
       vector<string> getKeys();
-      unsigned int getAction(const string& key);
+      const unsigned int getEventCode();
+      const aronnax::Ev* getAction(const string& key);
 
     private:
-      map<string, unsigned int> keyMap_;
+      const unsigned int eventCode;
+      const map<string, aronnax::Ev*> keyMap_;
 
   };
 }

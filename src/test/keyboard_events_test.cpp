@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "../lib/entity.h"
+#include "../lib/units.h"
 
 #include "../c_keyboardable.h"
 #include "../s_keyboard_events.h"
@@ -12,6 +13,7 @@
 using namespace std;
 using namespace spacegun;
 
+/*
 TEST(Keyboardable, Constructor) {
   unsigned int expected = 1;
   map<string, unsigned int> keyMap;
@@ -73,15 +75,28 @@ TEST(KeyboardEvents, getType) {
   EXPECT_EQ(COMPONENT_TYPE_KEYBOARDABLE, actual);
 }
 
+*/
 TEST(KeyboardEvents, onAddEntity) {
-  map<string, unsigned int> keyMap;
-  string expectedKey = "A";
-  unsigned int expectedEv = 101;
+  const unsigned int EV_USER_MOVEMENT = 9999;
+  aronnax::Vector2d up = { 0, -1 };
+  aronnax::Vector2d down = { 0, 1 };
+  aronnax::EvUserMovement* evUp = new aronnax::EvUserMovement(up);
+  aronnax::EvUserMovement* evDown = new aronnax::EvUserMovement(down);
+  map<string, aronnax::Ev*> keyMap;
+  keyMap["A"] = evUp;
+  keyMap["S"] = evDown;
+  aronnax::EvKeyboard ev("A", aronnax::EvKeyState::STATE_UP);
 
-  KeyboardEvents s;
-  Keyboardable c(keyMap);
-  SDL_Event* expected = new SDL_Event;
-  aronnax::Entity* e = new aronnax::Entity;
+  auto c = Keyboardable(EV_USER_MOVEMENT, keyMap);
+  aronnax::Entity* e = new aronnax::Entity();
+  e->addComponent(&c);
 
-  e->addComponent(c);
+  auto s = KeyboardEvents<aronnax::EvUserMovement>();
+  s.onAddEntity(*e);
+
+  e->on(EV_USER_MOVEMENT, [&](const aronnax::EvUserMovement* ev) {
+
+  });
+
+  e->emit(aronnax::EV_KEY, &ev);
 }

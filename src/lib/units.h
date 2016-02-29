@@ -122,7 +122,7 @@ namespace aronnax {
     }
   };
 
-  const unsigned int EV_USER_MOVEMENT = 101;
+  const unsigned int EV_USER_MOVEMENT = 201;
   struct EvUserMovement : Ev
   {
     Vector2d direction;
