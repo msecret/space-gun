@@ -48,6 +48,14 @@ namespace aronnax {
       return *this;
     }
 
+    Vector2d& operator*=(const double f)
+    {
+      x *= f;
+      y *= f;
+
+      return *this;
+    }
+
     bool operator==(const Vector2d& a) const
     {
       return a.x == x && a.y == y;
