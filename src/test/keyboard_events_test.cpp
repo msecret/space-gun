@@ -13,21 +13,22 @@
 using namespace std;
 using namespace spacegun;
 
-/*
 TEST(Keyboardable, Constructor) {
-  unsigned int expected = 1;
-  map<string, unsigned int> keyMap;
-  keyMap["testa"] = expected;
+  aronnax::Ev expected;
+  unsigned int expectedCode = 32;
+  map<string, aronnax::Ev*> keyMap;
+  keyMap["testa"] = &expected;
 
-  Keyboardable c = Keyboardable(keyMap);
+  Keyboardable c = Keyboardable(expectedCode, keyMap);
 
   auto actual = c.getAction("testa");
 
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(&expected, actual);
+  EXPECT_EQ(c.getEventCode(), expectedCode);
 }
 
 TEST(Keyboardable, getType) {
-  Keyboardable c;
+  Keyboardable c(100);
 
   auto actual = c.getType();
 
@@ -35,13 +36,16 @@ TEST(Keyboardable, getType) {
 }
 
 TEST(Keyboardable, getKeys) {
+  unsigned int expectedCode = 33;
+  aronnax::Ev eva;
+  aronnax::Ev evb;
+  map<string, aronnax::Ev*> keyMap;
   string expectedA = "testa";
   string expectedB = "testb";
-  map<string, unsigned int> keyMap;
-  keyMap[expectedA] = 1;
-  keyMap[expectedB] = 1;
+  keyMap[expectedA] = &eva;
+  keyMap[expectedB] = &evb;
 
-  Keyboardable c = Keyboardable(keyMap);
+  Keyboardable c = Keyboardable(expectedCode, keyMap);
 
   // TODO do maps in c++ guarantee an order?
   auto actualA = c.getKeys().at(0);
@@ -52,30 +56,31 @@ TEST(Keyboardable, getKeys) {
 }
 
 TEST(Keyboardable, getAction) {
-  unsigned int testA = 1;
-  unsigned int testB = 2;
-  map<string, unsigned int> expected;
-  expected["testa"] = testA;
-  expected["testb"] = testB;
+  unsigned int expectedCode = 34;
+  aronnax::Ev expectedA;
+  aronnax::Ev expectedB;
+  map<string, aronnax::Ev*> keyMap;
+  keyMap["testa"] = &expectedA;
+  keyMap["testb"] = &expectedB;
 
-  Keyboardable c = Keyboardable(expected);
+  Keyboardable c = Keyboardable(expectedCode, keyMap);
 
   auto actualA = c.getAction("testa");
   auto actualB = c.getAction("testb");
 
-  EXPECT_EQ(expected["testa"], actualA);
-  EXPECT_EQ(expected["testb"], actualB);
+  EXPECT_EQ(&expectedA, actualA);
+  EXPECT_EQ(&expectedB, actualB);
 }
 
 TEST(KeyboardEvents, getType) {
-  KeyboardEvents s;
+  KeyboardEvents<aronnax::Ev> s;
 
   auto actual = s.getType();
 
   EXPECT_EQ(COMPONENT_TYPE_KEYBOARDABLE, actual);
 }
 
-*/
+
 TEST(KeyboardEvents, onAddEntity) {
   const unsigned int EV_USER_MOVEMENT = 9999;
   aronnax::Vector2d up = { 0, -1 };
