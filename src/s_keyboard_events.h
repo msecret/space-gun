@@ -26,22 +26,21 @@ namespace spacegun {
 
     private:
       void bindEntity(aronnax::Entity& entity);
-      void handleKeys(const aronnax::EvKeyboard& ev, aronnax::Entity& entity);
+      void handleKeys(aronnax::EvKeyboard& ev, aronnax::Entity& entity);
   };
 
   template <class TEvent>
-  void KeyboardEvents<TEvent>::handleKeys(const aronnax::EvKeyboard& ev,
+  void KeyboardEvents<TEvent>::handleKeys(aronnax::EvKeyboard& ev,
       aronnax::Entity& entity)
   {
     auto c = entity.getComponent<Keyboardable>(COMPONENT_TYPE_KEYBOARDABLE);
     auto boundKeys = c->getKeys();
-    auto keyName = ev.key;
+    auto keyName = ev.getKey();
     // TODO this has to be checked for every key, is it too slow?
     if (find(boundKeys.begin(), boundKeys.end(), keyName) != boundKeys.end()) {
-      auto action = c->getAction(keyName);
-      const TEvent* castedAction = static_cast<const TEvent*>(action);
+      auto action = c->getAction<TEvent>(keyName);
       auto eventCode = c->getEventCode();
-      entity.emit(eventCode, castedAction);
+      entity.emit(eventCode, action);
     }
 
   }

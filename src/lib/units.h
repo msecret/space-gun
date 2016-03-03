@@ -93,51 +93,89 @@ namespace aronnax {
   };
 
   const unsigned int EV = 100;
-  struct Ev
+  class Ev
   {
-    bool active;
-
-    Ev() :
-      active(true)
-    { }
+    public:
+      virtual ~Ev() { };
   };
 
   const unsigned int EV_KEY = 101;
   enum EvKeyState { STATE_DOWN, STATE_UP };
-  struct EvKeyboard : Ev
+  class EvKeyboard : public Ev
   {
-    string key;
-    EvKeyState keyState;
+    public:
+      // TODO create constructor for SDL key state.
+      EvKeyboard(string key, EvKeyState state) :
+        key_(key),
+        keyState_(state)
+      { }
 
-    // TODO create constructor for SDL key state.
-    EvKeyboard(string key, EvKeyState state) :
-      key(key),
-      keyState(state)
-    { }
+      EvKeyboard(const SDL_KeyboardEvent& sdlEvent) :
+        key_(""),
+        keyState_(EvKeyState::STATE_DOWN)
+      {
+        string keyName = SDL_GetKeyName(sdlEvent.keysym.sym);
+        EvKeyState keyState;
+        if (sdlEvent.state == SDL_PRESSED) {
+          keyState = STATE_UP;
+        } else {
+          keyState = STATE_DOWN;
+        }
 
-    EvKeyboard(const SDL_KeyboardEvent& sdlEvent)
-    {
-      string keyName = SDL_GetKeyName(sdlEvent.keysym.sym);
-      EvKeyState keyState;
-      if (sdlEvent.state == SDL_PRESSED) {
-        keyState = STATE_UP;
-      } else {
-        keyState = STATE_DOWN;
+        key_ = keyName;
+        keyState_ = keyState;
       }
 
-      key = keyName;
-      keyState = keyState;
-    }
+      string getKey()
+      {
+        return key_;
+      }
+
+      void setKey(string key)
+      {
+        key_ = key;
+      }
+
+      EvKeyState getKeyState()
+      {
+        return keyState_;
+      }
+
+      void setKeyState(EvKeyState keyState)
+      {
+
+        keyState_ = keyState;
+      }
+
+    private:
+      string key_;
+      EvKeyState keyState_;
   };
 
   const unsigned int EV_USER_MOVEMENT = 201;
-  struct EvUserMovement : Ev
+  class EvUserMovement : public Ev
   {
-    Vector2d direction;
+    public:
+      EvUserMovement(const Ev& ev) :
+        Ev(ev)
+      { }
 
-    EvUserMovement(Vector2d dir) :
-      direction(dir)
-    { }
+      EvUserMovement(Vector2d dir) :
+        direction_(dir)
+      { }
+
+      Vector2d getDirection()
+      {
+        return direction_;
+      }
+
+      void setDirection(Vector2d direction)
+      {
+        direction_ = direction;
+      }
+
+    private:
+      Vector2d direction_;
   };
 }
 

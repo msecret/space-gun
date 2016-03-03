@@ -1,8 +1,6 @@
 
 #include <initializer_list>
-#include <iostream>
 #include <set>
-#include <stdio.h>
 #include <string>
 
 #include "SDL2/SDL.h"
@@ -15,8 +13,8 @@ namespace aronnax {
   Manager::Manager() :
     entities_(),
     systems_()
-  { 
-    renderer_ = nullptr; 
+  {
+    renderer_ = nullptr;
   }
 
   Manager::Manager(IRenderer& renderer) :
@@ -91,7 +89,7 @@ namespace aronnax {
 
     for (auto s : systems_) {
       if (s->getType() == systemType) {
-        systemList.push_back(s);  
+        systemList.push_back(s);
       }
     }
 

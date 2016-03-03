@@ -1,7 +1,6 @@
 
 #include <iostream>
 #include <memory>
-#include <stdio.h>
 
 #include "SDL2/SDL.h"
 
@@ -43,9 +42,9 @@ namespace aronnax {
     SDL_RenderPresent(renderer_);
   }
 
-  void SDLRenderer::drawRectangle(const Vector2d& pos, 
+  void SDLRenderer::drawRectangle(const Vector2d& pos,
                                   const Vector2d& box,
-                                  const Color& c={ 0, 0, 0, 0 }) 
+                                  const Color& c={ 0, 0, 0, 0 })
   {
     SDL_Rect r;
     r.x = int(pos.x);

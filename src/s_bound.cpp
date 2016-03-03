@@ -1,6 +1,5 @@
 
 #include <cstdio>
-#include <iostream>
 
 #include "lib/entity.h"
 
@@ -31,8 +30,8 @@ namespace spacegun {
         ->getBounds();
     auto currentPos = entity.getPos();
 
-    newPos.x = wrapAround(currentPos.x, bounds.x); 
-    newPos.y = wrapAround(currentPos.y, bounds.y); 
+    newPos.x = wrapAround(currentPos.x, bounds.x);
+    newPos.y = wrapAround(currentPos.y, bounds.y);
 
     entity.setPos(newPos);
   }

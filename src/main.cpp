@@ -1,5 +1,7 @@
 
+#include <cstdio>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <stdio.h>
 
@@ -15,15 +17,20 @@
 
 #include "c_boundable.h"
 #include "c_evented.h"
+#include "c_keyboardable.h"
 #include "c_moveable.h"
 #include "c_rectangular.h"
 #include "c_painted.h"
+#include "c_thrustable.h"
 
 #include "s_bound.h"
+#include "s_keyboard_events.h"
 #include "s_movement.h"
 #include "s_rectangle_renderer.h"
 #include "s_sdl_events.h"
+#include "s_thrust.h"
 
+using namespace std;
 using namespace aronnax;
 using namespace spacegun;
 
@@ -32,6 +39,9 @@ const int WORLD_H = 480;
 
 const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
+const Color GREEN = Color(246, 255, 0, 255);
+
+const double THRUST_FACTOR = 0.1;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -53,7 +63,8 @@ void setupSDL()
   }
 }
 
-Entity* setupEntity(Vector2d initP, Vector2d initV, double w, double h, Color c)
+Entity* setupBaseEntity(Vector2d initP, Vector2d initV, double w, double h,
+    Color c)
 {
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
   Moveable* moveable = new Moveable(initV);
@@ -71,10 +82,24 @@ Entity* setupEntity(Vector2d initP, Vector2d initV, double w, double h, Color c)
   return entity;
 }
 
+Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
+{
+  Evented* evented = new Evented();
+  Keyboardable* keyboardable = new Keyboardable(EV_USER_MOVEMENT, keyMap);
+  Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
+
+  e->addComponent(evented);
+  e->addComponent(keyboardable);
+  e->addComponent(thrustable);
+
+  return e;
+}
+
 int main()
 {
   using namespace std::placeholders;
 
+  printf("initializing...\n");
 
   // SDL setup
   setupSDL();
@@ -91,29 +116,47 @@ int main()
   Vector2d initVelB = { 3, 2 };
   Vector2d initPosA = { 30, 50 };
   Vector2d initPosB = { 20, 0 };
+  Vector2d initPlayer = { 10, 10 };
+  Vector2d initPlayerV = { 0, 0 };
   double initWA = 20;
   double initHA = 55;
   double initWB = 60;
   double initHB = 50;
+  map<string, Ev*> keyMap;
+  EvUserMovement up(Vector2d(0, -1));
+  EvUserMovement right(Vector2d(1, 0));
+  EvUserMovement down(Vector2d(0, 1));
+  EvUserMovement left(Vector2d(-1, 0));
 
+  keyMap["W"] = &up;
+  keyMap["D"] = &right;
+  keyMap["S"] = &down;
+  keyMap["A"] = &left;
 
   // setup asteroids
-  auto asteroidA = setupEntity(initPosA, initVelA, initWA, initHA, RED);
-  auto asteroidB = setupEntity(initPosB, initVelB, initWB, initHB, YELLOW);
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED);
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED);
+  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW);
+  auto ship = setupPlayerEntity(base, keyMap);
 
   // setup systems
   Bound bound;
   Events events;
+  KeyboardEvents<EvUserMovement> keyboardEvents;
   Movement movement;
   RectangleRenderer rectangle(&renderer);
+  Thrust thrust;
 
   // setup to manager
   manager.addEntity(*asteroidA);
   manager.addEntity(*asteroidB);
+  manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);
+  manager.addSystem(&keyboardEvents);
   manager.addSystem(&movement);
   manager.addSystem(&rectangle);
+  manager.addSystem(&thrust);
 
   // clock manager
   function<void(const uint32_t)> f_update = bind(
@@ -123,6 +166,12 @@ int main()
   clock.onConstantly(f_update);
   clock.onEveryFrame(f_render);
   clock.start();
+
+  // TODO dlete pointers
+  // for each entity
+  //   for each component
+  //     delete component
+  //   delete entity
 
   return 0;
 }

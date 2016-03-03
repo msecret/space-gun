@@ -22,7 +22,7 @@ namespace spacegun {
 
     private:
       void bindEntity(aronnax::Entity& entity);
-      void handleKeys(const aronnax::EvUserMovement& ev,
+      void handleKeys(aronnax::EvUserMovement& ev,
           aronnax::Entity& entity);
 
   };

@@ -93,8 +93,6 @@ TEST(ColorUnits, InequalityOperator) {
 using namespace aronnax;
 TEST(Ev, Constructor) {
   Ev ev;
-
-  EXPECT_EQ(true, ev.active);
 }
 
 TEST(EvKeyState, Constructor) {
@@ -102,13 +100,13 @@ TEST(EvKeyState, Constructor) {
   EvKeyState expectedState = EvKeyState::STATE_DOWN;
   EvKeyboard ev = EvKeyboard(expectedKey, expectedState);
 
-  EXPECT_EQ(expectedKey, ev.key);
-  EXPECT_EQ(expectedState, ev.keyState);
+  EXPECT_EQ(expectedKey, ev.getKey());
+  EXPECT_EQ(expectedState, ev.getKeyState());
 }
 
 TEST(EvUserMovement, Constructor) {
   Vector2d expected = { 2, 5 };
   EvUserMovement ev = EvUserMovement(expected);
 
-  EXPECT_EQ(expected, ev.direction);
+  EXPECT_EQ(expected, ev.getDirection());
 }

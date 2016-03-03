@@ -1,5 +1,4 @@
 
-#include <iostream>
 #include <memory>
 
 #include "gtest/gtest.h"
@@ -16,7 +15,7 @@ class MockRunner {
 };
 
 class ClockTest: public testing::Test {
-  protected: 
+  protected:
     virtual void SetUp() {
       clock_ = new aronnax::Clock();
     }

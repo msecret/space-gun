@@ -2,6 +2,8 @@
 #include <map>
 #include <string>
 
+#include "lib/units.h"
+
 #include "c_keyboardable.h"
 
 
@@ -17,10 +19,13 @@ namespace spacegun {
   { }
 
   Keyboardable::Keyboardable(const unsigned int eventCode,
-      const map<string, aronnax::Ev*>& keyMap) :
+      map<string, aronnax::Ev*>& keyMap) :
     eventCode(eventCode),
     keyMap_(keyMap)
-  { }
+  {
+    auto action = keyMap_.at("A");
+    auto castedAction = static_cast<aronnax::EvUserMovement*>(action);
+  }
 
   const string Keyboardable::getType()
   {
@@ -30,8 +35,9 @@ namespace spacegun {
   vector<string> Keyboardable::getKeys()
   {
     vector<string> keys;
-    for(auto key : keyMap_)
+    for(auto key : keyMap_) {
       keys.push_back(key.first);
+    }
 
     return keys;
   }
@@ -41,13 +47,4 @@ namespace spacegun {
     return eventCode;
   }
 
-  const aronnax::Ev* Keyboardable::getAction(const string& key)
-  {
-    aronnax::Ev* action = nullptr;
-    if (keyMap_.find(key) != keyMap_.end()) {
-      action = keyMap_.at(key);
-    }
-
-    return action;
-  }
 }

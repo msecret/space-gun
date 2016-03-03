@@ -40,7 +40,7 @@ namespace spacegun {
           {
             aronnax::EvKeyboard ev(event.key);
             for (auto e : entities) {
-              e->emit(EV_KEY, ev);
+              e->emit(aronnax::EV_KEY, &ev);
             }
             break;
           }

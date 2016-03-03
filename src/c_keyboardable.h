@@ -18,17 +18,29 @@ namespace spacegun {
     public:
       Keyboardable(const unsigned int eventCode);
       Keyboardable(const unsigned int eventCode,
-          const map<string, aronnax::Ev*>& keyMap);
+         map<string, aronnax::Ev*>& keyMap);
       const string getType();
       vector<string> getKeys();
       const unsigned int getEventCode();
-      const aronnax::Ev* getAction(const string& key);
+      template <class TEvent>
+      TEvent* getAction(const string& key);
 
     private:
       const unsigned int eventCode;
       const map<string, aronnax::Ev*> keyMap_;
 
   };
+
+  template <class TEvent>
+  TEvent* Keyboardable::getAction(const string& key)
+  {
+    TEvent* action = nullptr;
+    if (keyMap_.find(key) != keyMap_.end()) {
+      return static_cast<TEvent*>(keyMap_.at(key));
+    }
+
+    return action;
+  }
 }
 
 #endif

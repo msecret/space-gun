@@ -2,10 +2,8 @@
 #ifndef _h_Entity
 #define _h_Entity
 
-#include <iostream>
 #include <memory>
 #include <set>
-#include <stdio.h>
 #include <string>
 #include <vector>
 

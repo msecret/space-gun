@@ -31,7 +31,7 @@ namespace spacegun {
     });
   }
 
-  void Thrust::handleKeys(const aronnax::EvUserMovement& ev,
+  void Thrust::handleKeys(aronnax::EvUserMovement& ev,
       aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
@@ -40,7 +40,7 @@ namespace spacegun {
     auto thrustFactor = thrustable->getFactor();
 
     aronnax::Vector2d curr = moveable->getVel();
-    aronnax::Vector2d mod = ev.direction;
+    aronnax::Vector2d mod = ev.getDirection();
     // mod *= thrustFactor;
     mod.x *= thrustFactor;
     mod.y *= thrustFactor;
