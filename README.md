@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/msecret/space-gun.svg?label=ready&title=Ready)](http://waffle.io/msecret/space-gun)
+[![Stories ready](https://badge.waffle.io/msecret/space-gun.svg?label=ready&title=Open)](http://waffle.io/msecret/space-gun)
 
 # space-gun
 A game built using SDL.
