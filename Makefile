@@ -10,6 +10,7 @@ export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -std=c++11 `sdl2-config --cflags`
 export SDL_LDFLAGS := $(shell sdl2-config --libs)
+export BOX2D_LDFLAGS := -I/usr/include/Box2D
 export LFLAGS = -lpthread $(SDL_LDFLAGS)
 export CFLAGS = $(XFLAGS)
 VPATH = src
@@ -37,6 +38,7 @@ GMOCK_HEADERS = $(GMOCK_DIR)/include
 
 LIBGTEST = /usr/lib/libgtest_main.a /usr/lib/libgtest.a
 LIBGMOCK = /usr/lib/libgmock_main.a /usr/lib/libgmock.a
+LIBBOX2D = /usr/lib/Box2D/libBox2D.a
 
 SUBDIRS = src/lib
 
@@ -44,10 +46,10 @@ $(DISTDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TARGET): $(OBJS) subdirs
-	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LIBBOX2D) $(LFLAGS)
 
 $(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LFLAGS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LIBBOX2D) $(LFLAGS)
 	./$(TEST)
 
 $(OBJS): | $(DISTDIR)

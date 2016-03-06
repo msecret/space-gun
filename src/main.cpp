@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdio.h>
 
+#include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
 
 #include "lib/clock.h"
@@ -110,6 +111,10 @@ int main()
   Clock clock;
   SDLRenderer renderer = SDLRenderer(window);
   Manager manager = Manager(renderer);
+
+  // test box2d setup
+  b2Vec2 gravity(0.0f, 0.0f);
+  b2World world(gravity);
 
   // initial values
   Vector2d initVelA = { 1, 2 };
