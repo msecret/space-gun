@@ -68,13 +68,12 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, double w, double h,
     Color c)
 {
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
-  Moveable* moveable = new Moveable(initV);
+  Moveable* moveable = new Moveable(initV, initP);
   Rectangular* rectangular = new Rectangular(w, h);
   Boundable* boundable = new Boundable(bounds);
   Painted* painted = new Painted(c);
 
   auto entity = new Entity();
-  entity->setPos(initP);
   entity->addComponent(moveable);
   entity->addComponent(rectangular);
   entity->addComponent(boundable);

@@ -4,6 +4,7 @@
 #include "lib/entity.h"
 
 #include "c_boundable.h"
+#include "c_moveable.h"
 #include "s_bound.h"
 
 namespace spacegun {
@@ -28,12 +29,13 @@ namespace spacegun {
     aronnax::Vector2d newPos;
     auto bounds = entity.getComponent<Boundable>(COMPONENT_TYPE_BOUNDABLE)
         ->getBounds();
-    auto currentPos = entity.getPos();
+    auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto currentPos = moveable->getPos();
 
     newPos.x = wrapAround(currentPos.x, bounds.x);
     newPos.y = wrapAround(currentPos.y, bounds.y);
 
-    entity.setPos(newPos);
+    moveable->setPos(newPos);
   }
 
   double Bound::wrapAround(double coordinate, double max)

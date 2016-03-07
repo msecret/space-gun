@@ -66,7 +66,7 @@ TEST_F(EntityTest, hasComponent) {
 }
 
 TEST_F(EntityTest, addComponent) {
-  TestComponent* expected = new TestComponent();  
+  TestComponent* expected = new TestComponent();
 
   ea_->addComponent(expected);
 
@@ -92,7 +92,7 @@ TEST_F(EntityTest, getComponents) {
   aronnax::Entity* testEntity = new aronnax::Entity(expected);
 
   auto actual = testEntity->getComponents();
-  
+
   EXPECT_EQ(actual, expected);
 }
 
@@ -104,29 +104,6 @@ TEST_F(EntityTest, getComponentTypes) {
   expected.push_back(ca_->getType());
 
   auto actual = ea_->getComponentTypes();
-  
+
   EXPECT_EQ(actual, expected);
-}
-
-TEST_F(EntityTest, getPos) {
-  auto actual = ea_->getPos();
-  aronnax::Vector2d expected = aronnax::Vector2d(0, 0);
-
-  EXPECT_EQ(expected, actual);
-}
-
-TEST_F(EntityTest, setPos) {
-  auto expected = aronnax::Vector2d(2, 2);
-  ea_->setPos(expected);
-  auto actual = ea_->getPos();
-
-  EXPECT_EQ(expected, actual);
-}
-
-TEST_F(EntityTest, movePos) {
-  aronnax::Vector2d testV = { 2, 2 };
-  aronnax::Entity testEntity;
-
-  testEntity.movePos(testV);
-  // TODO make actual test case
 }

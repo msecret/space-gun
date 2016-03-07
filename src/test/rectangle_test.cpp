@@ -6,6 +6,7 @@
 #include "../lib/renderer.h"
 #include "../lib/units.h"
 
+#include "../c_moveable.h"
 #include "../c_rectangular.h"
 #include "../c_painted.h"
 #include "../s_rectangle_renderer.h"
@@ -66,7 +67,7 @@ TEST(RectangleSystem, constructor) {
 }
 
 TEST(RectangleSystem, getType) {
-  spacegun::RectangleRenderer testRR; 
+  spacegun::RectangleRenderer testRR;
 
   auto actual = testRR.getType();
 
@@ -80,12 +81,14 @@ TEST(RectangleSystem, render) {
   MockRenderer mockRenderer;
   aronnax::Entities entities;
   auto testC = spacegun::Rectangular(5, 7);
+  auto testM = spacegun::Moveable(expectedP.x, expectedP.y);
   auto testP = spacegun::Painted(expectedC);
   auto testEntity = new aronnax::Entity();
   auto testRR = spacegun::RectangleRenderer(&mockRenderer);
 
-  testEntity->setPos(expectedP);
+  //testEntity->setPos(expectedP);
   testEntity->addComponent(&testC);
+  testEntity->addComponent(&testM);
   testEntity->addComponent(&testP);
   entities.push_back(testEntity);
 

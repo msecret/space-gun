@@ -25,6 +25,6 @@ namespace spacegun {
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     aronnax::Vector2d vel = moveable->getVel();
-    entity.movePos(vel);
-  } 
+    moveable->move(vel);
+  }
 }

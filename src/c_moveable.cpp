@@ -9,7 +9,7 @@ namespace spacegun {
   const string Moveable::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
-  } 
+  }
 
   aronnax::Vector2d Moveable::getVel()
   {
@@ -21,4 +21,18 @@ namespace spacegun {
     vel_ = newVel;
   }
 
+  aronnax::Vector2d Moveable::getPos()
+  {
+    return pos_;
+  }
+
+  void Moveable::setPos(aronnax::Vector2d newPos)
+  {
+    pos_ = newPos;
+  }
+
+  void Moveable::move(aronnax::Vector2d vel)
+  {
+    pos_ += vel;
+  }
 }

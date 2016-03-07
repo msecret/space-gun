@@ -12,8 +12,15 @@ TEST(Movement, getType) {
 }
 
 TEST(Movement, constructor) {
-  aronnax::Vector2d testV = { 10, 3 };
-  spacegun::Moveable c = spacegun::Moveable(testV);
+  aronnax::Vector2d expectedVel = { 2, 3 };
+  aronnax::Vector2d expectedPos = { 10, 20 };
+  spacegun::Moveable c = spacegun::Moveable(expectedVel, expectedPos);
+
+  auto actualVel = c.getVel();
+  auto actualPos = c.getPos();
+
+  EXPECT_EQ(actualVel, expectedVel);
+  EXPECT_EQ(actualPos, expectedPos);
 }
 
 TEST(Movement, getsetVel) {
@@ -25,4 +32,26 @@ TEST(Movement, getsetVel) {
 
   EXPECT_EQ(expectedVel.x, actualVel.x);
   EXPECT_EQ(expectedVel.y, actualVel.y);
+}
+
+TEST(Moveable, getsetPos) {
+  aronnax::Vector2d expectedPos = { 3, 5 };
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setPos(expectedPos);
+  auto actual = c.getPos();
+
+  EXPECT_EQ(expectedPos, actual);
+}
+
+TEST(Moveable, movePos) {
+  aronnax::Vector2d vel = { 1, 1 };
+  aronnax::Vector2d initPos = { 1, 1 };
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setPos(initPos);
+  c.move(vel);
+  auto actual = c.getPos();
+
+  EXPECT_EQ(actual, initPos + vel);
 }
