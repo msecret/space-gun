@@ -33,8 +33,8 @@ TEST(RectangleComponent, getType) {
 }
 
 TEST(RectangleComponent, Constructor) {
-  double expectedW = 3;
-  double expectedH = 5;
+  float expectedW = 3;
+  float expectedH = 5;
   auto c = spacegun::Rectangular(expectedW, expectedH);
 
   auto actualW = c.getW();
@@ -45,7 +45,7 @@ TEST(RectangleComponent, Constructor) {
 }
 
 TEST(RectangleComponent, getsetW) {
-  double expected = 3;
+  float expected = 3;
   spacegun::Rectangular c;
   c.setW(expected);
   auto actual = c.getW();
@@ -54,7 +54,7 @@ TEST(RectangleComponent, getsetW) {
 }
 
 TEST(RectangleComponent, getsetH) {
-  double expected = 3;
+  float expected = 3;
   spacegun::Rectangular c;
   c.setH(expected);
   auto actual = c.getH();

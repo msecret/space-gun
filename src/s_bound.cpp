@@ -38,7 +38,7 @@ namespace spacegun {
     moveable->setPos(newPos);
   }
 
-  double Bound::wrapAround(double coordinate, double max)
+  float Bound::wrapAround(float coordinate, float max)
   {
     if (coordinate < 0) {
       return max;

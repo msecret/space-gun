@@ -42,7 +42,7 @@ const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const double THRUST_FACTOR = 0.1;
+const float THRUST_FACTOR = 0.1;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -64,7 +64,7 @@ void setupSDL()
   }
 }
 
-Entity* setupBaseEntity(Vector2d initP, Vector2d initV, double w, double h,
+Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
     Color c)
 {
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
@@ -122,10 +122,10 @@ int main()
   Vector2d initPosB = { 20, 0 };
   Vector2d initPlayer = { 10, 10 };
   Vector2d initPlayerV = { 0, 0 };
-  double initWA = 20;
-  double initHA = 55;
-  double initWB = 60;
-  double initHB = 50;
+  float initWA = 20;
+  float initHA = 55;
+  float initWB = 60;
+  float initHB = 50;
   map<string, Ev*> keyMap;
   EvUserMovement up(Vector2d(0, -1));
   EvUserMovement right(Vector2d(1, 0));

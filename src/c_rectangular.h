@@ -16,12 +16,12 @@ namespace spacegun {
   {
     public:
       Rectangular() {};
-      Rectangular(double w, double h);
+      Rectangular(float w, float h);
       const string getType();
-      double getW();
-      double getH();
-      void setW(double w);
-      void setH(double h);
+      float getW();
+      float getH();
+      void setW(float w);
+      void setH(float h);
 
     private:
       aronnax::Vector2d box_;

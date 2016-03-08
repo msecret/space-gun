@@ -6,10 +6,10 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_RECTANGULAR;
 
-  Rectangular::Rectangular(double w, double h)
+  Rectangular::Rectangular(float w, float h)
   {
     box_.x = w;
-    box_.y = h; 
+    box_.y = h;
   }
 
   const string Rectangular::getType()
@@ -17,22 +17,22 @@ namespace spacegun {
     return COMPONENT_TYPE_RECTANGULAR;
   }
 
-  double Rectangular::getW()
+  float Rectangular::getW()
   {
     return box_.x;
   }
 
-  double Rectangular::getH()
+  float Rectangular::getH()
   {
     return box_.y;
   }
 
-  void Rectangular::setW(double w)
+  void Rectangular::setW(float w)
   {
     box_.x = w;
   }
 
-  void Rectangular::setH(double h)
+  void Rectangular::setH(float h)
   {
     box_.y = h;
   }

@@ -15,12 +15,12 @@ namespace spacegun {
     return COMPONENT_TYPE_THRUSTABLE;
   }
 
-  double Thrustable::getFactor()
+  float Thrustable::getFactor()
   {
     return factor_;
   }
 
-  void Thrustable::setFactor(double factor)
+  void Thrustable::setFactor(float factor)
   {
     factor_ = factor;
   }

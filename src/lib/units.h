@@ -13,10 +13,10 @@ namespace aronnax {
 
   struct Vector2d
   {
-    double x;
-    double y;
+    float x;
+    float y;
 
-    Vector2d(const double x=0, const double y=0): x(x), y(y)
+    Vector2d(const float x=0, const float y=0): x(x), y(y)
     {
     }
 
@@ -48,7 +48,7 @@ namespace aronnax {
       return *this;
     }
 
-    Vector2d& operator*=(const double f)
+    Vector2d& operator*=(const float f)
     {
       x *= f;
       y *= f;

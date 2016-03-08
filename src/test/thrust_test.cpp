@@ -19,7 +19,7 @@ TEST(Thrustable, Constructor) {
 
   EXPECT_EQ(0, actual);
 
-  double expected = 3;
+  float expected = 3;
   Thrustable ca(expected);
 
   actual = ca.getFactor();
@@ -37,7 +37,7 @@ TEST(Thrustable, getType) {
 
 TEST(Thrustable, getsetFactor) {
   Thrustable c;
-  double expected = 43.2;
+  float expected = 43.2;
 
   c.setFactor(expected);
 
@@ -58,7 +58,7 @@ TEST(Thrust, onAddEntity) {
   Vector2d initV = { 1.5, 0 };
   Vector2d direction = { 0, -1 };
   Vector2d expected = { 1.5, -0.5 };
-  double factor = 0.5;
+  float factor = 0.5;
   EvUserMovement ev(direction);
 
   Moveable cm(initV);

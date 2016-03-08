@@ -41,7 +41,7 @@ class Clock
 
     void onConstantly(std::function<void(const uint32_t)>& def);
     void onEveryFrame(std::function<void(const uint32_t)>& def);
-    //void onEverySecs(double secs, std::function<void()>);
+    //void onEverySecs(float secs, std::function<void()>);
     //
     void tick();
     void tickConstantly(const uint32_t d);
