@@ -21,7 +21,7 @@ TEST(Keyboardable, Constructor) {
 
   Keyboardable c = Keyboardable(expectedCode, keyMap);
 
-  auto actual = c.getAction("testa");
+  auto actual = c.getAction<aronnax::Ev>("testa");
 
   EXPECT_EQ(&expected, actual);
   EXPECT_EQ(c.getEventCode(), expectedCode);
@@ -65,8 +65,8 @@ TEST(Keyboardable, getAction) {
 
   Keyboardable c = Keyboardable(expectedCode, keyMap);
 
-  auto actualA = c.getAction("testa");
-  auto actualB = c.getAction("testb");
+  auto actualA = c.getAction<aronnax::Ev>("testa");
+  auto actualB = c.getAction<aronnax::Ev>("testb");
 
   EXPECT_EQ(&expectedA, actualA);
   EXPECT_EQ(&expectedB, actualB);
@@ -99,7 +99,7 @@ TEST(KeyboardEvents, onAddEntity) {
   auto s = KeyboardEvents<aronnax::EvUserMovement>();
   s.onAddEntity(*e);
 
-  e->on(EV_USER_MOVEMENT, [&](const aronnax::EvUserMovement* ev) {
+  e->on(EV_USER_MOVEMENT, [&](aronnax::EvUserMovement* ev) {
 
   });
 

@@ -22,10 +22,7 @@ namespace spacegun {
       map<string, aronnax::Ev*>& keyMap) :
     eventCode(eventCode),
     keyMap_(keyMap)
-  {
-    auto action = keyMap_.at("A");
-    auto castedAction = static_cast<aronnax::EvUserMovement*>(action);
-  }
+  { }
 
   const string Keyboardable::getType()
   {
