@@ -16,9 +16,9 @@ class TestComponent : public aronnax::Component {
     {
       return;
     }
-    aronnax::Vector2d getVel()
+    Vector2d getVel()
     {
-      aronnax::Vector2d vel = { 10, 10 };
+      Vector2d vel = { 10, 10 };
       return vel;
     }
 

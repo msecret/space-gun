@@ -39,12 +39,12 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    aronnax::Vector2d curr = moveable->getVel();
-    aronnax::Vector2d mod = ev.getDirection();
+    Vector2d curr = moveable->getVel();
+    Vector2d mod = ev.getDirection();
     // mod *= thrustFactor;
     mod.x *= thrustFactor;
     mod.y *= thrustFactor;
-    aronnax::Vector2d newV = mod + curr;
+    Vector2d newV = mod + curr;
 
     moveable->setVel(newV);
   }

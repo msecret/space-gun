@@ -24,7 +24,7 @@ namespace spacegun {
   void Movement::processMovement(const uint32_t dt, aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
-    aronnax::Vector2d vel = moveable->getVel();
+    Vector2d vel = moveable->getVel();
     moveable->move(vel);
   }
 }

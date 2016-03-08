@@ -43,8 +43,8 @@ namespace spacegun {
 
     auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
-    aronnax::Vector2d box = { c->getW(), c->getH() };
-    aronnax::Vector2d pos = moveable->getPos();
+    Vector2d box = { c->getW(), c->getH() };
+    Vector2d pos = moveable->getPos();
 
 
     aronnax::Color color = { 0, 0, 0, 0 };

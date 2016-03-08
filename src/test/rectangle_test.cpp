@@ -14,17 +14,19 @@
 using namespace std;
 using ::testing::_;
 
+using aronnax::Vector2d;
+
 class MockRenderer: public aronnax::IRenderer
 {
   public:
     MOCK_METHOD0(render, void());
     MOCK_METHOD0(beforeRender, void());
     MOCK_METHOD0(afterRender, void());
-    MOCK_METHOD3(drawRectangle, void(const aronnax::Vector2d& pos,
-          const aronnax::Vector2d& box, const aronnax::Color& c));
-    MOCK_METHOD2(drawCircle, void(const aronnax::Vector2d& pos,
-          const aronnax::Vector2d& r));
-    MOCK_METHOD1(drawPolygon, void(const aronnax::Vector2d& pos));
+    MOCK_METHOD3(drawRectangle, void(const Vector2d& pos,
+          const Vector2d& box, const aronnax::Color& c));
+    MOCK_METHOD2(drawCircle, void(const Vector2d& pos,
+          const Vector2d& r));
+    MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
 };
 
 TEST(RectangleComponent, getType) {
@@ -77,11 +79,12 @@ TEST(RectangleSystem, getType) {
 TEST(RectangleSystem, render) {
   uint32_t testDt = 12;
   aronnax::Color expectedC = { 255, 100, 150, 123 };
-  aronnax::Vector2d expectedP = { 1, 3 };
+  Vector2d expectedP = { 1, 3 };
+  Vector2d expectedV = { 1, 3 };
   MockRenderer mockRenderer;
   aronnax::Entities entities;
   auto testC = spacegun::Rectangular(5, 7);
-  auto testM = spacegun::Moveable(expectedP.x, expectedP.y);
+  auto testM = spacegun::Moveable(expectedP, expectedV);
   auto testP = spacegun::Painted(expectedC);
   auto testEntity = new aronnax::Entity();
   auto testRR = spacegun::RectangleRenderer(&mockRenderer);

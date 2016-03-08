@@ -6,6 +6,7 @@
 #include "../c_painted.h"
 
 using namespace spacegun;
+using aronnax::Vector2d;
 
 TEST(Painted, DefaultConstructor) {
   aronnax::Color expected;

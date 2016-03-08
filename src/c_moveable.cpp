@@ -1,4 +1,6 @@
 
+#include <Box2D/Box2D.h>
+
 #include "./c_moveable.h"
 
 namespace spacegun {
@@ -6,33 +8,72 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
+  Moveable::Moveable() :
+    body_(nullptr)
+  {
+    b2BodyDef def;
+    def.type = b2_dynamicBody;
+    def.position.Set(0, 0);
+
+    bodyDef_ = def;
+  }
+
+  Moveable::Moveable(const Vector2d& initialVel,
+           const Vector2d& initialPos) :
+    body_(nullptr)
+  {
+    b2BodyDef def;
+    def.type = b2_dynamicBody;
+    def.position.Set(initialPos.x, initialPos.y);
+    def.linearVelocity.Set(initialVel.x, initialVel.y);
+
+    bodyDef_ = def;
+  };
+
   const string Moveable::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
   }
 
-  aronnax::Vector2d Moveable::getVel()
+  Vector2d Moveable::getVel()
   {
-    return vel_;
+    if (body_) {
+      return body_->GetLinearVelocity();
+    }
+    return bodyDef_.linearVelocity;
   }
 
-  void Moveable::setVel(aronnax::Vector2d newVel)
+  void Moveable::setVel(Vector2d newVel)
   {
-    vel_ = newVel;
+    if (body_) {
+      body_->SetLinearVelocity(newVel);
+    }
+    bodyDef_.linearVelocity = newVel;
   }
 
-  aronnax::Vector2d Moveable::getPos()
+  Vector2d Moveable::getPos()
   {
-    return pos_;
+    if (body_) {
+      return body_->GetPosition();
+    }
+    return bodyDef_.position;
   }
 
-  void Moveable::setPos(aronnax::Vector2d newPos)
+  void Moveable::setPos(Vector2d newPos)
   {
-    pos_ = newPos;
+    if (body_) {
+      body_->SetTransform(newPos, body_->GetAngle());
+    }
+    bodyDef_.position = newPos;
   }
 
-  void Moveable::move(aronnax::Vector2d vel)
+  void Moveable::move(Vector2d vel)
   {
-    pos_ += vel;
+    auto currentPos = getPos();
+    auto newPos = currentPos + vel;
+    if (body_) {
+      body_->SetTransform(newPos, body_->GetAngle());
+    }
+    bodyDef_.position = newPos;
   }
 }

@@ -24,7 +24,7 @@ namespace spacegun {
       void setH(float h);
 
     private:
-      aronnax::Vector2d box_;
+      Vector2d box_;
   };
 
 }

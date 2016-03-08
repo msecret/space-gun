@@ -55,13 +55,14 @@ TEST(Thrust, getType) {
 }
 
 TEST(Thrust, onAddEntity) {
+  Vector2d initP = { 0, 0 };
   Vector2d initV = { 1.5, 0 };
   Vector2d direction = { 0, -1 };
   Vector2d expected = { 1.5, -0.5 };
   float factor = 0.5;
   EvUserMovement ev(direction);
 
-  Moveable cm(initV);
+  Moveable cm(initP, initV);
   Thrustable ct(factor);
   Entity* e = new Entity();
   Thrust s;

@@ -26,7 +26,7 @@ namespace spacegun {
 
   void Bound::checkBounds(const uint32_t dt, aronnax::Entity& entity)
   {
-    aronnax::Vector2d newPos;
+    Vector2d newPos;
     auto bounds = entity.getComponent<Boundable>(COMPONENT_TYPE_BOUNDABLE)
         ->getBounds();
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);

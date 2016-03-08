@@ -4,6 +4,7 @@
 #include <cmath>
 #include <string>
 
+#include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
 
 #ifndef _h_Units
@@ -13,6 +14,9 @@ using namespace std;
 
 namespace aronnax {
 
+  using Vector2d = b2Vec2;
+
+  /*
   struct Vector2d
   {
     float x;
@@ -90,6 +94,14 @@ namespace aronnax {
       return *this;
     }
 
+    Vector2d& operator=(const Vector2d& other)
+    {
+      x = other.x;
+      y = other.y;
+
+      return *this;
+    }
+
     bool operator==(const Vector2d& a) const
     {
       return a.x == x && a.y == y;
@@ -135,6 +147,7 @@ namespace aronnax {
       return Vector2d(-y, x);
     }
   };
+  */
 
   struct Color
   {

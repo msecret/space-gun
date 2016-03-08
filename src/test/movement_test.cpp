@@ -6,14 +6,17 @@
 #include "../c_moveable.h"
 #include "../s_movement.h"
 
+using namespace aronnax;
+using aronnax::Vector2d;
+
 TEST(Movement, getType) {
   spacegun::Moveable c;
   EXPECT_EQ(spacegun::COMPONENT_TYPE_MOVEABLE, c.getType());
 }
 
 TEST(Movement, constructor) {
-  aronnax::Vector2d expectedVel = { 2, 3 };
-  aronnax::Vector2d expectedPos = { 10, 20 };
+  Vector2d expectedVel = { 2, 3 };
+  Vector2d expectedPos = { 10, 20 };
   spacegun::Moveable c = spacegun::Moveable(expectedVel, expectedPos);
 
   auto actualVel = c.getVel();
@@ -24,7 +27,7 @@ TEST(Movement, constructor) {
 }
 
 TEST(Movement, getsetVel) {
-  aronnax::Vector2d expectedVel = { 2, 5 };
+  Vector2d expectedVel = { 2, 5 };
   spacegun::Moveable c = spacegun::Moveable();
 
   c.setVel(expectedVel);
@@ -35,7 +38,7 @@ TEST(Movement, getsetVel) {
 }
 
 TEST(Moveable, getsetPos) {
-  aronnax::Vector2d expectedPos = { 3, 5 };
+  Vector2d expectedPos = { 3, 5 };
   spacegun::Moveable c = spacegun::Moveable();
 
   c.setPos(expectedPos);
@@ -45,8 +48,8 @@ TEST(Moveable, getsetPos) {
 }
 
 TEST(Moveable, movePos) {
-  aronnax::Vector2d vel = { 1, 1 };
-  aronnax::Vector2d initPos = { 1, 1 };
+  Vector2d vel = { 1, 1 };
+  Vector2d initPos = { 1, 1 };
   spacegun::Moveable c = spacegun::Moveable();
 
   c.setPos(initPos);
