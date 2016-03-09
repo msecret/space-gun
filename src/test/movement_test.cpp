@@ -6,8 +6,42 @@
 #include "../c_moveable.h"
 #include "../s_movement.h"
 
-using namespace aronnax;
 using aronnax::Vector2d;
+using namespace spacegun;
+
+TEST(Moveable, init) {
+  Vector2d g = { 0, 0 };
+  World w(g);
+  Moveable c;
+
+  c.init(w);
+
+  auto actual = c.getBody();
+
+  EXPECT_NE(actual, nullptr);
+}
+
+TEST(Moveable, getsetPos) {
+  Vector2d expectedPos = { 3, 5 };
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setPos(expectedPos);
+  auto actual = c.getPos();
+
+  EXPECT_EQ(expectedPos, actual);
+}
+
+TEST(Moveable, movePos) {
+  Vector2d vel = { 1, 1 };
+  Vector2d initPos = { 1, 1 };
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setPos(initPos);
+  c.move(vel);
+  auto actual = c.getPos();
+
+  EXPECT_EQ(actual, initPos + vel);
+}
 
 TEST(Movement, getType) {
   spacegun::Moveable c;
@@ -35,26 +69,4 @@ TEST(Movement, getsetVel) {
 
   EXPECT_EQ(expectedVel.x, actualVel.x);
   EXPECT_EQ(expectedVel.y, actualVel.y);
-}
-
-TEST(Moveable, getsetPos) {
-  Vector2d expectedPos = { 3, 5 };
-  spacegun::Moveable c = spacegun::Moveable();
-
-  c.setPos(expectedPos);
-  auto actual = c.getPos();
-
-  EXPECT_EQ(expectedPos, actual);
-}
-
-TEST(Moveable, movePos) {
-  Vector2d vel = { 1, 1 };
-  Vector2d initPos = { 1, 1 };
-  spacegun::Moveable c = spacegun::Moveable();
-
-  c.setPos(initPos);
-  c.move(vel);
-  auto actual = c.getPos();
-
-  EXPECT_EQ(actual, initPos + vel);
 }

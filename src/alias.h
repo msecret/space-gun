@@ -8,6 +8,7 @@ namespace spacegun {
 
   using Body = b2Body;
   using BodyDef = b2BodyDef;
+  using World = b2World;
 
   using Vector2d = b2Vec2;
 }

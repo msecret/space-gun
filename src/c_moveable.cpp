@@ -30,6 +30,11 @@ namespace spacegun {
     bodyDef_ = def;
   };
 
+  void Moveable::init(World& world)
+  {
+    body_ = world.CreateBody(&bodyDef_);
+  }
+
   const string Moveable::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
@@ -75,5 +80,10 @@ namespace spacegun {
       body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
+  }
+
+  Body* Moveable::getBody()
+  {
+    return body_;
   }
 }

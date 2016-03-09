@@ -22,12 +22,14 @@ namespace spacegun {
       Moveable();
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos);
+      void init(World& world);
       const string getType();
       Vector2d getVel();
       void setVel(Vector2d newVel);
       Vector2d getPos();
       void setPos(Vector2d newPos);
       void move(Vector2d vel);
+      Body* getBody();
 
     private:
       Body* body_;
