@@ -24,6 +24,7 @@
 #include "c_rectangular.h"
 #include "c_painted.h"
 #include "c_thrustable.h"
+#include "c_universal.h"
 
 #include "s_bound.h"
 #include "s_keyboard_events.h"
@@ -66,19 +67,21 @@ void setupSDL()
 }
 
 Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
-    Color c)
+    Color c, World& world)
 {
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
   Moveable* moveable = new Moveable(initV, initP);
   Rectangular* rectangular = new Rectangular(w, h);
   Boundable* boundable = new Boundable(bounds);
   Painted* painted = new Painted(c);
+  Universal* universal = new Universal(world);
 
   auto entity = new Entity();
   entity->addComponent(moveable);
   entity->addComponent(rectangular);
   entity->addComponent(boundable);
   entity->addComponent(painted);
+  entity->addComponent(universal);
 
   return entity;
 }
@@ -139,9 +142,12 @@ int main()
   keyMap["A"] = &left;
 
   // setup asteroids
-  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED);
-  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW);
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED,
+      world);
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED,
+      world);
+  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW,
+      world);
   auto ship = setupPlayerEntity(base, keyMap);
 
   // setup systems
