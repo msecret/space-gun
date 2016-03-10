@@ -22,7 +22,7 @@ namespace spacegun {
       Moveable();
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos);
-      void init(World& world);
+      void init(World& world, PolygonShape& shape);
       const string getType();
       Vector2d getVel();
       void setVel(Vector2d newVel);

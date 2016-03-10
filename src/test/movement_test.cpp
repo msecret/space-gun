@@ -1,24 +1,52 @@
 
 #include <gtest/gtest.h>
 
+#include "../lib/entity.h"
 #include "../lib/units.h"
 
 #include "../c_moveable.h"
+#include "../c_rectangular.h"
+#include "../c_universal.h"
 #include "../s_movement.h"
 
+using aronnax::Entity;
 using aronnax::Vector2d;
 using namespace spacegun;
+
+TEST(Moveable, constructor) {
+  Vector2d expectedVel = { 2, 3 };
+  Vector2d expectedPos = { 10, 20 };
+  spacegun::Moveable c = spacegun::Moveable(expectedVel, expectedPos);
+
+  auto actualVel = c.getVel();
+  auto actualPos = c.getPos();
+
+  EXPECT_EQ(actualVel, expectedVel);
+  EXPECT_EQ(actualPos, expectedPos);
+}
 
 TEST(Moveable, init) {
   Vector2d g = { 0, 0 };
   World w(g);
+  PolygonShape p;
   Moveable c;
 
-  c.init(w);
+  c.init(w, p);
 
   auto actual = c.getBody();
 
   EXPECT_NE(actual, nullptr);
+}
+
+TEST(Moveable, getsetVel) {
+  Vector2d expectedVel = { 2, 5 };
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setVel(expectedVel);
+  auto actualVel = c.getVel();
+
+  EXPECT_EQ(expectedVel.x, actualVel.x);
+  EXPECT_EQ(expectedVel.y, actualVel.y);
 }
 
 TEST(Moveable, getsetPos) {
@@ -77,25 +105,28 @@ TEST(Movement, getType) {
   EXPECT_EQ(spacegun::COMPONENT_TYPE_MOVEABLE, c.getType());
 }
 
-TEST(Movement, constructor) {
-  Vector2d expectedVel = { 2, 3 };
-  Vector2d expectedPos = { 10, 20 };
-  spacegun::Moveable c = spacegun::Moveable(expectedVel, expectedPos);
+TEST(Movement, onAddEntity) {
+  Vector2d g = { 0.0, 0.0 };
+  Entity* e = new Entity();
+  World w(g);
 
-  auto actualVel = c.getVel();
-  auto actualPos = c.getPos();
+  Moveable m;
+  Rectangular r;
+  Universal u(w);
 
-  EXPECT_EQ(actualVel, expectedVel);
-  EXPECT_EQ(actualPos, expectedPos);
-}
+  e->addComponent(&m);
+  e->addComponent(&r);
+  e->addComponent(&u);
 
-TEST(Movement, getsetVel) {
-  Vector2d expectedVel = { 2, 5 };
-  spacegun::Moveable c = spacegun::Moveable();
+  Movement sys;
 
-  c.setVel(expectedVel);
-  auto actualVel = c.getVel();
+  sys.onAddEntity(*e);
 
-  EXPECT_EQ(expectedVel.x, actualVel.x);
-  EXPECT_EQ(expectedVel.y, actualVel.y);
+  auto actualBody = m.getBody();
+  auto actualFixture = m.getBody();
+
+  EXPECT_NE(actualBody, nullptr);
+  EXPECT_NE(actualFixture, nullptr);
+
+  delete e;
 }
