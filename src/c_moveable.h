@@ -25,6 +25,7 @@ namespace spacegun {
       void init(World& world, PolygonShape& shape);
       const string getType();
       Vector2d getVel();
+      // TODO should this be set force?
       void setVel(Vector2d newVel);
       Vector2d getPos();
       void setPos(Vector2d newPos);

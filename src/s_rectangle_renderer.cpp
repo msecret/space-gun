@@ -46,7 +46,6 @@ namespace spacegun {
     Vector2d box = { c->getW(), c->getH() };
     Vector2d pos = moveable->getPos();
 
-
     aronnax::Color color = { 0, 0, 0, 0 };
     if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
       auto cb = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);

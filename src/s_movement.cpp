@@ -15,8 +15,9 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
-  void Movement::init(Entities entities)
+  void Movement::init(Entities& entities)
   {
+    std::cout << "Movement::init " << std::endl;
     for (auto e : entities) {
       bindEntity(*e);
     }

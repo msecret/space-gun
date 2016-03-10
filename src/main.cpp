@@ -77,6 +77,10 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world);
 
+  moveable->setFriction(0.01);
+  moveable->setRestitution(0.1);
+  moveable->setDensity(1.0);
+
   auto entity = new Entity();
   entity->addComponent(moveable);
   entity->addComponent(rectangular);
@@ -122,11 +126,11 @@ int main()
   world.SetContinuousPhysics(true);
 
   // initial values
-  Vector2d initVelA = { 1, 2 };
-  Vector2d initVelB = { 3, 2 };
-  Vector2d initPosA = { 30, 50 };
-  Vector2d initPosB = { 20, 0 };
-  Vector2d initPlayer = { 10, 10 };
+  Vector2d initVelA = { 10, 20 };
+  Vector2d initVelB = { 90, 40 };
+  Vector2d initPosA = { 10, 30 };
+  Vector2d initPosB = { 500, 120 };
+  Vector2d initPlayer = { 100, 40 };
   Vector2d initPlayerV = { 0, 0 };
   float initWA = 20;
   float initHA = 55;

@@ -17,9 +17,9 @@ namespace spacegun {
 
   void Universe::updateWorld(const uint32_t dt, Entity& entity)
   {
-    float timeStep = 1/60.0;
+    float timeStep = 0.1;
     int velocityIterations = 8;
-    int positionIterations = 3;
+    int positionIterations = 2;
 
     auto u = entity.getComponent<Universal>(COMPONENT_TYPE_UNIVERSAL);
     auto world = u->getWorld();
