@@ -32,6 +32,7 @@
 #include "s_rectangle_renderer.h"
 #include "s_sdl_events.h"
 #include "s_thrust.h"
+#include "s_universe.h"
 
 using namespace std;
 using namespace aronnax;
@@ -118,6 +119,7 @@ int main()
   // test box2d setup
   b2Vec2 gravity(0.0f, 0.0f);
   b2World world(gravity);
+  world.SetContinuousPhysics(true);
 
   // initial values
   Vector2d initVelA = { 1, 2 };
@@ -157,6 +159,7 @@ int main()
   Movement movement;
   RectangleRenderer rectangle(&renderer);
   Thrust thrust;
+  Universe universe;;
 
   // setup to manager
   manager.addEntity(*asteroidA);
@@ -168,6 +171,7 @@ int main()
   manager.addSystem(&movement);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
+  manager.addSystem(&universe);
 
   // clock manager
   function<void(const uint32_t)> f_update = bind(
