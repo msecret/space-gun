@@ -29,6 +29,7 @@ TEST(Moveable, init) {
   Vector2d g = { 0, 0 };
   World w(g);
   PolygonShape p;
+  p.SetAsBox(2, 1);
   Moveable c;
 
   c.init(w, p);
@@ -111,7 +112,7 @@ TEST(Movement, onAddEntity) {
   World w(g);
 
   Moveable m;
-  Rectangular r;
+  Rectangular r(10.0, 20.0);
   Universal u(w);
 
   e->addComponent(&m);

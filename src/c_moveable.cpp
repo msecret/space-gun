@@ -37,6 +37,8 @@ namespace spacegun {
   void Moveable::init(World& world, PolygonShape& shape)
   {
     body_ = world.CreateBody(&bodyDef_);
+    fixtureDef_.shape = &shape;
+    fixture_ = body_->CreateFixture(&fixtureDef_);
   }
 
   const string Moveable::getType()
