@@ -43,6 +43,35 @@ TEST(Moveable, movePos) {
   EXPECT_EQ(actual, initPos + vel);
 }
 
+TEST(Moveable, getsetFriction) {
+  float expected = 8.2;
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setFriction(expected);
+
+  auto actual = c.getFriction();
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(Moveable, getsetRestitution) {
+  float expected = 8.3;
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setRestitution(expected);
+
+  auto actual = c.getRestitution();
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(Moveable, getsetDensity) {
+  float expected = 8.4;
+  spacegun::Moveable c = spacegun::Moveable();
+
+  c.setDensity(expected);
+}
+
 TEST(Movement, getType) {
   spacegun::Moveable c;
   EXPECT_EQ(spacegun::COMPONENT_TYPE_MOVEABLE, c.getType());

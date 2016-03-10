@@ -9,18 +9,21 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_MOVEABLE;
 
   Moveable::Moveable() :
-    body_(nullptr)
+    body_(nullptr),
+    fixture_(nullptr)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
     def.position.Set(0, 0);
 
     bodyDef_ = def;
+    fixtureDef_.density = 1;
   }
 
   Moveable::Moveable(const Vector2d& initialVel,
            const Vector2d& initialPos) :
-    body_(nullptr)
+    body_(nullptr),
+    fixture_(nullptr)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -28,6 +31,7 @@ namespace spacegun {
     def.linearVelocity.Set(initialVel.x, initialVel.y);
 
     bodyDef_ = def;
+    fixtureDef_.density = 1;
   };
 
   void Moveable::init(World& world)
@@ -80,6 +84,54 @@ namespace spacegun {
       body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
+  }
+
+  float Moveable::getFriction()
+  {
+    if (fixture_) {
+      return fixture_->GetFriction();
+    }
+    return fixtureDef_.friction;
+  }
+
+  void Moveable::setFriction(float friction)
+  {
+    if (fixture_) {
+      fixture_->SetFriction(friction);
+    }
+    fixtureDef_.friction = friction;
+  }
+
+  float Moveable::getRestitution()
+  {
+    if (fixture_) {
+      return fixture_->GetRestitution();
+    }
+    return fixtureDef_.restitution;
+  }
+
+  void Moveable::setRestitution(float restitution)
+  {
+    if (fixture_) {
+      fixture_->SetRestitution(restitution);
+    }
+    fixtureDef_.restitution = restitution;
+  }
+
+  float Moveable::getDensity()
+  {
+    if (fixture_) {
+      return fixture_->GetDensity();
+    }
+    return fixtureDef_.density;
+  }
+
+  void Moveable::setDensity(float density)
+  {
+    if (fixture_) {
+      fixture_->SetDensity(density);
+    }
+    fixtureDef_.density = density;
   }
 
   Body* Moveable::getBody()

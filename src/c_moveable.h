@@ -29,11 +29,19 @@ namespace spacegun {
       Vector2d getPos();
       void setPos(Vector2d newPos);
       void move(Vector2d vel);
+      float getFriction();
+      void setFriction(float friction);
+      float getRestitution();
+      void setRestitution(float restitution);
+      float getDensity();
+      void setDensity(float density);
       Body* getBody();
 
     private:
       Body* body_;
       BodyDef bodyDef_;
+      Fixture* fixture_;
+      FixtureDef fixtureDef_;
 
   };
 }

@@ -1,8 +1,10 @@
 
+#include "alias.h"
 #include "c_rectangular.h"
 
 namespace spacegun {
   using namespace std;
+  using aronnax::Vector2d;
 
   extern const string COMPONENT_TYPE_RECTANGULAR;
 
