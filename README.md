@@ -81,6 +81,7 @@ make config=debug
 Move the resulting library file into a correct place on your system(or project directory)
 
 ```
+sudo cp Box2D /usr/include
 sudo cp gmake/bin/Debug/libBox2D.a /usr/lib
 ```
 
