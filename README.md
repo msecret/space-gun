@@ -1,7 +1,17 @@
 [![Stories ready](https://badge.waffle.io/msecret/space-gun.svg?label=ready&title=Open)](http://waffle.io/msecret/space-gun)
 
 # space-gun
-A game built using SDL.
+A 2D realistic space exploration and combat game focusing on the charm of operating in a zero gravity environment.
+
+## Ideation
+### Features
+- Two keyboard controllable player ships
+- Accurate 2D, zero gravity physics and collisions.
+- Realistic primary ship weapon.
+- Simple graphical representation of spaceship in space environment
+- Asteroid objects manipulatable by player and environment.
+
+## Design
 
 ## Development
 1. Install SDL libraries
