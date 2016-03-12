@@ -38,7 +38,7 @@ GMOCK_HEADERS = $(GMOCK_DIR)/include
 
 LIBGTEST = /usr/lib/libgtest_main.a /usr/lib/libgtest.a
 LIBGMOCK = /usr/lib/libgmock_main.a /usr/lib/libgmock.a
-LIBBOX2D = /usr/lib/Box2D/libBox2D.a
+LIBBOX2D = /usr/lib/libBox2D.a
 
 SUBDIRS = src/lib
 
