@@ -17,7 +17,6 @@ namespace spacegun {
 
   void Movement::init(Entities& entities)
   {
-    std::cout << "Movement::init " << std::endl;
     for (auto e : entities) {
       bindEntity(*e);
     }
