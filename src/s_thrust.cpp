@@ -46,7 +46,7 @@ namespace spacegun {
     mod.y *= thrustFactor;
     Vector2d newV = mod + curr;
 
-    moveable->setVel(newV);
+    moveable->applyForce(newV);
   }
 
   const string& Thrust::getType()

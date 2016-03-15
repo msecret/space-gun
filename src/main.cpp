@@ -46,7 +46,7 @@ const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const float THRUST_FACTOR = 0.1;
+const float THRUST_FACTOR = 1000;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
