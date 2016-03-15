@@ -10,6 +10,7 @@ namespace spacegun {
   using BodyDef = b2BodyDef;
   using Fixture = b2Fixture;
   using FixtureDef = b2FixtureDef;
+  using MassData = b2MassData;
   using PolygonShape = b2PolygonShape;
   using World = b2World;
 

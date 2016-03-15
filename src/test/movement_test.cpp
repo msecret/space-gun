@@ -12,6 +12,7 @@
 
 using aronnax::Entity;
 using aronnax::Vector2d;
+using spacegun::Moveable;
 using namespace spacegun;
 using ::testing::_;
 
@@ -108,6 +109,31 @@ TEST(Moveable, getsetDensity) {
   spacegun::Moveable c = spacegun::Moveable();
 
   c.setDensity(expected);
+}
+
+TEST(Moveable, getsetMass) {
+  Moveable c;
+  float expectedMass = 4.5;
+  Vector2d expectedCenter = { 1, 1 };
+
+  c.setMass(expectedMass,
+      expectedCenter,
+      0);
+
+  auto actual = c.getMass();
+
+  EXPECT_EQ(actual, expectedMass);
+
+  Vector2d g = { 0.0, 0.0 };
+  World w(g);
+  PolygonShape p;
+  p.SetAsBox(2, 1);
+
+  c.init(w, p);
+
+  actual = c.getMass();
+
+  EXPECT_EQ(actual, expectedMass);
 }
 
 TEST(Movement, getType) {
