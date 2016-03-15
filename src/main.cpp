@@ -38,6 +38,7 @@ using namespace std;
 using namespace aronnax;
 using namespace spacegun;
 
+const float TIMESTEP = 0.8;
 const int WORLD_W = 640;
 const int WORLD_H = 480;
 
@@ -75,7 +76,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Rectangular* rectangular = new Rectangular(w, h);
   Boundable* boundable = new Boundable(bounds);
   Painted* painted = new Painted(c);
-  Universal* universal = new Universal(world);
+  Universal* universal = new Universal(world, TIMESTEP);
 
   moveable->setFriction(0.01);
   moveable->setRestitution(0.1);

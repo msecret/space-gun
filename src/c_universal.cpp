@@ -22,4 +22,9 @@ namespace spacegun {
     return world_;
   }
 
+  float Universal::getTimeStep()
+  {
+    return timeStep_;
+  }
+
 }

@@ -12,17 +12,19 @@ namespace spacegun {
   void Universe::update(const uint32_t dt, Entities& entities)
   {
     auto oneE = entities.at(0);
-    updateWorld(dt, *oneE);
+    if (oneE) {
+      updateWorld(dt, *oneE);
+    }
   }
 
   void Universe::updateWorld(const uint32_t dt, Entity& entity)
   {
-    float timeStep = 0.1;
     int velocityIterations = 8;
     int positionIterations = 2;
 
     auto u = entity.getComponent<Universal>(COMPONENT_TYPE_UNIVERSAL);
     auto world = u->getWorld();
+    auto timeStep = u->getTimeStep();
 
     world->Step(timeStep, velocityIterations, positionIterations);
   }

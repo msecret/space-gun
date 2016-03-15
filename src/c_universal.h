@@ -20,11 +20,17 @@ namespace spacegun {
       Universal(World& world)
         : world_(&world)
       { }
+      Universal(World& world, float timeStep):
+        world_(&world),
+        timeStep_(timeStep)
+      { }
       const string getType();
       World* getWorld();
+      float getTimeStep();
 
     private:
       World* world_;
+      float timeStep_;
   };
 
 }

@@ -33,6 +33,21 @@ TEST_F(UniverseTest, constructor) {
   auto actual = u.getWorld();
 
   EXPECT_EQ(actual, world_);
+
+  float expected = 10.2;
+
+  Universal u2(*world_, expected);
+
+  EXPECT_EQ(u2.getTimeStep(), expected);
+}
+
+TEST_F(UniverseTest, UniversalGetTimeStep) {
+  float expected = 10.2;
+  Universal u(*world_, expected);
+
+  auto actual = u.getTimeStep();
+
+  EXPECT_EQ(actual, expected);
 }
 
 TEST_F(UniverseTest, getType) {
