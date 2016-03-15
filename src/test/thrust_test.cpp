@@ -58,7 +58,7 @@ TEST(Thrust, onAddEntity) {
   Vector2d initP = { 0, 0 };
   Vector2d initV = { 1.5, 0 };
   Vector2d direction = { 0, -1 };
-  Vector2d expected = { 1.5, -0.5 };
+  //Vector2d expected = { 1.5, -0.5 };
   float factor = 0.5;
   EvUserMovement ev(direction);
 
@@ -74,7 +74,7 @@ TEST(Thrust, onAddEntity) {
 
   e->emit(EV_USER_MOVEMENT, &ev);
 
-  auto actual = cm.getVel();
+  //auto actual = cm.getVel();
 
   //EXPECT_EQ(expected.x, actual.x);
   //EXPECT_EQ(expected.y, actual.y);

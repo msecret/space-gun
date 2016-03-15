@@ -36,6 +36,9 @@ namespace spacegun {
       void setRestitution(float restitution);
       float getDensity();
       void setDensity(float density);
+
+      void applyForce(const Vector2d& v);
+
       Body* getBody();
 
     private:

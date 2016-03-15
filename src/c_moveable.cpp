@@ -136,6 +136,11 @@ namespace spacegun {
     fixtureDef_.density = density;
   }
 
+  void Moveable::applyForce(const Vector2d& v)
+  {
+    body_->ApplyForceToCenter(v, true);
+  }
+
   Body* Moveable::getBody()
   {
     return body_;

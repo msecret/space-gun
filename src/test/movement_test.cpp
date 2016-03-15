@@ -1,5 +1,6 @@
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
 #include "../lib/entity.h"
 #include "../lib/units.h"
@@ -12,6 +13,14 @@
 using aronnax::Entity;
 using aronnax::Vector2d;
 using namespace spacegun;
+using ::testing::_;
+
+class TestBody {
+  public:
+    MOCK_METHOD1(ApplyForceToCenter, void(const Vector2d& v));
+};
+
+using Body = TestBody;
 
 TEST(Moveable, constructor) {
   Vector2d expectedVel = { 2, 3 };
@@ -130,4 +139,31 @@ TEST(Movement, onAddEntity) {
   EXPECT_NE(actualFixture, nullptr);
 
   delete e;
+}
+
+TEST(Moveable, applyForce) {
+  Vector2d g = { 0.0, 0.0 };
+  Vector2d initV = { 1.0, 1.0 };
+  Vector2d initP = { 0.0, 0.0 };
+  Vector2d force = { 4.0, 0.0 };
+  World w(g);
+  PolygonShape p;
+  p.SetAsBox(2, 1);
+
+  Moveable m(initV, initP);
+
+  m.init(w, p);
+
+  auto actual = m.getVel();
+
+  EXPECT_EQ(actual, initV);
+
+  m.applyForce(force);
+  w.Step(0.8, 8, 2);
+
+  actual = m.getVel();
+
+  // Note: 1.4 value found through trial.
+  EXPECT_EQ(actual.x, 1.4f);
+  EXPECT_EQ(actual.y, 1);
 }
