@@ -14,18 +14,20 @@ namespace spacegun {
 
   const string COMPONENT_TYPE_SHAPED = "shaped";
 
+  template <class TShape>
   class Shaped: public aronnax::Component
   {
     public:
-      Shaped(Component& shapeComponent) :
+      Shaped(TShape& shapeComponent) :
         shapeComponent_(&shapeComponent)
       {};
       const string getType();
       const string getShapeType();
-      //Component* getShape();
+      TShape* getShapeComponent();
+      Shape* getShape();
 
     private:
-      Component* shapeComponent_;
+      TShape* shapeComponent_;
   };
 }
 
