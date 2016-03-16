@@ -50,7 +50,8 @@ namespace spacegun {
       BodyDef bodyDef_;
       Fixture* fixture_;
       FixtureDef fixtureDef_;
-      MassData* massData_;
+      MassData massData_;
+      bool setMassData_;
 
   };
 }

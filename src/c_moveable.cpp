@@ -1,6 +1,4 @@
 
-#include <cassert>
-
 #include <Box2D/Box2D.h>
 
 #include "./c_moveable.h"
@@ -14,7 +12,7 @@ namespace spacegun {
   Moveable::Moveable() :
     body_(nullptr),
     fixture_(nullptr),
-    massData_(nullptr)
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -28,7 +26,7 @@ namespace spacegun {
            const Vector2d& initialPos) :
     body_(nullptr),
     fixture_(nullptr),
-    massData_(nullptr)
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -44,8 +42,8 @@ namespace spacegun {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
     fixture_ = body_->CreateFixture(&fixtureDef_);
-    if (massData_) {
-      body_->SetMassData(massData_);
+    if (setMassData_) {
+      body_->SetMassData(&massData_);
     }
   }
 
@@ -149,18 +147,18 @@ namespace spacegun {
     if (body_) {
       return body_->GetMass();
     }
-    return massData_->mass;
+    return massData_.mass;
   }
 
   void Moveable::setMass(float mass, const Vector2d& center, float inertia)
   {
-    massData_ = new MassData();
-    massData_->mass = mass;
-    massData_->center = center;
-    massData_->I = inertia;
+    massData_.mass = mass;
+    massData_.center = center;
+    massData_.I = inertia;
+    setMassData_ = true;
 
     if (body_) {
-      body_->SetMassData(massData_);
+      body_->SetMassData(&massData_);
     }
   }
 
