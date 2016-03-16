@@ -5,12 +5,14 @@
 
 namespace spacegun {
   using namespace std;
+  using spacegun::MassData;
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
   Moveable::Moveable() :
     body_(nullptr),
-    fixture_(nullptr)
+    fixture_(nullptr),
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -23,7 +25,8 @@ namespace spacegun {
   Moveable::Moveable(const Vector2d& initialVel,
            const Vector2d& initialPos) :
     body_(nullptr),
-    fixture_(nullptr)
+    fixture_(nullptr),
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -39,6 +42,9 @@ namespace spacegun {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
     fixture_ = body_->CreateFixture(&fixtureDef_);
+    if (setMassData_) {
+      body_->SetMassData(&massData_);
+    }
   }
 
   const string Moveable::getType()
@@ -134,6 +140,26 @@ namespace spacegun {
       fixture_->SetDensity(density);
     }
     fixtureDef_.density = density;
+  }
+
+  float Moveable::getMass()
+  {
+    if (body_) {
+      return body_->GetMass();
+    }
+    return massData_.mass;
+  }
+
+  void Moveable::setMass(float mass, const Vector2d& center, float inertia)
+  {
+    massData_.mass = mass;
+    massData_.center = center;
+    massData_.I = inertia;
+    setMassData_ = true;
+
+    if (body_) {
+      body_->SetMassData(&massData_);
+    }
   }
 
   void Moveable::applyForce(const Vector2d& v)

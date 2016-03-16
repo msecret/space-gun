@@ -13,6 +13,7 @@
 
 namespace spacegun {
   using namespace std;
+  using spacegun::MassData;
 
   const string COMPONENT_TYPE_MOVEABLE = "moveable";
 
@@ -36,6 +37,9 @@ namespace spacegun {
       void setRestitution(float restitution);
       float getDensity();
       void setDensity(float density);
+      float getMass();
+      void setMass(float mass, const Vector2d& center,
+          float inertia);
 
       void applyForce(const Vector2d& v);
 
@@ -46,6 +50,8 @@ namespace spacegun {
       BodyDef bodyDef_;
       Fixture* fixture_;
       FixtureDef fixtureDef_;
+      MassData massData_;
+      bool setMassData_;
 
   };
 }
