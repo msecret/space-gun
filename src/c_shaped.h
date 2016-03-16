@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <string>
 
+#include "alias.h"
 #include "lib/component.h"
 #include "lib/units.h"
 
