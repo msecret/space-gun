@@ -29,12 +29,12 @@ class MockRenderer: public aronnax::IRenderer
     MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
 };
 
-TEST(RectangleComponent, getType) {
+TEST(Rectangular, getType) {
   spacegun::Rectangular c;
   EXPECT_EQ(spacegun::COMPONENT_TYPE_RECTANGULAR, c.getType());
 }
 
-TEST(RectangleComponent, Constructor) {
+TEST(Rectangular, Constructor) {
   float expectedW = 3;
   float expectedH = 5;
   auto c = spacegun::Rectangular(expectedW, expectedH);
@@ -46,7 +46,7 @@ TEST(RectangleComponent, Constructor) {
   EXPECT_EQ(expectedH, actualH);
 }
 
-TEST(RectangleComponent, getsetW) {
+TEST(Rectangular, getsetW) {
   float expected = 3;
   spacegun::Rectangular c;
   c.setW(expected);
@@ -55,13 +55,23 @@ TEST(RectangleComponent, getsetW) {
   EXPECT_EQ(expected, actual);
 }
 
-TEST(RectangleComponent, getsetH) {
+TEST(Rectangular, getsetH) {
   float expected = 3;
   spacegun::Rectangular c;
   c.setH(expected);
   auto actual = c.getH();
 
   EXPECT_EQ(expected, actual);
+}
+
+TEST(Rectangular, getShape) {
+  spacegun::Rectangular c(10, 10);
+
+  auto shape = c.getShape();
+  auto actual = shape->m_centroid;
+
+  EXPECT_EQ(actual.x, 0);
+  EXPECT_EQ(actual.y, 0);
 }
 
 TEST(RectangleSystem, constructor) {

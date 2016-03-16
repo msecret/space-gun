@@ -40,9 +40,7 @@ namespace spacegun {
       auto u = e.getComponent<Universal>(COMPONENT_TYPE_UNIVERSAL);
       auto world = u->getWorld();
 
-      // TODO who cleans this up?
-      PolygonShape* shape = new PolygonShape();
-      shape->SetAsBox(s->getW(), s->getH());
+      auto shape = s->getShape();
 
       m->init(*world, *shape);
     }
