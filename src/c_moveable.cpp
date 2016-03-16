@@ -37,7 +37,7 @@ namespace spacegun {
     fixtureDef_.density = 1;
   };
 
-  void Moveable::init(World& world, PolygonShape& shape)
+  void Moveable::init(World& world, Shape& shape)
   {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;

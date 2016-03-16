@@ -75,7 +75,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
   Moveable* moveable = new Moveable(initV, initP);
   Rectangular* rectangular = new Rectangular(w, h);
-  Shaped<Rectangular>* shaped = new Shaped<Rectangular>(*rectangular);
+  Shaped* shaped = new Shaped(*rectangular);
   Boundable* boundable = new Boundable(bounds);
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);

@@ -14,7 +14,7 @@ using namespace spacegun;
 
 TEST(Shaped, getType) {
   Rectangular r;
-  Shaped<Rectangular> c(r);
+  Shaped c(r);
 
   auto actual = c.getType();
 
@@ -23,7 +23,7 @@ TEST(Shaped, getType) {
 
 TEST(Shaped, getShapeType) {
   Rectangular r;
-  Shaped<Rectangular> c(r);
+  Shaped c(r);
 
   auto actual = c.getShapeType();
 
@@ -32,10 +32,9 @@ TEST(Shaped, getShapeType) {
 
 TEST(Shaped, getShapeComponent) {
   Rectangular r;
-  Shaped<Rectangular> c(r);
+  Shaped c(r);
 
-  auto shaped = c.getShapeComponent();
-  auto actual = shaped->getShape();
+  auto actual = c.getShape();
 
   EXPECT_EQ(actual, r.getShape());
 }

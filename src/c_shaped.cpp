@@ -6,31 +6,24 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_SHAPED;
 
-  template <class TShape>
-  const string Shaped<TShape>::getType()
+  const string Shaped::getType()
   {
     return COMPONENT_TYPE_SHAPED;
   }
 
-  template <class TShape>
-  const string Shaped<TShape>::getShapeType()
+  const string Shaped::getShapeType()
   {
     return shapeComponent_->getType();
   }
 
-  template <class TShape>
-  TShape* Shaped<TShape>::getShapeComponent()
+  BaseShaped* Shaped::getShapeComponent()
   {
-    auto casted = static_cast<TShape*>(shapeComponent_);
-    return casted;
+    return shapeComponent_;
   }
 
-  template <class TShape>
-  Shape* Shaped<TShape>::getShape()
+  Shape* Shaped::getShape()
   {
-    auto casted = static_cast<TShape*>(shapeComponent_);
-    return casted->getShape();
+    return shapeComponent_->getShape();
   }
 
-  template class Shaped<Rectangular>;
 }

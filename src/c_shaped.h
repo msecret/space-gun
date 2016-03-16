@@ -5,9 +5,10 @@
 #include <cstdint>
 #include <string>
 
-#include "alias.h"
 #include "lib/component.h"
 #include "lib/units.h"
+
+#include "c_base_shaped.h"
 
 namespace spacegun {
   using std::string;
@@ -15,20 +16,19 @@ namespace spacegun {
 
   const string COMPONENT_TYPE_SHAPED = "shaped";
 
-  template <class TShape>
   class Shaped: public aronnax::Component
   {
     public:
-      Shaped(TShape& shapeComponent) :
+      Shaped(BaseShaped& shapeComponent) :
         shapeComponent_(&shapeComponent)
       {};
       const string getType();
       const string getShapeType();
-      TShape* getShapeComponent();
+      BaseShaped* getShapeComponent();
       Shape* getShape();
 
     private:
-      TShape* shapeComponent_;
+      BaseShaped* shapeComponent_;
   };
 }
 

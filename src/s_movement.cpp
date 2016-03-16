@@ -37,7 +37,7 @@ namespace spacegun {
   {
     auto m = e.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto u = e.getComponent<Universal>(COMPONENT_TYPE_UNIVERSAL);
-    auto s = e.getComponent<Shaped<Rectangular>>(COMPONENT_TYPE_SHAPED);
+    auto s = e.getComponent<Shaped>(COMPONENT_TYPE_SHAPED);
     auto world = u->getWorld();
 
     auto xs = s->getShapeComponent();

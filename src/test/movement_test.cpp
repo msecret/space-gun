@@ -7,12 +7,14 @@
 
 #include "../c_moveable.h"
 #include "../c_rectangular.h"
+#include "../c_shaped.h"
 #include "../c_universal.h"
 #include "../s_movement.h"
 
 using aronnax::Entity;
 using aronnax::Vector2d;
 using spacegun::Moveable;
+using spacegun::Shaped;
 using namespace spacegun;
 using ::testing::_;
 
@@ -148,10 +150,12 @@ TEST(Movement, onAddEntity) {
 
   Moveable m;
   Rectangular r(10.0, 20.0);
+  Shaped s(r);
   Universal u(w);
 
   e->addComponent(&m);
   e->addComponent(&r);
+  e->addComponent(&s);
   e->addComponent(&u);
 
   Movement sys;

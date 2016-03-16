@@ -6,9 +6,11 @@
 
 #include <Box2D/Box2D.h>
 
-#include "alias.h"
 #include "lib/component.h"
 #include "lib/units.h"
+
+#include "alias.h"
+#include "c_base_shaped.h"
 
 namespace spacegun {
   using namespace std;
@@ -17,7 +19,7 @@ namespace spacegun {
 
   const string COMPONENT_TYPE_RECTANGULAR = "rectangular";
 
-  class Rectangular : public aronnax::Component
+  class Rectangular : public BaseShaped
   {
     public:
       Rectangular() :
@@ -26,11 +28,11 @@ namespace spacegun {
       Rectangular(float w, float h);
       ~Rectangular();
       const string getType();
+      PolygonShape* getShape();
       float getW();
       float getH();
       void setW(float w);
       void setH(float h);
-      PolygonShape* getShape();
 
     private:
       Vector2d box_;
