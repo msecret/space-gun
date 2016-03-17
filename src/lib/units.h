@@ -1,7 +1,10 @@
 
 #include <cstdint>
+#include <cfloat>
+#include <cmath>
 #include <string>
 
+#include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
 
 #ifndef _h_Units
@@ -11,13 +14,43 @@ using namespace std;
 
 namespace aronnax {
 
+  using Vector2d = b2Vec2;
+
+  /*
   struct Vector2d
   {
-    double x;
-    double y;
+    float x;
+    float y;
 
-    Vector2d(const double x=0, const double y=0): x(x), y(y)
+    Vector2d() :
+      x(0), y(0)
+    { }
+
+    Vector2d(float x, float y): x(x), y(y)
+    { }
+
+    // b2d
+    void SetZero()
     {
+      x = 0.0f;
+      y = 0.0f;
+    }
+
+    // b2d
+    void Set(float x_, float y_) { x = x_; y = y_; }
+
+    // b2d
+    Vector2d operator -() const { Vector2d v; v.Set(-x, -y); return v; }
+
+
+    float operator () (int i) const
+    {
+      return (&x)[i];
+    }
+
+    float& operator () (int i)
+    {
+      return (&x)[i];
     }
 
     Vector2d operator+(const Vector2d& a) const
@@ -48,10 +81,23 @@ namespace aronnax {
       return *this;
     }
 
-    Vector2d& operator*=(const double f)
+    void operator -= (const Vector2d& v)
+    {
+      x -= v.x; y -= v.y;
+    }
+
+    Vector2d& operator*=(const float f)
     {
       x *= f;
       y *= f;
+
+      return *this;
+    }
+
+    Vector2d& operator=(const Vector2d& other)
+    {
+      x = other.x;
+      y = other.y;
 
       return *this;
     }
@@ -65,7 +111,43 @@ namespace aronnax {
     {
       return x != a.x && y != a.y;
     }
+
+    float Length() const
+    {
+      return sqrt(x * x + y * y);
+    }
+
+    float LengthSquared() const
+    {
+      return x * x + y * y;
+    }
+
+
+    float Normalize()
+    {
+      float length = Length();
+      if (length < FLT_EPSILON)
+      {
+        return 0.0f;
+      }
+      float invLength = 1.0f / length;
+      x *= invLength;
+      y *= invLength;
+
+      return length;
+    }
+
+    bool IsValid() const
+    {
+      return !!x && !!y;
+    }
+
+    Vector2d Skew() const
+    {
+      return Vector2d(-y, x);
+    }
   };
+  */
 
   struct Color
   {

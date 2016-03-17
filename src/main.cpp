@@ -5,6 +5,7 @@
 #include <memory>
 #include <stdio.h>
 
+#include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
 
 #include "lib/clock.h"
@@ -13,7 +14,8 @@
 #include "lib/manager.h"
 #include "lib/sdl_renderer.h"
 #include "lib/system.h"
-#include "lib/units.h"
+
+#include "alias.h"
 
 #include "c_boundable.h"
 #include "c_evented.h"
@@ -21,7 +23,9 @@
 #include "c_moveable.h"
 #include "c_rectangular.h"
 #include "c_painted.h"
+#include "c_shaped.h"
 #include "c_thrustable.h"
+#include "c_universal.h"
 
 #include "s_bound.h"
 #include "s_keyboard_events.h"
@@ -29,11 +33,13 @@
 #include "s_rectangle_renderer.h"
 #include "s_sdl_events.h"
 #include "s_thrust.h"
+#include "s_universe.h"
 
 using namespace std;
 using namespace aronnax;
 using namespace spacegun;
 
+const float TIMESTEP = 0.8;
 const int WORLD_W = 640;
 const int WORLD_H = 480;
 
@@ -41,7 +47,7 @@ const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const double THRUST_FACTOR = 0.1;
+const float THRUST_FACTOR = 1000;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -63,21 +69,28 @@ void setupSDL()
   }
 }
 
-Entity* setupBaseEntity(Vector2d initP, Vector2d initV, double w, double h,
-    Color c)
+Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
+    Color c, World& world)
 {
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
-  Moveable* moveable = new Moveable(initV);
+  Moveable* moveable = new Moveable(initV, initP);
   Rectangular* rectangular = new Rectangular(w, h);
+  Shaped* shaped = new Shaped(*rectangular);
   Boundable* boundable = new Boundable(bounds);
   Painted* painted = new Painted(c);
+  Universal* universal = new Universal(world, TIMESTEP);
+
+  moveable->setFriction(0.01);
+  moveable->setRestitution(0.1);
+  moveable->setDensity(1.0);
 
   auto entity = new Entity();
-  entity->setPos(initP);
   entity->addComponent(moveable);
   entity->addComponent(rectangular);
+  entity->addComponent(shaped);
   entity->addComponent(boundable);
   entity->addComponent(painted);
+  entity->addComponent(universal);
 
   return entity;
 }
@@ -111,17 +124,22 @@ int main()
   SDLRenderer renderer = SDLRenderer(window);
   Manager manager = Manager(renderer);
 
+  // test box2d setup
+  b2Vec2 gravity(0.0f, 0.0f);
+  b2World world(gravity);
+  world.SetContinuousPhysics(true);
+
   // initial values
-  Vector2d initVelA = { 1, 2 };
-  Vector2d initVelB = { 3, 2 };
-  Vector2d initPosA = { 30, 50 };
-  Vector2d initPosB = { 20, 0 };
-  Vector2d initPlayer = { 10, 10 };
+  Vector2d initVelA = { 10, 20 };
+  Vector2d initVelB = { 90, 40 };
+  Vector2d initPosA = { 10, 30 };
+  Vector2d initPosB = { 500, 120 };
+  Vector2d initPlayer = { 100, 40 };
   Vector2d initPlayerV = { 0, 0 };
-  double initWA = 20;
-  double initHA = 55;
-  double initWB = 60;
-  double initHB = 50;
+  float initWA = 20;
+  float initHA = 55;
+  float initWB = 60;
+  float initHB = 50;
   map<string, Ev*> keyMap;
   EvUserMovement up(Vector2d(0, -1));
   EvUserMovement right(Vector2d(1, 0));
@@ -134,9 +152,12 @@ int main()
   keyMap["A"] = &left;
 
   // setup asteroids
-  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED);
-  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW);
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED,
+      world);
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED,
+      world);
+  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW,
+      world);
   auto ship = setupPlayerEntity(base, keyMap);
 
   // setup systems
@@ -146,6 +167,7 @@ int main()
   Movement movement;
   RectangleRenderer rectangle(&renderer);
   Thrust thrust;
+  Universe universe;;
 
   // setup to manager
   manager.addEntity(*asteroidA);
@@ -157,6 +179,7 @@ int main()
   manager.addSystem(&movement);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
+  manager.addSystem(&universe);
 
   // clock manager
   function<void(const uint32_t)> f_update = bind(

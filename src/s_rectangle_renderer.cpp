@@ -2,6 +2,7 @@
 #include "lib/entity.h"
 #include "lib/renderer.h"
 
+#include "c_moveable.h"
 #include "c_rectangular.h"
 #include "c_painted.h"
 #include "s_rectangle_renderer.h"
@@ -11,7 +12,7 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_RECTANGULAR;
 
-  RectangleRenderer::RectangleRenderer() 
+  RectangleRenderer::RectangleRenderer()
   {
     renderer_ = nullptr;
   }
@@ -41,8 +42,9 @@ namespace spacegun {
     }
 
     auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
-    aronnax::Vector2d pos = entity.getPos();
-    aronnax::Vector2d box = { c->getW(), c->getH() };
+    auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    Vector2d box = { c->getW(), c->getH() };
+    Vector2d pos = moveable->getPos();
 
     aronnax::Color color = { 0, 0, 0, 0 };
     if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {

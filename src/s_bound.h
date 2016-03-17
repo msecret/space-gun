@@ -9,8 +9,8 @@
 
 namespace spacegun {
   using namespace std;
-  
-  class Bound: public aronnax::System 
+
+  class Bound: public aronnax::System
   {
     public:
       Bound() {};
@@ -19,10 +19,10 @@ namespace spacegun {
       void render(const uint32_t dt, aronnax::Entities& entities) {};
       void onAddEntity(aronnax::Entity& entity) {};
       const string& getType();
-      
+
     private:
       void checkBounds(const uint32_t dt, aronnax::Entity& entity);
-      double wrapAround(double coordinate, double max);
+      float wrapAround(float coordinate, float max);
 
   };
 }

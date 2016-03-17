@@ -34,14 +34,7 @@ namespace aronnax {
 
       virtual vector<string> getComponentTypes();
 
-      const Vector2d& getPos();
-
-      void setPos(const Vector2d& p);
-
-      void movePos(const Vector2d& vel);
-
     private:
-      Vector2d pos;
       Components components_;
 
   };

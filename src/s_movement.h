@@ -8,20 +8,22 @@
 #include "lib/system.h"
 
 namespace spacegun {
-  using namespace std;
-  
-  class Movement: public aronnax::System 
+  using std::string;
+  using aronnax::Entity;
+  using aronnax::Entities;
+
+  class Movement: public aronnax::System
   {
     public:
       Movement() {};
-      void init(aronnax::Entities entities) {};
-      void update(const uint32_t dt, aronnax::Entities& entities);
-      void render(const uint32_t dt, aronnax::Entities& entities) {};
-      void onAddEntity(aronnax::Entity& entity) {};
+      void init(Entities& entities);
+      void update(const uint32_t dt, Entities& entities) {};
+      void render(const uint32_t dt, Entities& entities) {};
+      void onAddEntity(Entity& entity);
       const string& getType();
-      
+
     private:
-      void processMovement(const uint32_t dt, aronnax::Entity& entity);
+      void bindEntity(Entity& entity);
 
   };
 }

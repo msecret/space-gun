@@ -10,7 +10,9 @@
 #include "../c_keyboardable.h"
 #include "../s_keyboard_events.h"
 
+
 using namespace std;
+using aronnax::Vector2d;
 using namespace spacegun;
 
 TEST(Keyboardable, Constructor) {
@@ -83,8 +85,8 @@ TEST(KeyboardEvents, getType) {
 
 TEST(KeyboardEvents, onAddEntity) {
   const unsigned int EV_USER_MOVEMENT = 9999;
-  aronnax::Vector2d up = { 0, -1 };
-  aronnax::Vector2d down = { 0, 1 };
+  Vector2d up = { 0, -1 };
+  Vector2d down = { 0, 1 };
   aronnax::EvUserMovement* evUp = new aronnax::EvUserMovement(up);
   aronnax::EvUserMovement* evDown = new aronnax::EvUserMovement(down);
   map<string, aronnax::Ev*> keyMap;

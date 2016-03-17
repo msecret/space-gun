@@ -4,27 +4,39 @@
 
 #include <string>
 
+#include <Box2D/Box2D.h>
+
 #include "lib/component.h"
 #include "lib/units.h"
+
+#include "alias.h"
+#include "c_base_shaped.h"
 
 namespace spacegun {
   using namespace std;
 
+  using aronnax::Vector2d;
+
   const string COMPONENT_TYPE_RECTANGULAR = "rectangular";
 
-  class Rectangular : public aronnax::Component
+  class Rectangular : public BaseShaped
   {
     public:
-      Rectangular() {};
-      Rectangular(double w, double h);
+      Rectangular() :
+        shape_(new PolygonShape)
+      {};
+      Rectangular(float w, float h);
+      ~Rectangular();
       const string getType();
-      double getW();
-      double getH();
-      void setW(double w);
-      void setH(double h);
+      PolygonShape* getShape();
+      float getW();
+      float getH();
+      void setW(float w);
+      void setH(float h);
 
     private:
-      aronnax::Vector2d box_;
+      Vector2d box_;
+      PolygonShape* shape_;
   };
 
 }

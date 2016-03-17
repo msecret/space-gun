@@ -4,6 +4,8 @@
 
 #include "../c_boundable.h"
 
+using aronnax::Vector2d;
+
 class BoundTest : public testing::Test {
   protected:
     virtual void SetUp() {
@@ -13,12 +15,12 @@ class BoundTest : public testing::Test {
     }
 
     spacegun::Boundable testBoundable_;
-    aronnax::Vector2d testBounds_;
+    Vector2d testBounds_;
 };
 
 TEST_F(BoundTest, Constructor) {
   auto actual = testBoundable_.getBounds();
-  EXPECT_EQ(testBounds_, actual); 
+  EXPECT_EQ(testBounds_, actual);
 }
 
 TEST_F(BoundTest, getType) {
@@ -28,5 +30,5 @@ TEST_F(BoundTest, getType) {
 
 TEST_F(BoundTest, getBounds) {
   auto actual = testBoundable_.getBounds();
-  EXPECT_EQ(testBounds_, actual); 
+  EXPECT_EQ(testBounds_, actual);
 }

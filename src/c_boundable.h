@@ -9,6 +9,7 @@
 
 namespace spacegun {
   using namespace std;
+  using namespace aronnax;
 
   const string COMPONENT_TYPE_BOUNDABLE = "boundable";
 
@@ -16,14 +17,14 @@ namespace spacegun {
   {
     public:
       Boundable() {};
-      Boundable(const aronnax::Vector2d& worldMax)
+      Boundable(const Vector2d& worldMax)
         : bounds_(worldMax) {};
       const string getType();
-      const aronnax::Vector2d& getBounds();
+      const Vector2d& getBounds();
 
 
     private:
-      aronnax::Vector2d bounds_;
+      Vector2d bounds_;
   };
 
 }

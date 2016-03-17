@@ -17,15 +17,15 @@ namespace spacegun {
     public:
       Thrustable()
         : factor_(0) { };
-      Thrustable(double factor)
+      Thrustable(float factor)
         : factor_(factor) {};
       const string getType();
-      double getFactor();
-      void setFactor(double factor);
+      float getFactor();
+      void setFactor(float factor);
 
 
     private:
-      double factor_;
+      float factor_;
   };
 
 }

@@ -19,7 +19,7 @@ TEST(Thrustable, Constructor) {
 
   EXPECT_EQ(0, actual);
 
-  double expected = 3;
+  float expected = 3;
   Thrustable ca(expected);
 
   actual = ca.getFactor();
@@ -37,7 +37,7 @@ TEST(Thrustable, getType) {
 
 TEST(Thrustable, getsetFactor) {
   Thrustable c;
-  double expected = 43.2;
+  float expected = 43.2;
 
   c.setFactor(expected);
 
@@ -55,16 +55,21 @@ TEST(Thrust, getType) {
 }
 
 TEST(Thrust, onAddEntity) {
+  Vector2d g = { 0.0, 0.0 };
+  Vector2d initP = { 0, 0 };
   Vector2d initV = { 1.5, 0 };
-  Vector2d direction = { 0, -1 };
-  Vector2d expected = { 1.5, -0.5 };
-  double factor = 0.5;
+  Vector2d direction = { 1, 0 };
+  float factor = 5000;
   EvUserMovement ev(direction);
+  World w(g);
+  PolygonShape p;
+  p.SetAsBox(2, 1);
 
-  Moveable cm(initV);
+  Moveable cm(initP, initV);
   Thrustable ct(factor);
   Entity* e = new Entity();
   Thrust s;
+  cm.init(w, p);
 
   e->addComponent(&cm);
   e->addComponent(&ct);
@@ -72,10 +77,10 @@ TEST(Thrust, onAddEntity) {
   s.onAddEntity(*e);
 
   e->emit(EV_USER_MOVEMENT, &ev);
+  w.Step(0.8, 8, 2);
 
   auto actual = cm.getVel();
 
-  EXPECT_EQ(expected.x, actual.x);
-  EXPECT_EQ(expected.y, actual.y);
-  EXPECT_EQ(expected, actual);
+  EXPECT_EQ(actual.x, 2.5f);
+  EXPECT_EQ(actual.y, 0.0f);
 }

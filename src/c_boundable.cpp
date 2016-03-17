@@ -15,9 +15,9 @@ namespace spacegun {
     return COMPONENT_TYPE_BOUNDABLE;
   }
 
-  const aronnax::Vector2d& Boundable::getBounds()
+  const Vector2d& Boundable::getBounds()
   {
     return bounds_;
   }
-  
+
 }
