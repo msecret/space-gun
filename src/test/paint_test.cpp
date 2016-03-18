@@ -51,3 +51,23 @@ TEST(Painted, getsetColor) {
 
   EXPECT_EQ(expected, actual);
 }
+
+using aronnax::Color;
+TEST(Painted, getTexture) {
+  Color expected = { 150, 150, 250, 100 };
+  Painted c = Painted();
+
+  auto actual = c.getTexture();
+
+  EXPECT_NE(actual, nullptr);
+
+  Painted c2 = Painted(expected);
+  actual = c2.getTexture();
+
+  EXPECT_NE(actual, nullptr);
+
+  c2.setColor(expected);
+  actual = c2.getTexture();
+
+  EXPECT_NE(actual, nullptr);
+}

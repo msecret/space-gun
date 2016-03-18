@@ -5,29 +5,36 @@
 #include <cstdint>
 #include <string>
 
+#include <SDL2/SDL.h>
+
 #include "lib/component.h"
 #include "lib/units.h"
 
 namespace spacegun {
-  using namespace std;
+  using std::string;
+  using aronnax::Color;
+  using aronnax::Component;
 
   const string COMPONENT_TYPE_PAINTED = "painted";
 
-  class Painted: public aronnax::Component
+  class Painted: public Component
   {
     public:
       Painted();
-      Painted(const aronnax::Color& c);
+      Painted(const Color& c);
       Painted(const uint8_t r,
               const uint8_t g,
               const uint8_t b,
               const uint8_t a);
       const string getType();
-      const aronnax::Color& getColor();
-      void setColor(const aronnax::Color& color);
+      const Color& getColor();
+      void setColor(const Color& color);
+      SDL_Texture* getTexture();
 
     private:
-      aronnax::Color color_;
+      Color color_;
+      SDL_Texture* texture_;
+      //SDL_Texture* createTexture(const Color& color);
 
   };
 }
