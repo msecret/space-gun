@@ -13,17 +13,13 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_PAINTED;
 
   Painted::Painted() :
-    color_(),
-    texture_(nullptr)
+    color_()
   {
-    texture_ = createTexture(color_);
   }
 
   Painted::Painted(const aronnax::Color& c) :
-    color_(c),
-    texture_(nullptr)
+    color_(c)
   {
-    texture_ = createTexture(c);
   }
 
   Painted::Painted(const uint8_t r,
@@ -53,17 +49,5 @@ namespace spacegun {
   void Painted::setColor(const aronnax::Color& color)
   {
     color_ = color;
-  }
-
-  SDL_Texture* Painted::getTexture()
-  {
-    return texture_;
-  }
-
-  SDL_Texture* createTexture(const Color& color)
-  {
-    SDL_Surface* s;
-
-    return SDL_CreateTextureFromSurface(s);
   }
 }

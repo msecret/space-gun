@@ -5,8 +5,6 @@
 #include <cstdint>
 #include <string>
 
-#include <SDL2/SDL.h>
-
 #include "lib/component.h"
 #include "lib/units.h"
 
@@ -29,13 +27,9 @@ namespace spacegun {
       const string getType();
       const Color& getColor();
       void setColor(const Color& color);
-      SDL_Texture* getTexture();
-      //void initTexture(float width, float height);
 
     private:
       Color color_;
-      SDL_Texture* texture_;
-      //SDL_Texture* createTexture(const Color& color);
 
   };
 }
