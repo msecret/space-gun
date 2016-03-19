@@ -24,3 +24,12 @@ TEST(Rendered, getType) {
 
   EXPECT_EQ(actual, COMPONENT_TYPE_RENDERED);
 }
+
+TEST(Rendered, getsetSurface) {
+  Rendered c;
+
+  auto actual = c.getSurface();
+
+  EXPECT_EQ(actual, nullptr);
+
+}

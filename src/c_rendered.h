@@ -21,11 +21,14 @@ namespace spacegun {
   {
     public:
       Rendered();
+      ~Rendered();
       const string getType();
       SDL_Texture* getTexture();
+      SDL_Surface* getSurface();
 
     private:
       SDL_Texture* texture_;
+      SDL_Surface* surface_;
 
   };
 }

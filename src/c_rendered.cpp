@@ -13,9 +13,20 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_RENDERED;
 
   Rendered::Rendered() :
-    texture_(nullptr)
+    texture_(nullptr),
+    surface_(nullptr)
   {
     //texture_ = createTexture(color_);
+  }
+
+  Rendered::~Rendered()
+  {
+    if (surface_) {
+      SDL_FreeSurface(surface_);
+    }
+    if (texture_) {
+      SDL_DestroyTexture(texture_);
+    }
   }
 
   const string Rendered::getType()
@@ -26,5 +37,10 @@ namespace spacegun {
   SDL_Texture* Rendered::getTexture()
   {
     return texture_;
+  }
+
+  SDL_Surface* Rendered::getSurface()
+  {
+    return surface_;
   }
 }
