@@ -30,6 +30,7 @@ namespace spacegun {
       const Color& getColor();
       void setColor(const Color& color);
       SDL_Texture* getTexture();
+      //void initTexture(float width, float height);
 
     private:
       Color color_;
