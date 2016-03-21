@@ -34,9 +34,10 @@ namespace spacegun {
     return COMPONENT_TYPE_RENDERED;
   }
 
-  void Rendered::init(SDL_Surface& s)
+  void Rendered::init(SDL_Surface* s, SDL_Texture* t)
   {
-    //auto t = SDL_CreateTextureFromSurface(s);
+    surface_ = s;
+    texture_ = t;
   }
 
   SDL_Texture* Rendered::getTexture()

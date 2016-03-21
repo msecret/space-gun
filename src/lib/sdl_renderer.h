@@ -23,6 +23,7 @@ class SDLRenderer : public IRenderer
     void drawRectangle(const Vector2d& pos, const Vector2d& box,
         const Color& color);
     void drawPolygon(const Vector2d& pos);
+    SDL_Texture* createTexture(SDL_Surface& s);
 
   private:
     // TODO should this be a pointer?

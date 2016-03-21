@@ -4,6 +4,7 @@
 
 #include "c_moveable.h"
 #include "c_rectangular.h"
+#include "c_rendered.h"
 #include "c_painted.h"
 #include "s_rectangle_renderer.h"
 
@@ -27,7 +28,7 @@ namespace spacegun {
   void RectangleRenderer::init(Entities& entities)
   {
     for (auto e : entities) {
-      initRectangle(e);
+      initRectangle(*e);
     }
   }
 
@@ -66,13 +67,15 @@ namespace spacegun {
     // renderer->drawRectangle(pos, box, texture, angle);
   }
 
-  void RectangleRenderer::initRectangle(Entity& e)
+  void RectangleRenderer::initRectangle(Entity& entity)
   {
     SDL_Surface *s;
+    SDL_Texture *t;
     auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
+    auto r = entity.getComponent<Rendered>(COMPONENT_TYPE_RENDERED);
 
-    auto width = c.getW();
-    auto height = c.getH();
+    auto width = c->getW();
+    auto height = c->getH();
 
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 
@@ -82,7 +85,11 @@ namespace spacegun {
       SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
             color.r,
             color.g,
-            color.b;));
+            color.b));
     }
+
+    t = renderer_->createTexture(*s);
+
+    r->init(s, t);
   }
 }
