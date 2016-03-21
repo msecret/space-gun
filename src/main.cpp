@@ -22,6 +22,7 @@
 #include "c_keyboardable.h"
 #include "c_moveable.h"
 #include "c_rectangular.h"
+#include "c_rendered.h"
 #include "c_painted.h"
 #include "c_shaped.h"
 #include "c_thrustable.h"
@@ -77,6 +78,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Rectangular* rectangular = new Rectangular(w, h);
   Shaped* shaped = new Shaped(*rectangular);
   Boundable* boundable = new Boundable(bounds);
+  Rendered* rendered = new Rendered();
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);
 
@@ -90,6 +92,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   entity->addComponent(shaped);
   entity->addComponent(boundable);
   entity->addComponent(painted);
+  entity->addComponent(rendered);
   entity->addComponent(universal);
 
   return entity;
