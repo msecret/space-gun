@@ -1,5 +1,6 @@
 
 #include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -73,8 +74,10 @@ void setupSDL()
 Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
     Color c, World& world)
 {
+  float randAngle = static_cast <float> (rand()) / (
+      static_cast <float> (RAND_MAX/180.0));
   Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
-  Moveable* moveable = new Moveable(initV, initP);
+  Moveable* moveable = new Moveable(initV, initP, randAngle);
   Rectangular* rectangular = new Rectangular(w, h);
   Shaped* shaped = new Shaped(*rectangular);
   Boundable* boundable = new Boundable(bounds);

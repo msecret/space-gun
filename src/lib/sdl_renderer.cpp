@@ -53,8 +53,6 @@ namespace aronnax {
     r.y = int(pos.y);
     r.w = int(box.x);
     r.h = int(box.y);
-    //SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
-    //SDL_RenderDrawRect(renderer_, &r);
 
     SDL_RenderCopyEx(
       renderer_,
@@ -63,7 +61,7 @@ namespace aronnax {
       &r,
       angle,
       NULL,
-      false
+      SDL_FLIP_NONE
     );
   }
 

@@ -118,10 +118,12 @@ TEST(RectangleRenderer, render) {
   Color expectedC = { 255, 100, 150, 123 };
   Vector2d expectedP = { 1, 3 };
   Vector2d expectedV = { 1, 3 };
+  Vector2d expectedB = { 10, 20 };
+  float expectedAngle = 135.3;
   MockRenderer mockRenderer;
   aronnax::Entities entities;
-  auto testC = Rectangular(5, 7);
-  auto testM = Moveable(expectedP, expectedV);
+  auto testC = Rectangular(expectedB.x, expectedB.y);
+  auto testM = Moveable(expectedP, expectedV, expectedAngle);
   auto testP = Painted(expectedC);
   auto testR = Rendered();
   auto testEntity = new aronnax::Entity();
@@ -133,7 +135,11 @@ TEST(RectangleRenderer, render) {
   testEntity->addComponent(&testR);
   entities.push_back(testEntity);
 
-  EXPECT_CALL(mockRenderer, drawRectangle(_, _, _, _)).Times(1);
+  EXPECT_CALL(mockRenderer, drawRectangle(
+        expectedP,
+        expectedB,
+        _,
+        expectedAngle)).Times(1);
 
   testRR.render(testDt, entities);
 
