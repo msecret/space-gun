@@ -8,36 +8,42 @@
 
 #include "../c_moveable.h"
 #include "../c_rectangular.h"
+#include "../c_rendered.h"
 #include "../c_painted.h"
 #include "../s_rectangle_renderer.h"
 
 using namespace std;
 using ::testing::_;
 
+using aronnax::Color;
+using aronnax::IRenderer;
 using aronnax::Vector2d;
 
-class MockRenderer: public aronnax::IRenderer
+using namespace spacegun;
+
+class MockRenderer: public IRenderer
 {
   public:
     MOCK_METHOD0(render, void());
     MOCK_METHOD0(beforeRender, void());
     MOCK_METHOD0(afterRender, void());
     MOCK_METHOD3(drawRectangle, void(const Vector2d& pos,
-          const Vector2d& box, const aronnax::Color& c));
+          const Vector2d& box, const Color& c));
     MOCK_METHOD2(drawCircle, void(const Vector2d& pos,
           const Vector2d& r));
     MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
+    MOCK_METHOD1(createTexture, SDL_Texture*(SDL_Surface& s));
 };
 
 TEST(Rectangular, getType) {
-  spacegun::Rectangular c;
-  EXPECT_EQ(spacegun::COMPONENT_TYPE_RECTANGULAR, c.getType());
+  Rectangular c;
+  EXPECT_EQ(COMPONENT_TYPE_RECTANGULAR, c.getType());
 }
 
 TEST(Rectangular, Constructor) {
   float expectedW = 3;
   float expectedH = 5;
-  auto c = spacegun::Rectangular(expectedW, expectedH);
+  auto c = Rectangular(expectedW, expectedH);
 
   auto actualW = c.getW();
   auto actualH = c.getH();
@@ -48,7 +54,7 @@ TEST(Rectangular, Constructor) {
 
 TEST(Rectangular, getsetW) {
   float expected = 3;
-  spacegun::Rectangular c;
+  Rectangular c;
   c.setW(expected);
   auto actual = c.getW();
 
@@ -57,7 +63,7 @@ TEST(Rectangular, getsetW) {
 
 TEST(Rectangular, getsetH) {
   float expected = 3;
-  spacegun::Rectangular c;
+  Rectangular c;
   c.setH(expected);
   auto actual = c.getH();
 
@@ -65,7 +71,7 @@ TEST(Rectangular, getsetH) {
 }
 
 TEST(Rectangular, getShape) {
-  spacegun::Rectangular c(10, 10);
+  Rectangular c(10, 10);
 
   auto shape = c.getShape();
   auto actual = shape->m_centroid;
@@ -74,32 +80,52 @@ TEST(Rectangular, getShape) {
   EXPECT_EQ(actual.y, 0);
 }
 
-TEST(RectangleSystem, constructor) {
-  auto testRR = spacegun::RectangleRenderer();
+TEST(RectangleRenderer, constructor) {
+  auto testRR = RectangleRenderer();
 }
 
-TEST(RectangleSystem, getType) {
-  spacegun::RectangleRenderer testRR;
+TEST(RectangleRenderer, getType) {
+  RectangleRenderer testRR;
 
   auto actual = testRR.getType();
 
-  EXPECT_EQ(spacegun::COMPONENT_TYPE_RECTANGULAR, actual);
+  EXPECT_EQ(COMPONENT_TYPE_RECTANGULAR, actual);
 }
 
-TEST(RectangleSystem, render) {
+TEST(RectangleRenderer, init) {
+  MockRenderer mockRenderer;
+  auto testC = Rectangular(5, 7);
+  auto testR = Rendered();
+  auto testP = Painted();
+
+  aronnax::Entities entities;
+  auto testEntity = new aronnax::Entity();
+  testEntity->addComponent(&testC);
+  testEntity->addComponent(&testR);
+  entities.push_back(testEntity);
+
+  auto testRR = RectangleRenderer(&mockRenderer);
+
+  EXPECT_CALL(mockRenderer, createTexture(_)).Times(1);
+
+  testRR.init(entities);
+
+  delete testEntity;
+}
+
+TEST(RectangleRenderer, render) {
   uint32_t testDt = 12;
-  aronnax::Color expectedC = { 255, 100, 150, 123 };
+  Color expectedC = { 255, 100, 150, 123 };
   Vector2d expectedP = { 1, 3 };
   Vector2d expectedV = { 1, 3 };
   MockRenderer mockRenderer;
   aronnax::Entities entities;
-  auto testC = spacegun::Rectangular(5, 7);
-  auto testM = spacegun::Moveable(expectedP, expectedV);
-  auto testP = spacegun::Painted(expectedC);
+  auto testC = Rectangular(5, 7);
+  auto testM = Moveable(expectedP, expectedV);
+  auto testP = Painted(expectedC);
   auto testEntity = new aronnax::Entity();
-  auto testRR = spacegun::RectangleRenderer(&mockRenderer);
+  auto testRR = RectangleRenderer(&mockRenderer);
 
-  //testEntity->setPos(expectedP);
   testEntity->addComponent(&testC);
   testEntity->addComponent(&testM);
   testEntity->addComponent(&testP);
@@ -108,4 +134,6 @@ TEST(RectangleSystem, render) {
   EXPECT_CALL(mockRenderer, drawRectangle(_, _, expectedC)).Times(1);
 
   testRR.render(testDt, entities);
+
+  delete testEntity;
 }

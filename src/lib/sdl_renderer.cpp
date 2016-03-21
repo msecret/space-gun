@@ -63,4 +63,16 @@ namespace aronnax {
   {
   }
 
+  SDL_Texture* SDLRenderer::createTexture(SDL_Surface& s)
+  {
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, &s);
+
+    if (texture == NULL) {
+      // fprintf(stderr, "CreateTexture failed: %s\n", SDL_GetError());
+      exit(1);
+    }
+
+    return texture;
+  }
+
 }
