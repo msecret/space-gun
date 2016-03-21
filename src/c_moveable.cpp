@@ -37,6 +37,22 @@ namespace spacegun {
     fixtureDef_.density = 1;
   };
 
+  Moveable::Moveable(const Vector2d& initialVel,
+           const Vector2d& initialPos, float initialAngle) :
+    body_(nullptr),
+    fixture_(nullptr),
+    setMassData_(false)
+  {
+    b2BodyDef def;
+    def.type = b2_dynamicBody;
+    def.position.Set(initialPos.x, initialPos.y);
+    def.linearVelocity.Set(initialVel.x, initialVel.y);
+    def.angle = initialAngle;
+
+    bodyDef_ = def;
+    fixtureDef_.density = 1;
+  };
+
   void Moveable::init(World& world, Shape& shape)
   {
     body_ = world.CreateBody(&bodyDef_);
@@ -92,6 +108,14 @@ namespace spacegun {
       body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
+  }
+
+  float Moveable::getAngle()
+  {
+    if (body_) {
+      return body_->GetAngle();
+    }
+    return bodyDef_.angle;
   }
 
   float Moveable::getFriction()

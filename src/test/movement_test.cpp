@@ -37,6 +37,17 @@ TEST(Moveable, constructor) {
   EXPECT_EQ(actualPos, expectedPos);
 }
 
+TEST(Moveable, angleConstructor) {
+  Vector2d expectedVel = { 20, 3 };
+  Vector2d expectedPos = { 15, 20 };
+  float expectedAngle = 38.2;
+  Moveable c(expectedVel, expectedPos, expectedAngle);
+
+  auto actual = c.getAngle();
+
+  EXPECT_EQ(actual, expectedAngle);
+}
+
 TEST(Moveable, init) {
   Vector2d g = { 0, 0 };
   World w(g);
@@ -82,6 +93,26 @@ TEST(Moveable, movePos) {
   auto actual = c.getPos();
 
   EXPECT_EQ(actual, initPos + vel);
+}
+
+TEST(Moveable, getAngle) {
+  Vector2d g = { 0.0, 0.0 };
+  Vector2d vel = { 1, 1 };
+  Vector2d initPos = { 1, 1 };
+  float expectedAngle = 89.3;
+  World w(g);
+  PolygonShape p;
+  p.SetAsBox(2, 1);
+
+  Moveable c = Moveable(vel, initPos, expectedAngle);
+
+  auto actual = c.getAngle();
+  EXPECT_EQ(actual, expectedAngle);
+
+  c.init(w, p);
+
+  actual = c.getAngle();
+  EXPECT_EQ(actual, expectedAngle);
 }
 
 TEST(Moveable, getsetFriction) {

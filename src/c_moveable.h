@@ -23,6 +23,9 @@ namespace spacegun {
       Moveable();
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos);
+      Moveable(const Vector2d& initialVel,
+               const Vector2d& initialPos,
+               float initialAngle);
       void init(World& world, Shape& shape);
       const string getType();
       Vector2d getVel();
@@ -31,6 +34,7 @@ namespace spacegun {
       Vector2d getPos();
       void setPos(Vector2d newPos);
       void move(Vector2d vel);
+      float getAngle();
       float getFriction();
       void setFriction(float friction);
       float getRestitution();
