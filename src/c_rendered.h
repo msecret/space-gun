@@ -23,6 +23,7 @@ namespace spacegun {
       Rendered();
       ~Rendered();
       const string getType();
+      void init(SDL_Surface& s);
       SDL_Texture* getTexture();
       SDL_Surface* getSurface();
 

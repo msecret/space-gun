@@ -8,7 +8,10 @@
 #include "s_rectangle_renderer.h"
 
 namespace spacegun {
-  using namespace std;
+  using std::string;
+  using aronnax::Color;
+  using aronnax::Entity;
+  using aronnax::Entities;
 
   extern const string COMPONENT_TYPE_RECTANGULAR;
 
@@ -21,7 +24,14 @@ namespace spacegun {
     renderer_(renderer)
   { }
 
-  void RectangleRenderer::render(const uint32_t dt, aronnax::Entities& entities)
+  void RectangleRenderer::init(Entities& entities)
+  {
+    for (auto e : entities) {
+      initRectangle(e);
+    }
+  }
+
+  void RectangleRenderer::render(const uint32_t dt, Entities& entities)
   {
     for (auto e : entities) {
       this->renderRectangle(dt, *e);
@@ -34,7 +44,7 @@ namespace spacegun {
   }
 
   void RectangleRenderer::renderRectangle(const uint32_t dt,
-      aronnax::Entity& entity)
+      Entity& entity)
   {
     if (renderer_ == nullptr) {
       // TODO this is techincally an error condition, what should be done?
@@ -46,12 +56,33 @@ namespace spacegun {
     Vector2d box = { c->getW(), c->getH() };
     Vector2d pos = moveable->getPos();
 
-    aronnax::Color color = { 0, 0, 0, 0 };
+    Color color = { 0, 0, 0, 0 };
     if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
       auto cb = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
       color = cb->getColor();
     }
 
     renderer_->drawRectangle(pos, box, color);
+    // renderer->drawRectangle(pos, box, texture, angle);
+  }
+
+  void RectangleRenderer::initRectangle(Entity& e)
+  {
+    SDL_Surface *s;
+    auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
+
+    auto width = c.getW();
+    auto height = c.getH();
+
+    s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+
+    if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
+      auto p = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
+      auto color = p->getColor();
+      SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
+            color.r,
+            color.g,
+            color.b;));
+    }
   }
 }
