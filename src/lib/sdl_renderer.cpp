@@ -44,15 +44,27 @@ namespace aronnax {
 
   void SDLRenderer::drawRectangle(const Vector2d& pos,
                                   const Vector2d& box,
-                                  const Color& c={ 0, 0, 0, 0 })
+                                  SDL_Texture* texture,
+                                  float angle
+                                  )
   {
     SDL_Rect r;
     r.x = int(pos.x);
     r.y = int(pos.y);
     r.w = int(box.x);
     r.h = int(box.y);
-    SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
-    SDL_RenderDrawRect(renderer_, &r);
+    //SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
+    //SDL_RenderDrawRect(renderer_, &r);
+
+    SDL_RenderCopyEx(
+      renderer_,
+      texture,
+      NULL,
+      &r,
+      angle,
+      NULL,
+      false
+    );
   }
 
   void SDLRenderer::drawCircle(const Vector2d& pos, const Vector2d& r)

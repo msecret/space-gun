@@ -27,8 +27,8 @@ class MockRenderer: public IRenderer
     MOCK_METHOD0(render, void());
     MOCK_METHOD0(beforeRender, void());
     MOCK_METHOD0(afterRender, void());
-    MOCK_METHOD3(drawRectangle, void(const Vector2d& pos,
-          const Vector2d& box, const Color& c));
+    MOCK_METHOD4(drawRectangle, void(const Vector2d& pos,
+          const Vector2d& box, SDL_Texture* texture, float angle));
     MOCK_METHOD2(drawCircle, void(const Vector2d& pos,
           const Vector2d& r));
     MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
@@ -123,15 +123,17 @@ TEST(RectangleRenderer, render) {
   auto testC = Rectangular(5, 7);
   auto testM = Moveable(expectedP, expectedV);
   auto testP = Painted(expectedC);
+  auto testR = Rendered();
   auto testEntity = new aronnax::Entity();
   auto testRR = RectangleRenderer(&mockRenderer);
 
   testEntity->addComponent(&testC);
   testEntity->addComponent(&testM);
   testEntity->addComponent(&testP);
+  testEntity->addComponent(&testR);
   entities.push_back(testEntity);
 
-  EXPECT_CALL(mockRenderer, drawRectangle(_, _, expectedC)).Times(1);
+  EXPECT_CALL(mockRenderer, drawRectangle(_, _, _, _)).Times(1);
 
   testRR.render(testDt, entities);
 

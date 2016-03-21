@@ -54,17 +54,14 @@ namespace spacegun {
 
     auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto rendered = entity.getComponent<Rendered>(COMPONENT_TYPE_RENDERED);
     Vector2d box = { c->getW(), c->getH() };
     Vector2d pos = moveable->getPos();
+    auto texture = rendered->getTexture();
+    auto angle = moveable->getAngle();
 
-    Color color = { 0, 0, 0, 0 };
-    if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
-      auto cb = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
-      color = cb->getColor();
-    }
-
-    renderer_->drawRectangle(pos, box, color);
-    // renderer->drawRectangle(pos, box, texture, angle);
+    //renderer_->drawRectangle(pos, box, color);
+    renderer_->drawRectangle(pos, box, texture, angle);
   }
 
   void RectangleRenderer::initRectangle(Entity& entity)
