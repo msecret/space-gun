@@ -54,8 +54,8 @@ namespace aronnax {
                                   )
   {
     SDL_Rect r;
-    r.x = int(pos.x);
-    r.y = int(pos.y);
+    r.x = int(pos.x - box.x / 2);
+    r.y = int(pos.y - box.x / 2);
     r.w = int(box.x);
     r.h = int(box.y);
 

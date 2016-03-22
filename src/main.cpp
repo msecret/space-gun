@@ -85,9 +85,9 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);
 
-  moveable->setFriction(1);
-  moveable->setRestitution(0.9);
-  moveable->setDensity(6.0);
+  moveable->setFriction(.01f);
+  moveable->setRestitution(0.9f);
+  moveable->setDensity(6.0f);
 
   auto entity = new Entity();
   entity->addComponent(moveable);
@@ -138,18 +138,18 @@ int main()
   // initial values
   Vector2d initVelA = { 10, 20 };
   Vector2d initVelB = { 90, 40 };
-  Vector2d initVelC = { -.1, -.3 };
+  Vector2d initVelC = { .1, .3 };
   Vector2d initPosA = { 10, 30 };
   Vector2d initPosB = { 500, 120 };
   Vector2d initPosC = { 300, 400 };
   Vector2d initPlayer = { 100, 40 };
   Vector2d initPlayerV = { 0, 0 };
-  float initWA = 20;
-  float initHA = 55;
-  float initWB = 60;
-  float initHB = 50;
-  float initWC = 140;
-  float initHC = 100;
+  float initWA = 4;
+  float initHA = 15;
+  float initWB = 10;
+  float initHB = 12;
+  float initWC = 80;
+  float initHC = 50;
   map<string, Ev*> keyMap;
   EvUserMovement up(Vector2d(0, -1));
   EvUserMovement right(Vector2d(1, 0));

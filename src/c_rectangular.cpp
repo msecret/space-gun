@@ -15,7 +15,7 @@ namespace spacegun {
     box_.x = w;
     box_.y = h;
     shape_ = new PolygonShape();
-    shape_->SetAsBox(w, h);
+    shape_->SetAsBox(w / 2, h / 2);
   }
 
   Rectangular::~Rectangular()
@@ -41,13 +41,13 @@ namespace spacegun {
   void Rectangular::setW(float w)
   {
     box_.x = w;
-    shape_->SetAsBox(box_.x, box_.y);
+    shape_->SetAsBox(box_.x / 2, box_.y / 2);
   }
 
   void Rectangular::setH(float h)
   {
     box_.y = h;
-    shape_->SetAsBox(box_.x, box_.y);
+    shape_->SetAsBox(box_.x / 2, box_.y / 2);
   }
 
   PolygonShape* Rectangular::getShape()
