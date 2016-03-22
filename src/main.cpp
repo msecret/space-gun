@@ -42,14 +42,14 @@ using namespace aronnax;
 using namespace spacegun;
 
 const float TIMESTEP = 0.8;
-const int WORLD_W = 640;
-const int WORLD_H = 480;
+const int WORLD_W = 1280;
+const int WORLD_H = 960;
 
 const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const float THRUST_FACTOR = 1000;
+const float THRUST_FACTOR = 10000;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -85,9 +85,9 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);
 
-  moveable->setFriction(0.01);
-  moveable->setRestitution(0.1);
-  moveable->setDensity(1.0);
+  moveable->setFriction(1);
+  moveable->setRestitution(0.9);
+  moveable->setDensity(6.0);
 
   auto entity = new Entity();
   entity->addComponent(moveable);
@@ -138,14 +138,18 @@ int main()
   // initial values
   Vector2d initVelA = { 10, 20 };
   Vector2d initVelB = { 90, 40 };
+  Vector2d initVelC = { -.1, -.3 };
   Vector2d initPosA = { 10, 30 };
   Vector2d initPosB = { 500, 120 };
+  Vector2d initPosC = { 300, 400 };
   Vector2d initPlayer = { 100, 40 };
   Vector2d initPlayerV = { 0, 0 };
   float initWA = 20;
   float initHA = 55;
   float initWB = 60;
   float initHB = 50;
+  float initWC = 140;
+  float initHC = 100;
   map<string, Ev*> keyMap;
   EvUserMovement up(Vector2d(0, -1));
   EvUserMovement right(Vector2d(1, 0));
@@ -161,6 +165,8 @@ int main()
   auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED,
       world);
   auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED,
+      world);
+  auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, RED,
       world);
   auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW,
       world);
@@ -178,6 +184,7 @@ int main()
   // setup to manager
   manager.addEntity(*asteroidA);
   manager.addEntity(*asteroidB);
+  manager.addEntity(*asteroidC);
   manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);

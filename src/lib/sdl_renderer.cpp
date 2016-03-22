@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <math.h>
 #include <memory>
 
 #include "SDL2/SDL.h"
@@ -7,7 +8,11 @@
 #include "sdl_renderer.h"
 #include "units.h"
 
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
+
 namespace aronnax {
+
+  //float RADTODEG = 180 / M_PI;
 
   SDLRenderer::~SDLRenderer()
   {
@@ -59,7 +64,7 @@ namespace aronnax {
       texture,
       NULL,
       &r,
-      angle,
+      radiansToDegrees(angle),
       NULL,
       SDL_FLIP_NONE
     );
