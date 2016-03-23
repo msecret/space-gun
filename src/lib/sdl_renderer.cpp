@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <math.h>
 #include <memory>
 
 #include "SDL2/SDL.h"
@@ -7,7 +8,11 @@
 #include "sdl_renderer.h"
 #include "units.h"
 
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
+
 namespace aronnax {
+
+  //float RADTODEG = 180 / M_PI;
 
   SDLRenderer::~SDLRenderer()
   {
@@ -44,15 +49,25 @@ namespace aronnax {
 
   void SDLRenderer::drawRectangle(const Vector2d& pos,
                                   const Vector2d& box,
-                                  const Color& c={ 0, 0, 0, 0 })
+                                  SDL_Texture* texture,
+                                  float angle
+                                  )
   {
     SDL_Rect r;
-    r.x = int(pos.x);
-    r.y = int(pos.y);
+    r.x = int(pos.x - box.x / 2);
+    r.y = int(pos.y - box.x / 2);
     r.w = int(box.x);
     r.h = int(box.y);
-    SDL_SetRenderDrawColor(renderer_, c.r, c.g, c.b, c.a);
-    SDL_RenderDrawRect(renderer_, &r);
+
+    SDL_RenderCopyEx(
+      renderer_,
+      texture,
+      NULL,
+      &r,
+      radiansToDegrees(angle),
+      NULL,
+      SDL_FLIP_NONE
+    );
   }
 
   void SDLRenderer::drawCircle(const Vector2d& pos, const Vector2d& r)
