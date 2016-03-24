@@ -179,6 +179,7 @@ namespace aronnax {
   {
     public:
       virtual ~Ev() { };
+      virtual unsigned int getEventCode() { return EV; }
   };
 
   const unsigned int EV_KEY = 101;
@@ -207,6 +208,8 @@ namespace aronnax {
         key_ = keyName;
         keyState_ = keyState;
       }
+
+      unsigned int getEventCode() { return EV_KEY; }
 
       string getKey()
       {
@@ -246,6 +249,8 @@ namespace aronnax {
         direction_(dir)
       { }
 
+      unsigned int getEventCode() { return EV_USER_MOVEMENT; }
+
       Vector2d getDirection()
       {
         return direction_;
@@ -271,6 +276,8 @@ namespace aronnax {
       EvUserRotation(float dir) :
         direction_(dir)
       { }
+
+      unsigned int getEventCode() { return EV_USER_ROTATION; }
 
       float getDirection()
       {

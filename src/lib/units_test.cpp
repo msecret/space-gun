@@ -50,6 +50,15 @@ TEST(EvUserMovement, Constructor) {
   EXPECT_EQ(expected, ev.getDirection());
 }
 
+TEST(EvUserMovement, getEventCode) {
+  Vector2d expected = { 2, 5 };
+  EvUserMovement ev = EvUserMovement(expected);
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_USER_MOVEMENT);
+}
+
 TEST(EvUserRotation, Constructor) {
   float expected = -1.0f;
   EvUserRotation ev = EvUserRotation(expected);
@@ -57,6 +66,15 @@ TEST(EvUserRotation, Constructor) {
   auto actual = ev.getDirection();
 
   EXPECT_EQ(actual, expected);
+}
+
+TEST(EvUserRotation, getEventCode) {
+  float expected = -1.0f;
+  EvUserRotation ev = EvUserRotation(expected);
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_USER_ROTATION);
 }
 
 TEST(EvUserRotation, getsetDirection) {
