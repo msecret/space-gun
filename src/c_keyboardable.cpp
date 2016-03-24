@@ -13,14 +13,11 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_KEYBOARDABLE;
 
 
-  Keyboardable::Keyboardable(const unsigned int eventCode) :
-    eventCode(eventCode),
+  Keyboardable::Keyboardable() :
     keyMap_()
   { }
 
-  Keyboardable::Keyboardable(const unsigned int eventCode,
-      map<string, aronnax::Ev*>& keyMap) :
-    eventCode(eventCode),
+  Keyboardable::Keyboardable(map<string, aronnax::Ev*>& keyMap) :
     keyMap_(keyMap)
   { }
 
@@ -38,10 +35,4 @@ namespace spacegun {
 
     return keys;
   }
-
-  const unsigned int Keyboardable::getEventCode()
-  {
-    return eventCode;
-  }
-
 }

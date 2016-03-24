@@ -39,7 +39,7 @@ namespace spacegun {
     // TODO this has to be checked for every key, is it too slow?
     if (find(boundKeys.begin(), boundKeys.end(), keyName) != boundKeys.end()) {
       auto action = c->getAction<TEvent>(keyName);
-      auto eventCode = c->getEventCode();
+      auto eventCode = action->getEventCode();
       entity.emit(eventCode, action);
     }
 

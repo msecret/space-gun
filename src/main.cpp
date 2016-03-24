@@ -104,7 +104,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
 {
   Evented* evented = new Evented();
-  Keyboardable* keyboardable = new Keyboardable(EV_USER_MOVEMENT, keyMap);
+  Keyboardable* keyboardable = new Keyboardable(keyMap);
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
   e->addComponent(evented);
