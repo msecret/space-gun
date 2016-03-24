@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <iostream>
 
 #include "lib/units.h"
 #include "c_thrustable.h"
@@ -28,6 +29,12 @@ namespace spacegun {
     entity.on(aronnax::EV_USER_MOVEMENT,
         [&](aronnax::EvUserMovement* ev) {
       handleKeys(*ev, entity);
+      cout << "ev-user_move x:" << ev->getDirection().x
+          << " y:" << ev->getDirection().y << endl;
+    });
+    entity.on(aronnax::EV_USER_ROTATION,
+        [&](aronnax::EvUserRotation* ev) {
+      cout << "ev-user_rotation " << ev->getDirection() << endl;
     });
   }
 

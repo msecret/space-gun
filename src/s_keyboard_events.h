@@ -3,6 +3,7 @@
 #define _h_KeyboardEvents
 
 #include <cstdint>
+#include <typeinfo>
 
 #include "SDL2/SDL.h"
 
@@ -40,7 +41,9 @@ namespace spacegun {
     if (find(boundKeys.begin(), boundKeys.end(), keyName) != boundKeys.end()) {
       auto action = c->getAction<TEvent>(keyName);
       auto eventCode = action->getEventCode();
-      entity.emit(eventCode, action);
+      if (typeid(*action) == typeid(TEvent)) {
+        entity.emit(eventCode, action);
+      }
     }
 
   }

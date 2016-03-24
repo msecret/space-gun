@@ -155,11 +155,15 @@ int main()
   EvUserMovement right(Vector2d(1, 0));
   EvUserMovement down(Vector2d(0, 1));
   EvUserMovement left(Vector2d(-1, 0));
+  EvUserRotation clockwise(1.0f);
+  EvUserRotation counterClockwise(-1.0f);
 
   keyMap["W"] = &up;
   keyMap["D"] = &right;
   keyMap["S"] = &down;
   keyMap["A"] = &left;
+  keyMap["E"] = &clockwise;
+  keyMap["Q"] = &counterClockwise;
 
   // setup asteroids
   auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED,
@@ -175,7 +179,8 @@ int main()
   // setup systems
   Bound bound;
   Events events;
-  KeyboardEvents<EvUserMovement> keyboardEvents;
+  KeyboardEvents<EvUserMovement> keyboardEventsM;
+  KeyboardEvents<EvUserRotation> keyboardEventsR;
   Movement movement;
   RectangleRenderer rectangle(&renderer);
   Thrust thrust;
@@ -188,7 +193,8 @@ int main()
   manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);
-  manager.addSystem(&keyboardEvents);
+  manager.addSystem(&keyboardEventsM);
+  manager.addSystem(&keyboardEventsR);
   manager.addSystem(&movement);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
