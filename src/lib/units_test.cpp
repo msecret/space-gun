@@ -6,67 +6,6 @@
 
 using namespace std;
 
-TEST(VectorUnits, DefaultConstructor) {
-  const Vector2d va;
-  EXPECT_EQ(0, va.x);
-  EXPECT_EQ(0, va.y);
-}
-
-TEST(VectorUnits, AdditionOperator) {
-  const Vector2d va(5, 3);
-  const Vector2d vb(1, 3);
-  Vector2d vc = va + vb;
-  EXPECT_EQ(6, vc.x);
-  EXPECT_EQ(6, vc.y);
-}
-
-TEST(VectorUnits, SubtractionOperator) {
-  Vector2d va(1, 2);
-  Vector2d vb(1, 1);
-  Vector2d expected(0, 1);
-
-  auto actual = va - vb;
-  EXPECT_EQ(expected.x, actual.x);
-  EXPECT_EQ(expected.y, actual.y);
-}
-
-TEST(VectorUnits, MultiplicationOperator) {
-  Vector2d va(1, 2);
-  Vector2d vb(3, 2);
-  Vector2d expected(3, 4);
-
-  auto actual = va * vb;
-  EXPECT_EQ(expected.x, actual.x);
-  EXPECT_EQ(expected.y, actual.y);
-}
-
-TEST(VectorUnits, DivisionOperator) {
-  Vector2d va(10, 6);
-  Vector2d vb(2, 3);
-  Vector2d expected(5, 2);
-
-  auto actual = va / vb;
-  EXPECT_EQ(expected.x, actual.x);
-  EXPECT_EQ(expected.y, actual.y);
-}
-
-TEST(VectorUnits, AdditionAssignmentOperator) {
-  Vector2d va(5, 3);
-  Vector2d vb(1, 3);
-
-  va += vb;
-  EXPECT_EQ(6, va.x);
-  EXPECT_EQ(6, va.y);
-}
-
-TEST(VectorUnits, EqualityOperator) {
-  Vector2d va(2, 3);
-  Vector2d vb(2, 3);
-
-  EXPECT_EQ(va, vb);
-}
-
-
 TEST(ColorUnits, Constructor) {
   aronnax::Color ca(255, 255, 200, 0);
 
@@ -109,4 +48,42 @@ TEST(EvUserMovement, Constructor) {
   EvUserMovement ev = EvUserMovement(expected);
 
   EXPECT_EQ(expected, ev.getDirection());
+}
+
+TEST(EvUserMovement, getEventCode) {
+  Vector2d expected = { 2, 5 };
+  EvUserMovement ev = EvUserMovement(expected);
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_USER_MOVEMENT);
+}
+
+TEST(EvUserRotation, Constructor) {
+  float expected = -1.0f;
+  EvUserRotation ev = EvUserRotation(expected);
+
+  auto actual = ev.getDirection();
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(EvUserRotation, getEventCode) {
+  float expected = -1.0f;
+  EvUserRotation ev = EvUserRotation(expected);
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_USER_ROTATION);
+}
+
+TEST(EvUserRotation, getsetDirection) {
+  float expected = 1.0f;
+  EvUserRotation ev = EvUserRotation(0.0f);
+
+  ev.setDirection(expected);
+
+  auto actual = ev.getDirection();
+
+  EXPECT_EQ(actual, expected);
 }

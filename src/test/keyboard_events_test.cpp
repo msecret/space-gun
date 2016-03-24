@@ -12,25 +12,29 @@
 
 
 using namespace std;
+
+using aronnax::EV;
+using aronnax::EV_USER_MOVEMENT;
+using aronnax::Ev;
+using aronnax::EvUserMovement;
 using aronnax::Vector2d;
+
 using namespace spacegun;
 
 TEST(Keyboardable, Constructor) {
-  aronnax::Ev expected;
-  unsigned int expectedCode = 32;
+  Ev expected;
   map<string, aronnax::Ev*> keyMap;
   keyMap["testa"] = &expected;
 
-  Keyboardable c = Keyboardable(expectedCode, keyMap);
+  Keyboardable c = Keyboardable(keyMap);
 
-  auto actual = c.getAction<aronnax::Ev>("testa");
+  auto actual = c.getAction<Ev>("testa");
 
   EXPECT_EQ(&expected, actual);
-  EXPECT_EQ(c.getEventCode(), expectedCode);
 }
 
 TEST(Keyboardable, getType) {
-  Keyboardable c(100);
+  Keyboardable c;
 
   auto actual = c.getType();
 
@@ -38,16 +42,15 @@ TEST(Keyboardable, getType) {
 }
 
 TEST(Keyboardable, getKeys) {
-  unsigned int expectedCode = 33;
-  aronnax::Ev eva;
-  aronnax::Ev evb;
-  map<string, aronnax::Ev*> keyMap;
+  Ev eva;
+  Ev evb;
+  map<string, Ev*> keyMap;
   string expectedA = "testa";
   string expectedB = "testb";
   keyMap[expectedA] = &eva;
   keyMap[expectedB] = &evb;
 
-  Keyboardable c = Keyboardable(expectedCode, keyMap);
+  Keyboardable c = Keyboardable(keyMap);
 
   // TODO do maps in c++ guarantee an order?
   auto actualA = c.getKeys().at(0);
@@ -58,20 +61,21 @@ TEST(Keyboardable, getKeys) {
 }
 
 TEST(Keyboardable, getAction) {
-  unsigned int expectedCode = 34;
   aronnax::Ev expectedA;
   aronnax::Ev expectedB;
   map<string, aronnax::Ev*> keyMap;
   keyMap["testa"] = &expectedA;
   keyMap["testb"] = &expectedB;
 
-  Keyboardable c = Keyboardable(expectedCode, keyMap);
+  Keyboardable c = Keyboardable(keyMap);
 
   auto actualA = c.getAction<aronnax::Ev>("testa");
   auto actualB = c.getAction<aronnax::Ev>("testb");
+  auto actualCode = actualA->getEventCode();
 
   EXPECT_EQ(&expectedA, actualA);
   EXPECT_EQ(&expectedB, actualB);
+  EXPECT_EQ(actualCode, EV);
 }
 
 TEST(KeyboardEvents, getType) {
@@ -84,7 +88,6 @@ TEST(KeyboardEvents, getType) {
 
 
 TEST(KeyboardEvents, onAddEntity) {
-  const unsigned int EV_USER_MOVEMENT = 9999;
   Vector2d up = { 0, -1 };
   Vector2d down = { 0, 1 };
   aronnax::EvUserMovement* evUp = new aronnax::EvUserMovement(up);
@@ -94,7 +97,7 @@ TEST(KeyboardEvents, onAddEntity) {
   keyMap["S"] = evDown;
   aronnax::EvKeyboard ev("A", aronnax::EvKeyState::STATE_UP);
 
-  auto c = Keyboardable(EV_USER_MOVEMENT, keyMap);
+  auto c = Keyboardable(keyMap);
   aronnax::Entity* e = new aronnax::Entity();
   e->addComponent(&c);
 

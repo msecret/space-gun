@@ -3,6 +3,7 @@
 #define _h_KeyboardEvents
 
 #include <cstdint>
+#include <typeinfo>
 
 #include "SDL2/SDL.h"
 
@@ -39,8 +40,10 @@ namespace spacegun {
     // TODO this has to be checked for every key, is it too slow?
     if (find(boundKeys.begin(), boundKeys.end(), keyName) != boundKeys.end()) {
       auto action = c->getAction<TEvent>(keyName);
-      auto eventCode = c->getEventCode();
-      entity.emit(eventCode, action);
+      auto eventCode = action->getEventCode();
+      if (typeid(*action) == typeid(TEvent)) {
+        entity.emit(eventCode, action);
+      }
     }
 
   }
