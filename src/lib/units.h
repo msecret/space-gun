@@ -259,6 +259,32 @@ namespace aronnax {
     private:
       Vector2d direction_;
   };
+
+  const unsigned int EV_USER_ROTATION = 202;
+  class EvUserRotation : public Ev
+  {
+    public:
+      EvUserRotation(const Ev& ev) :
+        Ev(ev)
+      { }
+
+      EvUserRotation(float dir) :
+        direction_(dir)
+      { }
+
+      float getDirection()
+      {
+        return direction_;
+      }
+
+      void setDirection(float direction)
+      {
+        direction_ = direction;
+      }
+
+    private:
+      float direction_;
+  };
 }
 
 #endif
