@@ -191,6 +191,11 @@ namespace spacegun {
     body_->ApplyForceToCenter(v, true);
   }
 
+  void Moveable::applyTorque(float torque)
+  {
+    body_->ApplyTorque(torque, true);
+  }
+
   Body* Moveable::getBody()
   {
     return body_;

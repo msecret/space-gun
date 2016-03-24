@@ -172,7 +172,7 @@ int main()
       world);
   auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW,
+  auto base = setupBaseEntity(initPlayer, initPlayerV, 60, 60, YELLOW,
       world);
   auto ship = setupPlayerEntity(base, keyMap);
 

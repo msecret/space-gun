@@ -28,17 +28,18 @@ namespace spacegun {
   {
     entity.on(aronnax::EV_USER_MOVEMENT,
         [&](aronnax::EvUserMovement* ev) {
-      handleKeys(*ev, entity);
+      handleMovementKey(*ev, entity);
       cout << "ev-user_move x:" << ev->getDirection().x
           << " y:" << ev->getDirection().y << endl;
     });
     entity.on(aronnax::EV_USER_ROTATION,
         [&](aronnax::EvUserRotation* ev) {
+      handleRotationKey(*ev, entity);
       cout << "ev-user_rotation " << ev->getDirection() << endl;
     });
   }
 
-  void Thrust::handleKeys(aronnax::EvUserMovement& ev,
+  void Thrust::handleMovementKey(aronnax::EvUserMovement& ev,
       aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
@@ -54,6 +55,19 @@ namespace spacegun {
     Vector2d newV = mod + curr;
 
     moveable->applyForce(newV);
+  }
+
+  void Thrust::handleRotationKey(aronnax::EvUserRotation& ev,
+      aronnax::Entity& entity)
+  {
+    auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto thrustable = entity.getComponent<Thrustable>(
+        COMPONENT_TYPE_THRUSTABLE);
+    auto thrustFactor = thrustable->getFactor();
+
+    auto torque = ev.getDirection() * thrustFactor;
+
+    moveable->applyTorque(torque);
   }
 
   const string& Thrust::getType()
