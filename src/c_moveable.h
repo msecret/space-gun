@@ -46,6 +46,7 @@ namespace spacegun {
           float inertia);
 
       void applyForce(const Vector2d& v);
+      void applyTorque(float torque);
 
       Body* getBody();
 

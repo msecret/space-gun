@@ -49,7 +49,7 @@ const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const float THRUST_FACTOR = 10000;
+const float THRUST_FACTOR = 2000;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -85,8 +85,8 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);
 
-  moveable->setFriction(.01f);
-  moveable->setRestitution(0.9f);
+  moveable->setFriction(.0001f);
+  moveable->setRestitution(0.80f);
   moveable->setDensity(6.0f);
 
   auto entity = new Entity();
@@ -144,10 +144,6 @@ int main()
   Vector2d initPosC = { 300, 400 };
   Vector2d initPlayer = { 100, 40 };
   Vector2d initPlayerV = { 0, 0 };
-  float initWA = 4;
-  float initHA = 15;
-  float initWB = 10;
-  float initHB = 12;
   float initWC = 80;
   float initHC = 50;
   map<string, Ev*> keyMap;
@@ -166,13 +162,91 @@ int main()
   keyMap["Q"] = &counterClockwise;
 
   // setup asteroids
-  auto asteroidA = setupBaseEntity(initPosA, initVelA, initWA, initHA, RED,
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, 10, 13, RED,
       world);
-  auto asteroidB = setupBaseEntity(initPosB, initVelB, initWB, initHB, RED,
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, 15, 11, RED,
       world);
   auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, initWB, initHB, YELLOW,
+  auto asteroidD = setupBaseEntity(Vector2d(200, 200),
+      Vector2d( -0.3, 0.2),
+      25,
+      28,
+      RED,
+      world);
+  auto asteroidE = setupBaseEntity(Vector2d(250, 400),
+      Vector2d( 0.5, -0.2),
+      32,
+      36,
+      RED,
+      world);
+  auto asteroidF = setupBaseEntity(Vector2d(450, 300),
+      Vector2d( -0.1, -0.3),
+      42,
+      43,
+      RED,
+      world);
+  auto asteroidG = setupBaseEntity(Vector2d(250, 400),
+      Vector2d( -0.1, -0.1),
+      45,
+      48,
+      RED,
+      world);
+  auto asteroidH = setupBaseEntity(Vector2d(800, 600),
+      Vector2d( -0.8, -0.1),
+      30,
+      30,
+      RED,
+      world);
+  auto asteroidI = setupBaseEntity(Vector2d(600, 800),
+      Vector2d( -0.5, -0.75),
+      43,
+      36,
+      RED,
+      world);
+  auto asteroidJ = setupBaseEntity(Vector2d(800, 900),
+      Vector2d( 1.2, -0.75),
+      20,
+      16,
+      RED,
+      world);
+  auto asteroidK = setupBaseEntity(Vector2d(400, 900),
+      Vector2d( -1.0, -0.4),
+      20,
+      16,
+      RED,
+      world);
+  auto asteroidL = setupBaseEntity(Vector2d(1200, 300),
+      Vector2d( 0.3, -1.4),
+      45,
+      30,
+      RED,
+      world);
+  auto asteroidM = setupBaseEntity(Vector2d(1000, 500),
+      Vector2d( 0.8, 1.1),
+      9.0,
+      13,
+      RED,
+      world);
+  auto asteroidN = setupBaseEntity(Vector2d(600, 600),
+      Vector2d( 1.4, 2.1),
+      12,
+      18,
+      RED,
+      world);
+  auto asteroidO = setupBaseEntity(Vector2d(1000, 700),
+      Vector2d( 1.2, -1.8),
+      26,
+      29,
+      RED,
+      world);
+  auto asteroidP = setupBaseEntity(Vector2d(500, 500),
+      Vector2d( -0.2, 1.4),
+      25,
+      25,
+      RED,
+      world);
+  auto base = setupBaseEntity(initPlayer, initPlayerV, 40, 50, YELLOW,
       world);
   auto ship = setupPlayerEntity(base, keyMap);
 
@@ -190,6 +264,19 @@ int main()
   manager.addEntity(*asteroidA);
   manager.addEntity(*asteroidB);
   manager.addEntity(*asteroidC);
+  manager.addEntity(*asteroidD);
+  manager.addEntity(*asteroidE);
+  manager.addEntity(*asteroidF);
+  manager.addEntity(*asteroidG);
+  manager.addEntity(*asteroidH);
+  manager.addEntity(*asteroidI);
+  manager.addEntity(*asteroidJ);
+  manager.addEntity(*asteroidK);
+  manager.addEntity(*asteroidL);
+  manager.addEntity(*asteroidM);
+  manager.addEntity(*asteroidN);
+  manager.addEntity(*asteroidO);
+  manager.addEntity(*asteroidP);
   manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);

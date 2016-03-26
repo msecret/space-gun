@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 #include "lib/units.h"
@@ -28,17 +29,18 @@ namespace spacegun {
   {
     entity.on(aronnax::EV_USER_MOVEMENT,
         [&](aronnax::EvUserMovement* ev) {
-      handleKeys(*ev, entity);
-      cout << "ev-user_move x:" << ev->getDirection().x
-          << " y:" << ev->getDirection().y << endl;
+      handleMovementKey(*ev, entity);
+      //cout << "ev-user_move x:" << ev->getDirection().x
+      //    << " y:" << ev->getDirection().y << endl;
     });
     entity.on(aronnax::EV_USER_ROTATION,
         [&](aronnax::EvUserRotation* ev) {
-      cout << "ev-user_rotation " << ev->getDirection() << endl;
+      handleRotationKey(*ev, entity);
+      //cout << "ev-user_rotation " << ev->getDirection() << endl;
     });
   }
 
-  void Thrust::handleKeys(aronnax::EvUserMovement& ev,
+  void Thrust::handleMovementKey(aronnax::EvUserMovement& ev,
       aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
@@ -46,14 +48,28 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    Vector2d curr = moveable->getVel();
-    Vector2d mod = ev.getDirection();
-    // mod *= thrustFactor;
-    mod.x *= thrustFactor;
-    mod.y *= thrustFactor;
-    Vector2d newV = mod + curr;
+    Vector2d force;
+    auto angle = moveable->getAngle();
+    force.x = cos(angle);
+    force.y = sin(angle);
+    force.x *= thrustFactor;
+    force.y *= thrustFactor;
+    cout << "vx: " << force.x << " vy: " << force.y << endl;
 
-    moveable->applyForce(newV);
+    moveable->applyForce(force);
+  }
+
+  void Thrust::handleRotationKey(aronnax::EvUserRotation& ev,
+      aronnax::Entity& entity)
+  {
+    auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto thrustable = entity.getComponent<Thrustable>(
+        COMPONENT_TYPE_THRUSTABLE);
+    auto thrustFactor = thrustable->getFactor();
+
+    auto torque = ev.getDirection() * thrustFactor * 3;
+
+    moveable->applyTorque(torque);
   }
 
   const string& Thrust::getType()

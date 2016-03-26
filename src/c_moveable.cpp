@@ -58,6 +58,7 @@ namespace spacegun {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
     fixture_ = body_->CreateFixture(&fixtureDef_);
+    body_->SetLinearDamping(0.0f);
     if (setMassData_) {
       body_->SetMassData(&massData_);
     }
@@ -189,6 +190,11 @@ namespace spacegun {
   void Moveable::applyForce(const Vector2d& v)
   {
     body_->ApplyForceToCenter(v, true);
+  }
+
+  void Moveable::applyTorque(float torque)
+  {
+    body_->ApplyTorque(torque, true);
   }
 
   Body* Moveable::getBody()
