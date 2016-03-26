@@ -29,13 +29,13 @@ namespace spacegun {
     entity.on(aronnax::EV_USER_MOVEMENT,
         [&](aronnax::EvUserMovement* ev) {
       handleMovementKey(*ev, entity);
-      cout << "ev-user_move x:" << ev->getDirection().x
-          << " y:" << ev->getDirection().y << endl;
+      //cout << "ev-user_move x:" << ev->getDirection().x
+      //    << " y:" << ev->getDirection().y << endl;
     });
     entity.on(aronnax::EV_USER_ROTATION,
         [&](aronnax::EvUserRotation* ev) {
       handleRotationKey(*ev, entity);
-      cout << "ev-user_rotation " << ev->getDirection() << endl;
+      //cout << "ev-user_rotation " << ev->getDirection() << endl;
     });
   }
 
@@ -53,6 +53,7 @@ namespace spacegun {
     mod.x *= thrustFactor;
     mod.y *= thrustFactor;
     Vector2d newV = mod + curr;
+    cout << "vx: " << curr.x << " vy: " << curr.y << endl;
 
     moveable->applyForce(newV);
   }

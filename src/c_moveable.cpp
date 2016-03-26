@@ -58,6 +58,7 @@ namespace spacegun {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
     fixture_ = body_->CreateFixture(&fixtureDef_);
+    body_->SetLinearDamping(0.0f);
     if (setMassData_) {
       body_->SetMassData(&massData_);
     }
