@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 
 #include "lib/units.h"
@@ -47,15 +48,15 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    Vector2d curr = moveable->getVel();
-    Vector2d mod = ev.getDirection();
-    // mod *= thrustFactor;
-    mod.x *= thrustFactor;
-    mod.y *= thrustFactor;
-    Vector2d newV = mod + curr;
-    cout << "vx: " << curr.x << " vy: " << curr.y << endl;
+    Vector2d force;
+    auto angle = moveable->getAngle();
+    force.x = cos(angle);
+    force.y = sin(angle);
+    force.x *= thrustFactor;
+    force.y *= thrustFactor;
+    cout << "vx: " << force.x << " vy: " << force.y << endl;
 
-    moveable->applyForce(newV);
+    moveable->applyForce(force);
   }
 
   void Thrust::handleRotationKey(aronnax::EvUserRotation& ev,
@@ -66,7 +67,7 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    auto torque = ev.getDirection() * thrustFactor;
+    auto torque = ev.getDirection() * thrustFactor * 3;
 
     moveable->applyTorque(torque);
   }
