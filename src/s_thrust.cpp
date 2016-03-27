@@ -66,6 +66,9 @@ namespace spacegun {
     auto force = getForce(direction, angle);
     cout << "vx: " << force.x << " vy: " << force.y << endl;
     force *= thrustFactor;
+    if (direction == Vector2d(1, 1)) {
+      force *= 3;
+    }
 
     moveable->applyForce(force);
   }
@@ -78,7 +81,7 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    auto torque = ev.getDirection() * thrustFactor * 3;
+    auto torque = ev.getDirection() * thrustFactor * 5;
 
     moveable->applyTorque(torque);
   }
