@@ -55,31 +55,15 @@ namespace spacegun {
   void Thrust::handleMovementKey(aronnax::EvUserMovement& ev,
       aronnax::Entity& entity)
   {
-    Vector2d right = { 1, 0 };
-    Vector2d left = { -1, 0 };
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto thrustable = entity.getComponent<Thrustable>(
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
     auto direction = ev.getDirection();
 
-    Vector2d force;
     auto angle = moveable->getAngle();
-    if (direction == right || direction == left) {
-      float ninety = 1.5708f * direction.x;
-      Vector2d currForce;
-      currForce.x = cos(angle);
-      currForce.y = sin(angle);
-      auto cs = cos(ninety);
-      auto sn = sin(ninety);
-      force.x = currForce.x * cs - currForce.y * sn;
-      force.y = currForce.x * sn + currForce.y * cs;
-    } else {
-      force.x = cos(angle);
-      force.y = sin(angle);
-      force.x *= direction.x;
-      force.y *= direction.y;
-    }
+
+    auto force = getForce(direction, angle);
     cout << "vx: " << force.x << " vy: " << force.y << endl;
     force *= thrustFactor;
 
@@ -97,6 +81,31 @@ namespace spacegun {
     auto torque = ev.getDirection() * thrustFactor * 3;
 
     moveable->applyTorque(torque);
+  }
+
+  Vector2d Thrust::getForce(Vector2d direction, float angle)
+  {
+    Vector2d right = { 1, 0 };
+    Vector2d left = { -1, 0 };
+    Vector2d force;
+    Vector2d currForce;
+
+    currForce.x = cos(angle);
+    currForce.y = sin(angle);
+
+    if (direction == right || direction == left) {
+      float ninety = 1.5708f * direction.x;
+      auto cs = cos(ninety);
+      auto sn = sin(ninety);
+      force.x = currForce.x * cs - currForce.y * sn;
+      force.y = currForce.x * sn + currForce.y * cs;
+    } else {
+      force = currForce;
+      force.x *= direction.x;
+      force.y *= direction.y;
+    }
+
+    return force;
   }
 
   const string& Thrust::getType()
