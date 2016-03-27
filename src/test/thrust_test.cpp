@@ -46,6 +46,21 @@ TEST(Thrustable, getsetFactor) {
   EXPECT_EQ(expected, actual);
 }
 
+TEST(Thrustable, getsetUpDownFactor) {
+  float expectedUp = 3.4f;
+  float expectedDown = 2.4f;
+
+  Thrustable c(1.0f);
+
+  c.setUpFactor(expectedUp);
+  c.setDownFactor(expectedDown);
+  auto actualUp = c.getUpFactor();
+  auto actualDown = c.getDownFactor();
+
+  EXPECT_EQ(actualUp, expectedUp);
+  EXPECT_EQ(actualDown, expectedDown);
+}
+
 TEST(Thrust, getType) {
   Thrustable c;
 
@@ -57,9 +72,9 @@ TEST(Thrust, getType) {
 TEST(Thrust, onAddEntity) {
   Vector2d g = { 0.0, 0.0 };
   Vector2d initP = { 0, 0 };
-  Vector2d initV = { 1.5, 0 };
-  Vector2d direction = { 1, 0 };
-  float factor = 5000;
+  Vector2d initV = { 0, 0 };
+  Vector2d direction = { 1, 1 };
+  float factor = 1000;
   EvUserMovement ev(direction);
   World w(g);
   PolygonShape p;
@@ -81,6 +96,6 @@ TEST(Thrust, onAddEntity) {
 
   auto actual = cm.getVel();
 
-  EXPECT_EQ(actual.x, 2.5f);
-  EXPECT_EQ(actual.y, 0.0f);
+  EXPECT_FLOAT_EQ(actual.x, 2.5);
+  EXPECT_FLOAT_EQ(actual.y, 0.0);
 }
