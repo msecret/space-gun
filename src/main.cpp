@@ -147,9 +147,9 @@ int main()
   float initWC = 80;
   float initHC = 50;
   map<string, Ev*> keyMap;
-  EvUserMovement up(Vector2d(0, -1));
+  EvUserMovement up(Vector2d(1, 1));
   EvUserMovement right(Vector2d(1, 0));
-  EvUserMovement down(Vector2d(0, 1));
+  EvUserMovement down(Vector2d(-1, -1));
   EvUserMovement left(Vector2d(-1, 0));
   EvUserRotation clockwise(1.0f);
   EvUserRotation counterClockwise(-1.0f);
@@ -246,7 +246,7 @@ int main()
       25,
       RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, 40, 50, YELLOW,
+  auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, YELLOW,
       world);
   auto ship = setupPlayerEntity(base, keyMap);
 
@@ -261,6 +261,7 @@ int main()
   Universe universe;;
 
   // setup to manager
+  /*
   manager.addEntity(*asteroidA);
   manager.addEntity(*asteroidB);
   manager.addEntity(*asteroidC);
@@ -277,6 +278,7 @@ int main()
   manager.addEntity(*asteroidN);
   manager.addEntity(*asteroidO);
   manager.addEntity(*asteroidP);
+  */
   manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);
