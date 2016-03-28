@@ -13,18 +13,6 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_THRUSTABLE;
 
-  Vector2d normalize(Vector2d v){
-    Vector2d vector;
-    float length = v.Length();
-
-    if(length != 0){
-        vector.x = v.x/length;
-        vector.y = v.y/length;
-    }
-
-    return vector;
-  }
-
   void Thrust::init(aronnax::Entities& entities)
   {
     for (auto e : entities) {
@@ -64,7 +52,6 @@ namespace spacegun {
     auto angle = moveable->getAngle();
 
     auto force = getForce(direction, angle);
-    cout << "vx: " << force.x << " vy: " << force.y << endl;
     force *= thrustFactor;
     if (direction == Vector2d(1, 1)) {
       force *= 3;
