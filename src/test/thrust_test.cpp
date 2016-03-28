@@ -49,16 +49,24 @@ TEST(Thrustable, getsetFactor) {
 TEST(Thrustable, getsetUpDownFactor) {
   float expectedUp = 3.4f;
   float expectedDown = 2.4f;
+  float expectedRight = 1.5f;
+  float expectedLeft = 5.5f;
 
   Thrustable c(1.0f);
 
   c.setUpFactor(expectedUp);
   c.setDownFactor(expectedDown);
+  c.setRightFactor(expectedRight);
+  c.setLeftFactor(expectedLeft);
   auto actualUp = c.getUpFactor();
   auto actualDown = c.getDownFactor();
+  auto actualRight = c.getRightFactor();
+  auto actualLeft = c.getLeftFactor();
 
   EXPECT_EQ(actualUp, expectedUp);
   EXPECT_EQ(actualDown, expectedDown);
+  EXPECT_EQ(actualRight, expectedRight);
+  EXPECT_EQ(actualLeft, expectedLeft);
 }
 
 TEST(Thrust, getType) {

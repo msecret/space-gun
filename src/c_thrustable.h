@@ -33,6 +33,10 @@ namespace spacegun {
       void setDownFactor(float down);
       float getUpFactor();
       float getDownFactor();
+      void setRightFactor(float right);
+      void setLeftFactor(float left);
+      float getRightFactor();
+      float getLeftFactor();
 
 
     private:
