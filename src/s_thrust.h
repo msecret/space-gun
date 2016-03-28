@@ -26,6 +26,7 @@ namespace spacegun {
           aronnax::Entity& entity);
       void handleRotationKey(aronnax::EvUserRotation& ev,
           aronnax::Entity& entity);
+      Vector2d getForce(Vector2d direction, float angle);
 
   };
 }

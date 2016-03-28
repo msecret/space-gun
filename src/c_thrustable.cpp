@@ -25,4 +25,43 @@ namespace spacegun {
     factor_ = factor;
   }
 
+  void Thrustable::setUpFactor(float up)
+  {
+    directionFactors_[0] = up;
+  }
+
+  void Thrustable::setDownFactor(float down)
+  {
+    directionFactors_[2] = down;
+  }
+
+  float Thrustable::getUpFactor()
+  {
+    return directionFactors_[0];
+  }
+
+  float Thrustable::getDownFactor()
+  {
+    return directionFactors_[2];
+  }
+
+  void Thrustable::setRightFactor(float right)
+  {
+    directionFactors_[1] = right;
+  }
+
+  void Thrustable::setLeftFactor(float left)
+  {
+    directionFactors_[3] = left;
+  }
+
+  float Thrustable::getRightFactor()
+  {
+    return directionFactors_[1];
+  }
+
+  float Thrustable::getLeftFactor()
+  {
+    return directionFactors_[3];
+  }
 }

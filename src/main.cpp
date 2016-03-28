@@ -49,7 +49,7 @@ const Color RED = Color(204, 0, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(246, 255, 0, 255);
 
-const float THRUST_FACTOR = 2000;
+const float THRUST_FACTOR = 1500;
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -147,9 +147,9 @@ int main()
   float initWC = 80;
   float initHC = 50;
   map<string, Ev*> keyMap;
-  EvUserMovement up(Vector2d(0, -1));
+  EvUserMovement up(Vector2d(1, 1));
   EvUserMovement right(Vector2d(1, 0));
-  EvUserMovement down(Vector2d(0, 1));
+  EvUserMovement down(Vector2d(-1, -1));
   EvUserMovement left(Vector2d(-1, 0));
   EvUserRotation clockwise(1.0f);
   EvUserRotation counterClockwise(-1.0f);
@@ -246,7 +246,31 @@ int main()
       25,
       RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, 40, 50, YELLOW,
+  auto asteroidQ = setupBaseEntity(Vector2d(400, 700),
+      Vector2d( 0.5, 0.3),
+      27,
+      29,
+      RED,
+      world);
+  auto asteroidR = setupBaseEntity(Vector2d(200, 700),
+      Vector2d( 0.2, -0.86),
+      30,
+      40,
+      RED,
+      world);
+  auto asteroidS = setupBaseEntity(Vector2d(600, 900),
+      Vector2d( 0.4, 0.8),
+      15,
+      18,
+      RED,
+      world);
+  auto asteroidT = setupBaseEntity(Vector2d(800, 900),
+      Vector2d( 1.1, -0.3),
+      11,
+      12,
+      RED,
+      world);
+  auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, YELLOW,
       world);
   auto ship = setupPlayerEntity(base, keyMap);
 
@@ -277,6 +301,10 @@ int main()
   manager.addEntity(*asteroidN);
   manager.addEntity(*asteroidO);
   manager.addEntity(*asteroidP);
+  manager.addEntity(*asteroidQ);
+  manager.addEntity(*asteroidR);
+  manager.addEntity(*asteroidS);
+  manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addSystem(&bound);
   manager.addSystem(&events);
