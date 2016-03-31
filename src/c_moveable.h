@@ -27,6 +27,7 @@ namespace spacegun {
                const Vector2d& initialPos,
                float initialAngle);
       void init(World& world, Shape& shape);
+      void setDamageable();
       const string getType();
       Vector2d getVel();
       // TODO should this be set force?

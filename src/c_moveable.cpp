@@ -64,6 +64,11 @@ namespace spacegun {
     }
   }
 
+  void Moveable::setDamageable()
+  {
+    body_->SetUserData(this);
+  }
+
   const string Moveable::getType()
   {
     return COMPONENT_TYPE_MOVEABLE;
