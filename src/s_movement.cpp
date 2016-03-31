@@ -4,6 +4,7 @@
 #include "lib/entity.h"
 
 #include "s_movement.h"
+#include "c_damageable.h"
 #include "c_moveable.h"
 #include "c_rectangular.h"
 #include "c_shaped.h"
@@ -44,6 +45,9 @@ namespace spacegun {
     auto shape = xs->getShape();
 
     m->init(*world, *shape);
+    if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+      m->setDamageable();
+    }
   }
 
 }
