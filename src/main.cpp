@@ -22,6 +22,7 @@
 #include "c_evented.h"
 #include "c_keyboardable.h"
 #include "c_moveable.h"
+#include "c_oriented.h"
 #include "c_rectangular.h"
 #include "c_rendered.h"
 #include "c_painted.h"
@@ -45,9 +46,9 @@ const float TIMESTEP = 0.8;
 const int WORLD_W = 1280;
 const int WORLD_H = 960;
 
-const Color RED = Color(204, 0, 0, 255);
+const Color RED = Color(135, 42, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
-const Color GREEN = Color(246, 255, 0, 255);
+const Color GREEN = Color(200, 220, 68, 255);
 
 const float THRUST_FACTOR = 1500;
 
@@ -105,10 +106,12 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
 {
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
+  Oriented* oriented = new Oriented();
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
   e->addComponent(evented);
   e->addComponent(keyboardable);
+  e->addComponent(oriented);
   e->addComponent(thrustable);
 
   return e;
@@ -270,7 +273,7 @@ int main()
       12,
       RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, YELLOW,
+  auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, GREEN,
       world);
   auto ship = setupPlayerEntity(base, keyMap);
 

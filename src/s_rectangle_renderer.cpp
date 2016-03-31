@@ -3,6 +3,7 @@
 #include "lib/renderer.h"
 
 #include "c_moveable.h"
+#include "c_oriented.h"
 #include "c_rectangular.h"
 #include "c_rendered.h"
 #include "c_painted.h"
@@ -78,10 +79,24 @@ namespace spacegun {
     if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
       auto p = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
       auto color = p->getColor();
-      SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
-            color.r,
-            color.g,
-            color.b));
+
+      if (entity.hasComponent(COMPONENT_TYPE_ORIENTED)) {
+        SDL_Rect majorPart = { width * 0.2, 0, width * 0.8, height };
+        SDL_Rect minorPart = { 0, 0, width * 0.2, height };
+        SDL_FillRect(s, &majorPart, SDL_MapRGB(s->format,
+              color.r,
+              color.g,
+              color.b));
+        SDL_FillRect(s, &minorPart, SDL_MapRGB(s->format,
+              250,
+              250,
+              250));
+      } else {
+        SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
+              color.r,
+              color.g,
+              color.b));
+      }
     }
 
     t = renderer_->createTexture(*s);
