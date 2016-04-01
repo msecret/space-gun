@@ -87,3 +87,33 @@ TEST(EvUserRotation, getsetDirection) {
 
   EXPECT_EQ(actual, expected);
 }
+
+TEST(EvImpact, Constructor) {
+  vector<float> expected;
+  expected.push_back(1.0f);
+  EvImpact ev(expected);
+
+  auto actual = ev.getImpulses();
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(EvImpact, getEventCode) {
+  vector<float> v;
+  EvImpact ev(v);
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_USER_IMPACT);
+}
+
+TEST(EvImpact, getTotalImpulses) {
+  vector<float> expected;
+  expected.push_back(1.0f);
+  expected.push_back(2.0f);
+  EvImpact ev(expected);
+
+  auto actual = ev.getTotalImpulses();
+
+  EXPECT_FLOAT_EQ(actual, 3.0f);
+}

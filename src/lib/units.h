@@ -3,6 +3,7 @@
 #include <cfloat>
 #include <cmath>
 #include <string>
+#include <vector>
 
 #include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
@@ -291,6 +292,38 @@ namespace aronnax {
 
     private:
       float direction_;
+  };
+
+  const unsigned int EV_USER_IMPACT = 203;
+  class EvImpact : public Ev
+  {
+    public:
+      EvImpact(const Ev& ev) :
+        Ev(ev)
+      { }
+
+      EvImpact(vector<float> impulses) :
+        normalImpulses_(impulses)
+      { }
+
+      unsigned int getEventCode() { return EV_USER_IMPACT; }
+
+      vector<float> getImpulses()
+      {
+        return normalImpulses_;
+      }
+
+      float getTotalImpulses()
+      {
+        float total = 0.0f;
+        for (auto i : normalImpulses_) {
+          total += i;
+        }
+        return total;
+      }
+
+    private:
+      vector<float> normalImpulses_;
   };
 }
 
