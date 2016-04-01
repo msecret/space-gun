@@ -104,7 +104,7 @@ TEST(EvImpact, getEventCode) {
 
   auto actual = ev.getEventCode();
 
-  EXPECT_EQ(actual, EV_USER_IMPACT);
+  EXPECT_EQ(actual, EV_IMPACT);
 }
 
 TEST(EvImpact, getTotalImpulses) {

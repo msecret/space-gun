@@ -294,7 +294,7 @@ namespace aronnax {
       float direction_;
   };
 
-  const unsigned int EV_USER_IMPACT = 203;
+  const unsigned int EV_IMPACT = 203;
   class EvImpact : public Ev
   {
     public:
@@ -306,7 +306,7 @@ namespace aronnax {
         normalImpulses_(impulses)
       { }
 
-      unsigned int getEventCode() { return EV_USER_IMPACT; }
+      unsigned int getEventCode() { return EV_IMPACT; }
 
       vector<float> getImpulses()
       {
