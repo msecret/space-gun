@@ -12,6 +12,8 @@
 #define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
 
 namespace aronnax {
+  using std::cout;
+  using std::cerr;
 
   //float RADTODEG = 180 / M_PI;
 
@@ -19,6 +21,7 @@ namespace aronnax {
   {
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(&screen_);
+    TTF_Quit();
   }
 
   SDLRenderer::SDLRenderer(SDL_Window* window):
@@ -30,6 +33,12 @@ namespace aronnax {
       std::cerr << "creating renderer failed: " << SDL_GetError() << std::endl;
     }
     renderer_ = rendererPtr;
+
+    if (TTF_Init() != 0) {
+      cerr << "TTF_Init() Failed: " << TTF_GetError() << endl;
+      SDL_Quit();
+      exit(1);
+    }
   }
 
   void SDLRenderer::render()
@@ -84,10 +93,26 @@ namespace aronnax {
         string message,
         const Color& color)
   {
-    TTF_Font* fixed = TTF_OpenFont("courier.ttf", 16);
+    if(!TTF_WasInit()) {
+      cerr << "TTF_Init failed " << TTF_GetError() << endl;
+      exit(1);
+    }
+    TTF_Font* fixed = TTF_OpenFont("./DejaVuSansMono.ttf", 16);
+    if (fixed == NULL) {
+      cerr << "TTF_OpenFont() Failed: " << TTF_GetError() << endl;
+      TTF_Quit();
+      SDL_Quit();
+      exit(1);
+    }
     SDL_Color sdlCol = { color.r, color.g, color.b };
     SDL_Surface* surface = TTF_RenderText_Solid(fixed,
         message.c_str(), sdlCol);
+    if (surface == NULL) {
+      cerr << "TTF surface Failed: " << TTF_GetError() << endl;
+      TTF_Quit();
+      SDL_Quit();
+      exit(1);
+    }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer_, surface);
 
     int width = surface->w;

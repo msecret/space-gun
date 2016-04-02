@@ -44,11 +44,12 @@ LIBGTEST = /usr/lib/libgtest_main.so /usr/lib/libgtest.so
 LIBGMOCK = /usr/lib/libgmock_main.so /usr/lib/libgmock.so
 
 SUBDIRS = src/lib
+COPY_FILES = $(DISTDIR)/DejaVuSansMono.ttf
 
 $(DISTDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(TARGET): $(OBJS) subdirs
+$(TARGET): $(OBJS) subdirs $(COPY_FILES)
 	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LIBBOX2D) $(LFLAGS)
 
 $(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
@@ -59,6 +60,8 @@ $(OBJS): | $(DISTDIR)
 $(DISTDIR):
 	mkdir -p $(DISTDIR)
 
+$(DISTDIR)/DejaVuSansMono.ttf: fonts/DejaVuSansMono.ttf
+	cp -f $< $@
 
 .PHONY: subdirs $(SUBDIRS)
 subdirs: $(SUBDIRS)

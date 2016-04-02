@@ -328,8 +328,8 @@ int main()
 
   // setup systems
   Bound bound;
-  Damage damage;
   Death death;
+  Damage damage(&renderer);
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
