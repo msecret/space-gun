@@ -19,10 +19,12 @@ namespace spacegun {
       const string getType();
       float getHealth();
       void applyDamage(float damage);
+      void setDamageFactor(float factor);
 
     private:
       float health_;
       float initialHealth_;
+      float factor_;
   };
 
 }

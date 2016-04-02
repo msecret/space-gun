@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "c_damageable.h"
 
 namespace spacegun {
@@ -23,7 +25,16 @@ namespace spacegun {
 
   void Damageable::applyDamage(float damage)
   {
-    health_ -= damage;
+    float total = damage * factor_;
+    health_ -= total;
+    using std::cout;
+    using std::endl;
+    cout << "health: " << health_ << endl;
+  }
+
+  void Damageable::setDamageFactor(float factor)
+  {
+    factor_ = factor;
   }
 
 }

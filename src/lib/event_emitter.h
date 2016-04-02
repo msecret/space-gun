@@ -23,6 +23,8 @@
 #ifndef _EVENT_EMITTER_H_
 #define _EVENT_EMITTER_H_
 
+#include <iostream>
+
 #include <functional>
 #include <map>
 #include <memory>

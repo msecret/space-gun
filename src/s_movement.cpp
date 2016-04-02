@@ -46,7 +46,7 @@ namespace spacegun {
 
     m->init(*world, *shape);
     if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
-      m->setDamageable();
+      m->setDamageable(e);
     }
   }
 
