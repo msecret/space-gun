@@ -7,13 +7,14 @@
 #include <Box2D/Box2D.h>
 
 #include "lib/component.h"
+#include "lib/entity.h"
 #include "lib/units.h"
 
 #include "alias.h"
 
 namespace spacegun {
   using namespace std;
-  using spacegun::MassData;
+  using aronnax::Entity;
 
   const string COMPONENT_TYPE_MOVEABLE = "moveable";
 
@@ -27,7 +28,7 @@ namespace spacegun {
                const Vector2d& initialPos,
                float initialAngle);
       void init(World& world, Shape& shape);
-      void setDamageable();
+      void setDamageable(Entity& e);
       const string getType();
       Vector2d getVel();
       // TODO should this be set force?

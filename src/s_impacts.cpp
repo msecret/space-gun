@@ -37,9 +37,9 @@ namespace spacegun {
   void Impacts::handleImpact(Entity& entity, EvImpact& ev)
   {
     auto c = entity.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
-    auto totalImpulse = ev.getTotalImpulses();
+    auto firstImpulse = ev.getImpulses()[0];
 
-    c->applyDamage(totalImpulse);
+    c->applyDamage(firstImpulse);
   }
 
   const string& Impacts::getType()

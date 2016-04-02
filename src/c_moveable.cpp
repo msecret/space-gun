@@ -1,6 +1,8 @@
 
 #include <Box2D/Box2D.h>
 
+#include "lib/entity.h"
+
 #include "./c_moveable.h"
 
 namespace spacegun {
@@ -64,9 +66,9 @@ namespace spacegun {
     }
   }
 
-  void Moveable::setDamageable()
+  void Moveable::setDamageable(Entity& e)
   {
-    body_->SetUserData(this);
+    body_->SetUserData(&e);
   }
 
   const string Moveable::getType()

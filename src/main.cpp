@@ -19,6 +19,7 @@
 #include "alias.h"
 
 #include "c_boundable.h"
+#include "c_damageable.h"
 #include "c_evented.h"
 #include "c_keyboardable.h"
 #include "c_moveable.h"
@@ -32,6 +33,7 @@
 
 #include "s_bound.h"
 #include "s_keyboard_events.h"
+#include "s_impacts.h"
 #include "s_movement.h"
 #include "s_rectangle_renderer.h"
 #include "s_sdl_events.h"
@@ -51,6 +53,42 @@ const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(200, 220, 68, 255);
 
 const float THRUST_FACTOR = 1500;
+
+class CollisionListener : public b2ContactListener
+{
+  public:
+    void PostSolve(b2Contact*  contact,
+        const b2ContactImpulse*  impulse)
+    {
+      void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
+      void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
+      if ( bodyUserDataA ) {
+        auto entity = static_cast<Entity*>(bodyUserDataA);
+        vector<float> total;
+        total = setupImpact(total, *impulse);
+        EvImpact ev(total);
+        entity->emit(EV_IMPACT, &ev);
+      }
+      if ( bodyUserDataB ) {
+        auto entity = static_cast<Entity*>(bodyUserDataB);
+        vector<float> total;
+        total = setupImpact(total, *impulse);
+        EvImpact ev(total);
+        entity->emit(EV_IMPACT, &ev);
+      }
+    }
+
+  private:
+    vector<float> setupImpact(vector<float>& t, const b2ContactImpulse& impulse)
+    {
+      auto normalImpulses = impulse.normalImpulses;
+      for(unsigned int i = 0; i < sizeof(normalImpulses); i=i+1) {
+        t.push_back(normalImpulses[i]);
+      }
+
+      return t;
+    }
+};
 
 SDL_Window* setupVideo(int worldW, int worldH)
 {
@@ -104,11 +142,15 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 
 Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
 {
+  Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
   Oriented* oriented = new Oriented();
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
+  damageable->setDamageFactor(0.001f);
+
+  e->addComponent(damageable);
   e->addComponent(evented);
   e->addComponent(keyboardable);
   e->addComponent(oriented);
@@ -137,6 +179,8 @@ int main()
   b2Vec2 gravity(0.0f, 0.0f);
   b2World world(gravity);
   world.SetContinuousPhysics(true);
+  CollisionListener collisionListener;
+  world.SetContactListener(&collisionListener);
 
   // initial values
   Vector2d initVelA = { 10, 20 };
@@ -282,6 +326,7 @@ int main()
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
+  Impacts impacts;
   Movement movement;
   RectangleRenderer rectangle(&renderer);
   Thrust thrust;
@@ -313,6 +358,7 @@ int main()
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
+  manager.addSystem(&impacts);
   manager.addSystem(&movement);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
