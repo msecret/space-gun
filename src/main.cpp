@@ -1,12 +1,10 @@
 
-#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <map>
 #include <memory>
 #include <stdio.h>
-#include <thread>
 
 #include <Box2D/Box2D.h>
 #include "SDL2/SDL.h"
