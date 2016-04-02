@@ -24,6 +24,10 @@ namespace aronnax {
           SDL_Texture* texture,
           float angle) = 0;
       virtual void drawPolygon(const Vector2d& pos) = 0;
+      virtual void drawText(
+          const Vector2d& pos,
+          string message,
+          const Color& color) = 0;
       virtual SDL_Texture* createTexture(SDL_Surface& s) = 0;
   };
 

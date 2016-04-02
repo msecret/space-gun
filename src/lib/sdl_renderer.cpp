@@ -3,7 +3,8 @@
 #include <math.h>
 #include <memory>
 
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "sdl_renderer.h"
 #include "units.h"
@@ -76,6 +77,29 @@ namespace aronnax {
 
   void SDLRenderer::drawPolygon(const Vector2d& pos)
   {
+  }
+
+  void SDLRenderer::drawText(
+        const Vector2d& pos,
+        string message,
+        const Color& color)
+  {
+    TTF_Font* fixed = TTF_OpenFont("courier.ttf", 16);
+    SDL_Color sdlCol = { color.r, color.g, color.b };
+    SDL_Surface* surface = TTF_RenderText_Solid(fixed,
+        message.c_str(), sdlCol);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer_, surface);
+
+    int width = surface->w;
+    int height = surface->h;
+
+    SDL_Rect messageRect;
+    messageRect.x = pos.x;
+    messageRect.y = pos.y;
+    messageRect.w = width;
+    messageRect.h = height;
+
+    SDL_RenderCopy(renderer_, texture, NULL, &messageRect);
   }
 
   SDL_Texture* SDLRenderer::createTexture(SDL_Surface& s)

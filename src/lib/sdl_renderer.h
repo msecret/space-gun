@@ -3,6 +3,7 @@
 #define _h_SDLRenderer
 
 #include <memory>
+#include <string>
 
 #include "SDL2/SDL.h"
 
@@ -10,6 +11,7 @@
 #include "units.h"
 
 namespace aronnax {
+  using std::string;
 
 class SDLRenderer : public IRenderer
 {
@@ -26,6 +28,10 @@ class SDLRenderer : public IRenderer
         SDL_Texture* texture,
         float angle);
     void drawPolygon(const Vector2d& pos);
+    void drawText(
+        const Vector2d& pos,
+        string message,
+        const Color& color);
     SDL_Texture* createTexture(SDL_Surface& s);
 
   private:
