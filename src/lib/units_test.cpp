@@ -117,3 +117,11 @@ TEST(EvImpact, getTotalImpulses) {
 
   EXPECT_FLOAT_EQ(actual, 3.0f);
 }
+
+TEST(EvPlayerDeath, getEventCode) {
+  EvPlayerDeath ev;
+
+  auto actual = ev.getEventCode();
+
+  EXPECT_EQ(actual, EV_PLAYER_DEATH);
+}

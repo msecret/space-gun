@@ -325,6 +325,19 @@ namespace aronnax {
     private:
       vector<float> normalImpulses_;
   };
+
+  const unsigned int EV_PLAYER_DEATH = 204;
+  class EvPlayerDeath : public Ev
+  {
+    public:
+      EvPlayerDeath(const Ev& ev) :
+        Ev(ev)
+      { }
+
+      EvPlayerDeath(const Ev& ev) { }
+
+      unsigned int getEventCode() { return EV_PLAYER_DEATH; }
+  }
 }
 
 #endif
