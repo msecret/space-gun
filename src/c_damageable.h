@@ -20,6 +20,7 @@ namespace spacegun {
       float getHealth();
       void applyDamage(float damage);
       void setDamageFactor(float factor);
+      void resetHealth();
 
     private:
       float health_;

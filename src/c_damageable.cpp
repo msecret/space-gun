@@ -37,4 +37,9 @@ namespace spacegun {
     factor_ = factor;
   }
 
+  void Damageable::resetHealth()
+  {
+    health_ = initialHealth_;
+  }
+
 }

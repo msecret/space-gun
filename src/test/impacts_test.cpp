@@ -14,12 +14,13 @@ TEST(Impacts, onAddEntity) {
   vector<float> impulses;
   float expectedA = 2.0f;
   float expectedB = 2.5f;
-  float expected = 100 - expectedA - expectedB;
+  float expected = 100 - expectedA;
   impulses.push_back(expectedA);
   impulses.push_back(expectedB);
   EvImpact ev(impulses);
 
   Damageable c(100);
+  c.setDamageFactor(1.0f);
   auto e = new Entity();
   e->addComponent(&c);
 

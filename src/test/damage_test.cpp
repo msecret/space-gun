@@ -31,6 +31,7 @@ TEST(Damageable, getType) {
 
 TEST(Damageable, applyDamage) {
   Damageable c(100);
+  c.setDamageFactor(1.0f);
   float damage = 25.5;
   float expected = 100 - damage;
 
@@ -38,4 +39,18 @@ TEST(Damageable, applyDamage) {
   auto actual = c.getHealth();
 
   EXPECT_EQ(actual, expected);
+}
+
+TEST(Damageable, resetHealth) {
+  float expected = 100;
+  Damageable c(expected);
+  c.setDamageFactor(1.0f);
+  c.applyDamage(40);
+  c.applyDamage(20);
+
+  c.resetHealth();
+
+  auto actual = c.getHealth();
+
+  EXPECT_FLOAT_EQ(actual, expected);
 }
