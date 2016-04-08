@@ -23,7 +23,12 @@ namespace spacegun {
 
   bool Damage::checkHealth(Entity& entity)
   {
-    return true;
+    auto c = entity.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
+    auto health = c->getHealth();
+    if (health <= 0) {
+      return true;
+    }
+    return false;
   }
 
   void Damage::emitIfDead(Entity& entity)

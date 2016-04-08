@@ -22,6 +22,7 @@
 #include "c_damageable.h"
 #include "c_evented.h"
 #include "c_keyboardable.h"
+#include "c_mortal.h"
 #include "c_moveable.h"
 #include "c_oriented.h"
 #include "c_rectangular.h"
@@ -32,6 +33,8 @@
 #include "c_universal.h"
 
 #include "s_bound.h"
+#include "s_damage.h"
+#include "s_death.h"
 #include "s_keyboard_events.h"
 #include "s_impacts.h"
 #include "s_movement.h"
@@ -145,6 +148,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
+  Mortal* mortal = new Mortal();
   Oriented* oriented = new Oriented();
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
@@ -153,6 +157,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
   e->addComponent(damageable);
   e->addComponent(evented);
   e->addComponent(keyboardable);
+  e->addComponent(mortal);
   e->addComponent(oriented);
   e->addComponent(thrustable);
 
@@ -323,6 +328,8 @@ int main()
 
   // setup systems
   Bound bound;
+  Damage damage;
+  Death death;
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
@@ -355,6 +362,8 @@ int main()
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addSystem(&bound);
+  manager.addSystem(&damage);
+  manager.addSystem(&death);
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
