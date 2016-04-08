@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include "lib/units.h"
 #include "s_death.h"
 
@@ -44,12 +46,17 @@ namespace spacegun {
     auto mortal = entity.getComponent<Mortal>(COMPONENT_TYPE_MORTAL);
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
 
-    Vector2d pos = { 20, 20 };
+    Vector2d pos = { 60, 60 };
     Vector2d vel = { 0 , 0 };
 
     damageable->resetHealth();
     moveable->setPos(pos);
     moveable->setVel(vel);
+    mortal->addDeath();
+
+    using std::cout;
+    using std::endl;
+    cout << "Player death " << mortal->getDeaths() << endl;
   }
 
   const string& Death::getType()
