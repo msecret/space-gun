@@ -330,14 +330,10 @@ namespace aronnax {
   class EvPlayerDeath : public Ev
   {
     public:
-      EvPlayerDeath(const Ev& ev) :
-        Ev(ev)
-      { }
-
-      EvPlayerDeath(const Ev& ev) { }
+      EvPlayerDeath() { }
 
       unsigned int getEventCode() { return EV_PLAYER_DEATH; }
-  }
+  };
 }
 
 #endif
