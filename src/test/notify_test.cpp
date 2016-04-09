@@ -4,17 +4,38 @@
 #include <vector>
 
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 
+#include "../lib/entity.h"
+#include "../lib/renderer.h"
 #include "../lib/units.h"
 
 #include "../c_notification.h"
+#include "../s_notify.h"
 
 using std::string;
 using std::vector;
+using ::testing::_;
 using aronnax::Color;
 using aronnax::Vector2d;
 
 using namespace spacegun;
+
+class MockRenderer: public IRenderer
+{
+  public:
+    MOCK_METHOD0(render, void());
+    MOCK_METHOD0(beforeRender, void());
+    MOCK_METHOD0(afterRender, void());
+    MOCK_METHOD4(drawRectangle, void(const Vector2d& pos,
+          const Vector2d& box, SDL_Texture* texture, float angle));
+    MOCK_METHOD2(drawCircle, void(const Vector2d& pos,
+          const Vector2d& r));
+    MOCK_METHOD3(drawText, void(const Vector2d& pos, string message,
+          const Color& color));
+    MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
+    MOCK_METHOD1(createTexture, SDL_Texture*(SDL_Surface& s));
+};
 
 TEST(Notification, Constructor) {
   Vector2d expectedPos = { 20, 25 };
@@ -86,4 +107,31 @@ TEST(Notification, getType) {
   auto actual = c.getType();
 
   EXPECT_EQ(actual, COMPONENT_TYPE_NOTIFICATION);
+}
+
+TEST(Notify, render) {
+  Vector2d expectedPos = { 30, 50 };
+  string expectedMsg = "player 1";
+  Color expectedCol = { 100, 50, 250, 255 };
+  int fontSize = 15;
+  auto e = new Entity();
+
+  Notification c(expectedPos, expectedMsg, expectedCol);
+  c.setFontSize(fontSize);
+
+  e->addComponent(&c);
+  Entities list;
+  list.push_back(e);
+
+  MockRenderer rr;
+  Notify s(&rr);
+
+  EXPECT_CALL(rr, drawText(
+      _,
+      expectedMsg,
+      expectedCol)).Times(1);
+
+  s.render(0, list);
+
+  delete e;
 }
