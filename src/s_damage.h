@@ -5,7 +5,6 @@
 #include <cstdint>
 
 #include "lib/entity.h"
-#include "lib/renderer.h"
 #include "lib/system.h"
 #include "lib/units.h"
 
@@ -15,29 +14,21 @@ namespace spacegun {
   using aronnax::Entity;
   using aronnax::Entities;
   using aronnax::EvImpact;
-  using aronnax::IRenderer;
   using aronnax::System;
 
   class Damage: public System
   {
     public:
-      Damage() :
-        renderer_(nullptr)
-      { }
-      Damage(IRenderer* renderer) :
-        renderer_(renderer)
-      { }
+      Damage(){ }
       void init(Entities& entities) {};
       void update(const uint32_t dt, Entities& entities);
-      void render(const uint32_t dt, Entities& entities);
+      void render(const uint32_t dt, Entities& entities) {};
       void onAddEntity(Entity& entity) {};
       const string& getType();
 
     private:
       bool checkHealth(Entity& entity);
       void emitIfDead(Entity& entity);
-      void writeHealth(Entity& entity);
-      IRenderer* renderer_;
   };
 }
 

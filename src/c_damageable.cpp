@@ -27,9 +27,6 @@ namespace spacegun {
   {
     float total = damage * factor_;
     health_ -= total;
-    using std::cout;
-    using std::endl;
-    cout << "health: " << health_ << endl;
   }
 
   void Damageable::setDamageFactor(float factor)

@@ -21,6 +21,7 @@ namespace spacegun {
       void applyDamage(float damage);
       void setDamageFactor(float factor);
       void resetHealth();
+      string* healthNotification;
 
     private:
       float health_;
