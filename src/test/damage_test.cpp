@@ -62,17 +62,4 @@ using aronnax::Entities;
 using spacegun::Damage;
 
 TEST(Damage, update) {
-  float expected = 100;
-  Damageable c(expected);
-  c.setDamageFactor(1.0f);
-  Damage s;
-
-  auto e = new Entity();
-
-  Entities list;
-  list.push_back(e);
-
-  s.update(0.0f, list);
-
-  delete e;
 }

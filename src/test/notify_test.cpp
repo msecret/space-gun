@@ -1,0 +1,89 @@
+
+#include <cstdint>
+#include <string>
+#include <vector>
+
+#include <gtest/gtest.h>
+
+#include "../lib/units.h"
+
+#include "../c_notification.h"
+
+using std::string;
+using std::vector;
+using aronnax::Color;
+using aronnax::Vector2d;
+
+using namespace spacegun;
+
+TEST(Notification, Constructor) {
+  Vector2d expectedPos = { 20, 25 };
+  string expectedMsg = "hello";
+
+  Notification c(expectedPos, expectedMsg, Color(255, 255, 255, 255));
+
+  auto actualMsg = c.getLine(0);
+  auto actualCol = c.getColor();
+
+  EXPECT_EQ(actualMsg, expectedMsg);
+  EXPECT_EQ(actualCol, Color(255, 255, 255, 255));
+}
+
+TEST(Notification, setgetColor) {
+  Color expected(200, 100, 200, 255);
+  Notification c(Vector2d(0, 0), "", Color(255, 255, 255, 255));
+
+  c.setColor(expected);
+  auto actual = c.getColor();
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(Notification, addLine) {
+  string expected = "health: 55";
+  Notification c(Vector2d(0, 0), "player1", Color(255, 255, 255, 255));
+
+  auto line = c.addLine("health: 100");
+  *line = expected;
+
+  auto actual = c.getLine(1);
+
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(Notification, getAllLines) {
+  string expected = "playermain";
+  Vector2d initPos = { 20, 40 };
+  Color expectedCol = { 100, 50, 250, 255 };
+  int fontSize = 10;
+
+  Notification c(initPos, expected, expectedCol);
+  c.setColor(expectedCol);
+  c.setFontSize(fontSize);
+
+  string expected1 = "something";
+  auto line = c.addLine(expected1);
+
+  auto actuals = c.getAllLines();
+  auto actual0 = actuals[0];
+  auto actual1 = actuals[1];
+
+  EXPECT_EQ(actual0.msg, expected);
+  EXPECT_EQ(actual0.col, expectedCol);
+  EXPECT_EQ(actual0.pos, initPos);
+
+  Vector2d expectedPos;
+  expectedPos.x = initPos.x;
+  expectedPos.y = initPos.y + (fontSize * 1.2);
+
+  EXPECT_EQ(actual1.msg, expected1);
+  EXPECT_EQ(actual1.col, expectedCol);
+  EXPECT_EQ(actual1.pos, expectedPos);
+}
+
+TEST(Notification, getType) {
+  Notification c(Vector2d(0, 0), "player1", Color(255, 255, 255, 255));
+  auto actual = c.getType();
+
+  EXPECT_EQ(actual, COMPONENT_TYPE_NOTIFICATION);
+}

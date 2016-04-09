@@ -68,7 +68,7 @@ TEST(Death, onAddEntity) {
   auto actualV = moveable.getVel();
   auto actualH = damageable.getHealth();
 
-  EXPECT_FLOAT_EQ(actualP.x, 20);
+  EXPECT_FLOAT_EQ(actualP.x, 60);
   EXPECT_FLOAT_EQ(actualV.x, 0);
   EXPECT_FLOAT_EQ(actualH, initH);
 
