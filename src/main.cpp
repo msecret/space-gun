@@ -54,6 +54,7 @@ const int WORLD_H = 960;
 const Color RED = Color(135, 42, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(200, 220, 68, 255);
+const Color BLUE = Color(0, 110, 255, 255);
 
 const float THRUST_FACTOR = 1500;
 
@@ -199,6 +200,7 @@ int main()
   float initWC = 80;
   float initHC = 50;
   map<string, Ev*> keyMap;
+  map<string, Ev*> keyMapP2;
   EvUserMovement up(Vector2d(1, 1));
   EvUserMovement right(Vector2d(1, 0));
   EvUserMovement down(Vector2d(-1, -1));
@@ -212,6 +214,13 @@ int main()
   keyMap["A"] = &left;
   keyMap["E"] = &clockwise;
   keyMap["Q"] = &counterClockwise;
+
+  keyMapP2["Keypad 8"] = &up;
+  keyMapP2["Keypad 6"] = &right;
+  keyMapP2["Keypad 5"] = &down;
+  keyMapP2["Keypad 4"] = &left;
+  keyMapP2["Keypad 9"] = &clockwise;
+  keyMapP2["Keypad 7"] = &counterClockwise;
 
   // setup asteroids
   auto asteroidA = setupBaseEntity(initPosA, initVelA, 10, 13, RED,
@@ -324,7 +333,10 @@ int main()
       world);
   auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, GREEN,
       world);
+  auto baseP2 = setupBaseEntity(Vector2d(600, 100), initPlayerV, 50, 45,
+      BLUE, world);
   auto ship = setupPlayerEntity(base, keyMap);
+  auto shipP2 = setupPlayerEntity(baseP2, keyMapP2);
 
   // setup systems
   Bound bound;
@@ -361,6 +373,7 @@ int main()
   manager.addEntity(*asteroidS);
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
+  manager.addEntity(*shipP2);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&death);
