@@ -28,8 +28,14 @@ namespace spacegun {
   void Damage::update(const uint32_t dt, Entities& entities)
   {
     for (auto e : entities) {
-      this->writeHealth(*e);
       emitIfDead(*e);
+    }
+  }
+
+  void Damage::render(const uint32_t dt, Entities& entities)
+  {
+    for (auto e : entities) {
+      this->writeHealth(*e);
     }
   }
 
@@ -56,13 +62,19 @@ namespace spacegun {
     if (renderer_) {
       auto c = e.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
 
-      Vector2d pos = { 200, 200 };
+      Vector2d pos = { 20, 20 };
       ostringstream buffer;
-      buffer << "health: " << c->getHealth();;
+      buffer << "player 1";
       string msg(buffer.str());
 
-      Color color(250, 250, 250, 255);
+      Color color(200, 100, 250, 255);
       renderer_->drawText(pos, msg, color);
+
+      Vector2d pos2 = { 20, 40 };
+      ostringstream buffer2;
+      buffer2  << "health: " << int(c->getHealth());
+      string msg2(buffer2.str());
+      renderer_->drawText(pos2, msg2, color);
     }
   }
 

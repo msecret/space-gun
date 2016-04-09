@@ -29,7 +29,7 @@ namespace spacegun {
       { }
       void init(Entities& entities) {};
       void update(const uint32_t dt, Entities& entities);
-      void render(const uint32_t dt, Entities& entities) {};
+      void render(const uint32_t dt, Entities& entities);
       void onAddEntity(Entity& entity) {};
       const string& getType();
 

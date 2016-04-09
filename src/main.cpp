@@ -7,7 +7,8 @@
 #include <stdio.h>
 
 #include <Box2D/Box2D.h>
-#include "SDL2/SDL.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "lib/clock.h"
 #include "lib/component.h"
@@ -111,6 +112,11 @@ void setupSDL()
       printf("SDL_Init: Couldn't start SDL\n");
       printf("%s\n", SDL_GetError());
   }
+  if (TTF_Init() != 0) {
+    cerr << "TTF_Init() Failed: " << TTF_GetError() << endl;
+    SDL_Quit();
+    exit(1);
+  }
 }
 
 Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
@@ -173,6 +179,7 @@ int main()
   // SDL setup
   setupSDL();
   auto window = setupVideo(WORLD_W, WORLD_H);
+  atexit(TTF_Quit);
   atexit(SDL_Quit);
 
   // aronnax setup

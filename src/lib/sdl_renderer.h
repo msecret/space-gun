@@ -38,6 +38,7 @@ class SDLRenderer : public IRenderer
     // TODO should this be a pointer?
     SDL_Window& screen_;
     SDL_Renderer* renderer_;
+    TTF_Font* font_;
 };
 
 }

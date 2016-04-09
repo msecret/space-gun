@@ -2,6 +2,7 @@
 #include <iostream>
 #include <math.h>
 #include <memory>
+#include <stdexcept>
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -14,14 +15,15 @@
 namespace aronnax {
   using std::cout;
   using std::cerr;
+  using std::endl;
 
   //float RADTODEG = 180 / M_PI;
 
   SDLRenderer::~SDLRenderer()
   {
+    TTF_CloseFont(font_);
     SDL_DestroyRenderer(renderer_);
     SDL_DestroyWindow(&screen_);
-    TTF_Quit();
   }
 
   SDLRenderer::SDLRenderer(SDL_Window* window):
@@ -34,11 +36,14 @@ namespace aronnax {
     }
     renderer_ = rendererPtr;
 
-    if (TTF_Init() != 0) {
-      cerr << "TTF_Init() Failed: " << TTF_GetError() << endl;
+    TTF_Font* fixed = TTF_OpenFont("fonts/DejaVuSansMono.ttf", 16);
+    if (fixed == NULL) {
+      cerr << "TTF_OpenFont() Failed: " << TTF_GetError() << endl;
+      TTF_Quit();
       SDL_Quit();
-      exit(1);
+      throw std::runtime_error(TTF_GetError());
     }
+    font_ = fixed;
   }
 
   void SDLRenderer::render()
@@ -93,19 +98,8 @@ namespace aronnax {
         string message,
         const Color& color)
   {
-    if(!TTF_WasInit()) {
-      cerr << "TTF_Init failed " << TTF_GetError() << endl;
-      exit(1);
-    }
-    TTF_Font* fixed = TTF_OpenFont("./DejaVuSansMono.ttf", 16);
-    if (fixed == NULL) {
-      cerr << "TTF_OpenFont() Failed: " << TTF_GetError() << endl;
-      TTF_Quit();
-      SDL_Quit();
-      exit(1);
-    }
-    SDL_Color sdlCol = { color.r, color.g, color.b };
-    SDL_Surface* surface = TTF_RenderText_Solid(fixed,
+    SDL_Color sdlCol = { 200, 150, 255, 255 };
+    SDL_Surface* surface = TTF_RenderText_Solid(font_,
         message.c_str(), sdlCol);
     if (surface == NULL) {
       cerr << "TTF surface Failed: " << TTF_GetError() << endl;
@@ -124,7 +118,9 @@ namespace aronnax {
     messageRect.w = width;
     messageRect.h = height;
 
+    SDL_FreeSurface(surface);
     SDL_RenderCopy(renderer_, texture, NULL, &messageRect);
+    SDL_DestroyTexture(texture);
   }
 
   SDL_Texture* SDLRenderer::createTexture(SDL_Surface& s)

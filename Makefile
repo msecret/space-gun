@@ -11,7 +11,7 @@ export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -std=c++11
 export SDL_LDFLAGS := $(shell sdl2-config --static-libs)
-export SDLTTF_LDFLAGS = -L/usr/lib -lSDL_ttf
+export SDLTTF_LDFLAGS = -L/usr/local/lib -lSDL2_ttf
 export BOX2D_LDFLAGS := -L/usr/lib -Wl,-Bstatic -lBox2D -Wl,-Bdynamic
 export BOX2D_INCFLAGS := -I/usr/include/Box2D
 export LFLAGS = -lpthread $(BOX2D_LDFLAGS) $(SDL_LDFLAGS) $(SDLTTF_LDFLAGS)
