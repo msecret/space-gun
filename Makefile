@@ -11,9 +11,10 @@ export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -std=c++11
 export SDL_LDFLAGS := $(shell sdl2-config --static-libs)
+export SDLTTF_LDFLAGS = -L/usr/local/lib -lSDL2_ttf
 export BOX2D_LDFLAGS := -L/usr/lib -Wl,-Bstatic -lBox2D -Wl,-Bdynamic
 export BOX2D_INCFLAGS := -I/usr/include/Box2D
-export LFLAGS = -lpthread $(BOX2D_LDFLAGS) $(SDL_LDFLAGS)
+export LFLAGS = -lpthread $(BOX2D_LDFLAGS) $(SDL_LDFLAGS) $(SDLTTF_LDFLAGS)
 export IFLAGS = $(BOX2D_INCFLAGS)
 export CFLAGS = $(XFLAGS) $(LFLAGS)
 VPATH = src
@@ -43,11 +44,12 @@ LIBGTEST = /usr/lib/libgtest_main.so /usr/lib/libgtest.so
 LIBGMOCK = /usr/lib/libgmock_main.so /usr/lib/libgmock.so
 
 SUBDIRS = src/lib
+COPY_FILES = $(DISTDIR)/DejaVuSansMono.ttf
 
 $(DISTDIR)/%.o: %.cpp
 	$(CC) -c $(CFLAGS) $< -o $@
 
-$(TARGET): $(OBJS) subdirs
+$(TARGET): $(OBJS) subdirs $(COPY_FILES)
 	$(CC) $(CFLAGS) $(OBJS) $(MAIN) -o $@ $(LIBDISTS) $(LIBBOX2D) $(LFLAGS)
 
 $(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
@@ -58,6 +60,8 @@ $(OBJS): | $(DISTDIR)
 $(DISTDIR):
 	mkdir -p $(DISTDIR)
 
+$(DISTDIR)/DejaVuSansMono.ttf: fonts/DejaVuSansMono.ttf
+	cp -f $< $@
 
 .PHONY: subdirs $(SUBDIRS)
 subdirs: $(SUBDIRS)
