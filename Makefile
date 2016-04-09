@@ -6,13 +6,16 @@ ifndef GMOCK_DIR
 GMOCK_DIR := /usr/include/gmock
 endif
 
+LIBBOX2D = /usr/lib/libBox2D.a
 export CC = g++
 export LIBNAME = gaming.a
-export XFLAGS = -Wall -g -std=c++11 `sdl2-config --cflags`
-export SDL_LDFLAGS := $(shell sdl2-config --libs)
-export BOX2D_LDFLAGS := -I/usr/include/Box2D
-export LFLAGS = -lpthread $(SDL_LDFLAGS)
-export CFLAGS = $(XFLAGS)
+export XFLAGS = -Wall -g -std=c++11
+export SDL_LDFLAGS := $(shell sdl2-config --static-libs)
+export BOX2D_LDFLAGS := -L/usr/lib -Wl,-Bstatic -lBox2D -Wl,-Bdynamic
+export BOX2D_INCFLAGS := -I/usr/include/Box2D
+export LFLAGS = -lpthread $(BOX2D_LDFLAGS) $(SDL_LDFLAGS)
+export IFLAGS = $(BOX2D_INCFLAGS)
+export CFLAGS = $(XFLAGS) $(LFLAGS)
 VPATH = src
 
 export DISTDIR := build
@@ -38,7 +41,6 @@ GMOCK_HEADERS = $(GMOCK_DIR)/include
 
 LIBGTEST = /usr/lib/libgtest_main.so /usr/lib/libgtest.so
 LIBGMOCK = /usr/lib/libgmock_main.so /usr/lib/libgmock.so
-LIBBOX2D = /usr/lib/libBox2D.a
 
 SUBDIRS = src/lib
 
