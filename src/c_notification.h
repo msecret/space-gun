@@ -37,11 +37,11 @@ namespace spacegun {
     public:
       Notification(const Vector2d& initialPos, const string& name,
           Color color) :
+        lines_(),
         startingPosition_(initialPos),
         name_(name),
-        color_(color),
         fontSize_(16),
-        lines_()
+        color_(color)
       {
         auto newLine = createNewLine(name, initialPos);
         lines_.push_back(newLine);

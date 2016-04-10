@@ -61,13 +61,23 @@ TEST(Notification, setgetColor) {
 }
 
 TEST(Notification, addLine) {
-  string expected = "health: 55";
+  int expected = 1;
   Notification c(Vector2d(0, 0), "player1", Color(255, 255, 255, 255));
 
-  auto line = c.addLine("health: 100");
-  *line = expected;
+  auto actual = c.addLine("health: 100");
 
-  auto actual = c.getLine(1);
+  EXPECT_EQ(actual, expected);
+}
+
+TEST(Notification, updateLine) {
+  string expected = "something here";
+  Notification c(Vector2d(0, 0), "player1", Color(255, 255, 255, 255));
+
+  auto lineNum = c.addLine(" ");
+  c.updateLine(lineNum, expected);
+
+  auto actual = c.getLine(lineNum);
+
 
   EXPECT_EQ(actual, expected);
 }
@@ -83,7 +93,7 @@ TEST(Notification, getAllLines) {
   c.setFontSize(fontSize);
 
   string expected1 = "something";
-  auto line = c.addLine(expected1);
+  auto lineNum = c.addLine(expected1);
 
   auto actuals = c.getAllLines();
   auto actual0 = actuals[0];
