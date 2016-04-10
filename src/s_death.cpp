@@ -58,7 +58,7 @@ namespace spacegun {
     auto mortal = entity.getComponent<Mortal>(COMPONENT_TYPE_MORTAL);
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
 
-    Vector2d pos = { 60, 60 };
+    Vector2d pos = moveable->getInitialPosition();
     Vector2d vel = { 0 , 0 };
 
     damageable->resetHealth();
