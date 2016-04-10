@@ -25,6 +25,7 @@
 #include "c_keyboardable.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
+#include "c_notification.h"
 #include "c_oriented.h"
 #include "c_rectangular.h"
 #include "c_rendered.h"
@@ -39,6 +40,7 @@
 #include "s_keyboard_events.h"
 #include "s_impacts.h"
 #include "s_movement.h"
+#include "s_notify.h"
 #include "s_rectangle_renderer.h"
 #include "s_sdl_events.h"
 #include "s_thrust.h"
@@ -150,12 +152,19 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   return entity;
 }
 
-Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
+Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 {
+  auto painted = e->getComponent<Painted>(COMPONENT_TYPE_PAINTED);
+  auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+
+  auto col = painted->getColor();
+  auto pos = moveable->getPos();
+
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
   Mortal* mortal = new Mortal();
+  Notification* notification = new Notification(pos, name, col);
   Oriented* oriented = new Oriented();
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
@@ -165,6 +174,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap)
   e->addComponent(evented);
   e->addComponent(keyboardable);
   e->addComponent(mortal);
+  e->addComponent(notification);
   e->addComponent(oriented);
   e->addComponent(thrustable);
 
@@ -340,20 +350,21 @@ int main()
       world);
   auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, GREEN,
       world);
-  auto baseP2 = setupBaseEntity(Vector2d(600, 100), initPlayerV, 50, 45,
+  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 50, 45,
       BLUE, world);
-  auto ship = setupPlayerEntity(base, keyMap);
-  auto shipP2 = setupPlayerEntity(baseP2, keyMapP2);
+  auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
+  auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
 
   // setup systems
   Bound bound;
   Death death;
-  Damage damage(&renderer);
+  Damage damage;
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
   Impacts impacts;
   Movement movement;
+  Notify notify(&renderer);
   RectangleRenderer rectangle(&renderer);
   Thrust thrust;
   Universe universe;;
@@ -383,12 +394,13 @@ int main()
   manager.addEntity(*shipP2);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
+  manager.addSystem(&impacts);
   manager.addSystem(&death);
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
-  manager.addSystem(&impacts);
   manager.addSystem(&movement);
+  manager.addSystem(&notify);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
   manager.addSystem(&universe);

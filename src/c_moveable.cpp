@@ -12,6 +12,7 @@ namespace spacegun {
   extern const string COMPONENT_TYPE_MOVEABLE;
 
   Moveable::Moveable() :
+    initialPos_(Vector2d(0, 0)),
     body_(nullptr),
     fixture_(nullptr),
     setMassData_(false)
@@ -26,6 +27,7 @@ namespace spacegun {
 
   Moveable::Moveable(const Vector2d& initialVel,
            const Vector2d& initialPos) :
+    initialPos_(initialPos),
     body_(nullptr),
     fixture_(nullptr),
     setMassData_(false)
@@ -41,6 +43,7 @@ namespace spacegun {
 
   Moveable::Moveable(const Vector2d& initialVel,
            const Vector2d& initialPos, float initialAngle) :
+    initialPos_(initialPos),
     body_(nullptr),
     fixture_(nullptr),
     setMassData_(false)
@@ -106,6 +109,11 @@ namespace spacegun {
       body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
+  }
+
+  Vector2d Moveable::getInitialPosition()
+  {
+    return initialPos_;
   }
 
   void Moveable::move(Vector2d vel)

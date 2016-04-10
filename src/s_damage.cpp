@@ -1,8 +1,6 @@
 
 #include <cstdio>
 #include <iostream>
-#include <sstream>
-#include <stdio.h>
 
 #include "lib/entity.h"
 #include "lib/renderer.h"
@@ -32,13 +30,6 @@ namespace spacegun {
     }
   }
 
-  void Damage::render(const uint32_t dt, Entities& entities)
-  {
-    for (auto e : entities) {
-      this->writeHealth(*e);
-    }
-  }
-
   bool Damage::checkHealth(Entity& entity)
   {
     auto c = entity.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
@@ -54,27 +45,6 @@ namespace spacegun {
     if (checkHealth(entity)) {
       EvPlayerDeath ev;
       entity.emit(EV_PLAYER_DEATH, &ev);
-    }
-  }
-
-  void Damage::writeHealth(Entity& e)
-  {
-    if (renderer_) {
-      auto c = e.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
-
-      Vector2d pos = { 20, 20 };
-      ostringstream buffer;
-      buffer << "player 1";
-      string msg(buffer.str());
-
-      Color color(200, 100, 250, 255);
-      renderer_->drawText(pos, msg, color);
-
-      Vector2d pos2 = { 20, 40 };
-      ostringstream buffer2;
-      buffer2  << "health: " << int(c->getHealth());
-      string msg2(buffer2.str());
-      renderer_->drawText(pos2, msg2, color);
     }
   }
 

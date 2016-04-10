@@ -98,7 +98,7 @@ namespace aronnax {
         string message,
         const Color& color)
   {
-    SDL_Color sdlCol = { 200, 150, 255, 255 };
+    SDL_Color sdlCol = { color.r, color.g, color.b, color.a };
     SDL_Surface* surface = TTF_RenderText_Solid(font_,
         message.c_str(), sdlCol);
     if (surface == NULL) {

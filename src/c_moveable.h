@@ -35,6 +35,7 @@ namespace spacegun {
       void setVel(Vector2d newVel);
       Vector2d getPos();
       void setPos(Vector2d newPos);
+      Vector2d getInitialPosition();
       void move(Vector2d vel);
       float getAngle();
       float getFriction();
@@ -53,6 +54,7 @@ namespace spacegun {
       Body* getBody();
 
     private:
+      Vector2d initialPos_;
       Body* body_;
       BodyDef bodyDef_;
       Fixture* fixture_;
