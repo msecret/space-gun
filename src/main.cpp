@@ -394,11 +394,11 @@ int main()
   manager.addEntity(*shipP2);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
+  manager.addSystem(&impacts);
   manager.addSystem(&death);
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
-  manager.addSystem(&impacts);
   manager.addSystem(&movement);
   manager.addSystem(&notify);
   manager.addSystem(&rectangle);

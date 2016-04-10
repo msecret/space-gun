@@ -35,8 +35,8 @@ namespace spacegun {
         std::ostringstream buffer;
         buffer << "health: " << int(c->getHealth());
         std::string msg = buffer.str();
-        string* line = n->addLine(msg);
-        c->healthNotification = line;
+        int lineNum = n->addLine(msg);
+        c->notificationLine = lineNum;
       }
     }
   }
@@ -68,7 +68,9 @@ namespace spacegun {
       using std::cout;
       using std::endl;
       cout << msg << endl;
-      *c->healthNotification = msg;
+      auto s = entity.getComponent<Notification>(COMPONENT_TYPE_NOTIFICATION);
+      auto lineNum = c->notificationLine;
+      s->updateLine(lineNum, msg);
     }
   }
 

@@ -49,8 +49,9 @@ namespace spacegun {
       void setFontSize(int size);
       void setColor(const Color& color);
       Color getColor();
-      string* addLine(string msg);
+      int addLine(string msg);
       string getLine(int lineNum);
+      void updateLine(int lineNum, string msg);
       vector<TextLine> getAllLines();
       const string getType();
 

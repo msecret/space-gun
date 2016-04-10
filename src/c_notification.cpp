@@ -1,4 +1,5 @@
 
+#include <stdexcept>
 #include <string>
 
 #include "lib/units.h"
@@ -31,16 +32,24 @@ namespace spacegun {
     return color_;
   }
 
-  string* Notification::addLine(string msg)
+  int Notification::addLine(string msg)
   {
     auto newLine = createNewLine(msg);
     lines_.push_back(newLine);
-    return &lines_.back().msg;
+    return lines_.size() - 1;
   }
 
   string Notification::getLine(int lineNum)
   {
     return lines_[lineNum].msg;
+  }
+
+  void Notification::updateLine(int lineNum, string msg)
+  {
+    if (lineNum == -1) {
+      throw std::logic_error("Trying to update line with -1");
+    }
+    lines_[lineNum].msg = msg;
   }
 
   vector<TextLine> Notification::getAllLines()

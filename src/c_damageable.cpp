@@ -7,7 +7,8 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_DAMAGEABLE;
 
-  Damageable::Damageable(float health)
+  Damageable::Damageable(float health) :
+    notificationLine(-1)
   {
     initialHealth_ = health;
     health_ = health;

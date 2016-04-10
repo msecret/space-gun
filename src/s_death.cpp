@@ -1,5 +1,8 @@
 
+#include <cstdio>
 #include <iostream>
+#include <sstream>
+#include <string>
 
 #include "lib/units.h"
 #include "s_death.h"
@@ -7,6 +10,7 @@
 #include "c_damageable.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
+#include "c_notification.h"
 
 namespace spacegun {
   using std::string;
@@ -18,11 +22,19 @@ namespace spacegun {
   using aronnax::Vector2d;
 
   extern const string COMPONENT_TYPE_MORTAL;
+  extern const string COMPONENT_TYPE_NOTIFICATION;
 
   void Death::init(Entities& entities)
   {
     for (auto e : entities) {
       bindEntity(*e);
+      if (e->hasComponent(COMPONENT_TYPE_NOTIFICATION)) {
+        auto m = e->getComponent<Mortal>(COMPONENT_TYPE_MORTAL);
+        auto n = e->getComponent<Notification>(
+            COMPONENT_TYPE_NOTIFICATION);
+        int lineNum = n->addLine(" ");
+        m->notificationLine = lineNum;
+      }
     }
   }
 
@@ -54,9 +66,17 @@ namespace spacegun {
     moveable->setVel(vel);
     mortal->addDeath();
 
+    std::ostringstream buffer;
+    buffer << "deaths: " << mortal->getDeaths();
+    std::string msg = buffer.str();
     using std::cout;
     using std::endl;
-    cout << "Player death " << mortal->getDeaths() << endl;
+    cout << msg << endl;
+    if (entity.hasComponent(COMPONENT_TYPE_NOTIFICATION)) {
+      auto s = entity.getComponent<Notification>(COMPONENT_TYPE_NOTIFICATION);
+      auto lineNum = mortal->notificationLine;
+      s->updateLine(lineNum, msg);
+    }
   }
 
   const string& Death::getType()

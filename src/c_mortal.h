@@ -20,11 +20,13 @@ namespace spacegun {
   {
     public:
       Mortal() :
-        deaths_(0)
+        deaths_(0),
+        notificationLine(-1)
       {}
       const string getType();
       void addDeath();
       int getDeaths();
+      int notificationLine;
 
     private:
       int deaths_;
