@@ -23,6 +23,7 @@
 #include "c_damageable.h"
 #include "c_evented.h"
 #include "c_keyboardable.h"
+#include "c_joint.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
 #include "c_notification.h"
@@ -58,6 +59,7 @@ const Color RED = Color(135, 42, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
+const Color COL_SHIELD = Color(168, 100, 100, 150);
 
 const float THRUST_FACTOR = 1500;
 
@@ -177,6 +179,15 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   e->addComponent(notification);
   e->addComponent(oriented);
   e->addComponent(thrustable);
+
+  return e;
+}
+
+Entity* setupShieldEntity(Entity* e, Entity* ship)
+{
+  Joint* joint = new Joint(ship);
+
+  e->addComponent(joint);
 
   return e;
 }
@@ -354,6 +365,9 @@ int main()
       BLUE, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
+  auto baseShield1 = setupBaseEntity(initPlayer, initPlayerV, 50, 45,
+      COL_SHIELD,  world);
+  auto shield1 = setupShieldEntity(baseShield1, ship);
 
   // setup systems
   Bound bound;
@@ -392,6 +406,7 @@ int main()
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addEntity(*shipP2);
+  manager.addEntity(*shield1);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);

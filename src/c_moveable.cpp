@@ -7,7 +7,6 @@
 
 namespace spacegun {
   using namespace std;
-  using spacegun::MassData;
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
