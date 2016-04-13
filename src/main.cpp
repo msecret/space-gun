@@ -359,13 +359,13 @@ int main()
       12,
       RED,
       world);
-  auto base = setupBaseEntity(initPlayer, initPlayerV, 50, 45, GREEN,
+  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 50, 45, GREEN,
       world);
   auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 50, 45,
       BLUE, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
-  auto baseShield1 = setupBaseEntity(initPlayer, initPlayerV, 50, 45,
+  auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 50, 45,
       COL_SHIELD,  world);
   auto shield1 = setupShieldEntity(baseShield1, ship);
 

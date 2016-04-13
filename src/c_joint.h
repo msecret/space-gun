@@ -27,11 +27,10 @@ namespace spacegun {
         connectedBody_(entity)
       {
         lineJointDef_.collideConnected = false;
-        lineJointDef_.enableLimit = true;
-        lineJointDef_.enableMotor = false;
-        lineJointDef_.localAnchorA = Vector2d(-40, 0);
-        lineJointDef_.lowerTranslation = 20.0f;
-        lineJointDef_.upperTranslation = 45.0f;
+        lineJointDef_.localAnchorA = Vector2d(-50, 0);
+        lineJointDef_.length = 20.0f;
+        lineJointDef_.frequencyHz = 5.0f;
+        lineJointDef_.dampingRatio = 0.1f;
       }
       void init(Body& bA, Body& bB, World& world);
       Entity* getOtherEntity();
