@@ -16,8 +16,11 @@ namespace spacegun {
   {
     lineJointDef_.bodyA = &bA;
     lineJointDef_.bodyB = &bB;
+    prismaticJointDef_.bodyA = &bA;
+    prismaticJointDef_.bodyB = &bB;
 
     world.CreateJoint(&lineJointDef_);
+    world.CreateJoint(&prismaticJointDef_);
   }
 
   Entity* Joint::getOtherEntity()

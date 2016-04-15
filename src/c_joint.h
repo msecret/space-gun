@@ -27,10 +27,16 @@ namespace spacegun {
         connectedBody_(entity)
       {
         lineJointDef_.collideConnected = false;
-        lineJointDef_.localAnchorA = Vector2d(-50, 0);
-        lineJointDef_.length = 20.0f;
-        lineJointDef_.frequencyHz = 5.0f;
-        lineJointDef_.dampingRatio = 0.1f;
+        lineJointDef_.localAnchorA = Vector2d(-80.0f, 0);
+        lineJointDef_.length = -60.0f;
+        lineJointDef_.frequencyHz = 0.1f;
+        lineJointDef_.dampingRatio = 0.9f;
+        prismaticJointDef_.collideConnected = false;
+        prismaticJointDef_.enableLimit = true;
+        prismaticJointDef_.enableMotor = false;
+        prismaticJointDef_.localAnchorA = Vector2d(-50.0f, 0);
+        prismaticJointDef_.lowerTranslation = 0.0f;
+        prismaticJointDef_.upperTranslation = 0.0f;
       }
       void init(Body& bA, Body& bB, World& world);
       Entity* getOtherEntity();
@@ -38,8 +44,10 @@ namespace spacegun {
 
     private:
       Entity* connectedBody_;
-      LineJoint* lineJoint_;
-      LineJointDef lineJointDef_;
+      b2DistanceJoint* lineJoint_;
+      b2DistanceJointDef lineJointDef_;
+      b2PrismaticJoint* prismaticJoint_;
+      b2PrismaticJointDef prismaticJointDef_;
   };
 }
 

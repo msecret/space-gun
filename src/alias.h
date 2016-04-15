@@ -10,8 +10,6 @@ namespace spacegun {
   using BodyDef = b2BodyDef;
   using Fixture = b2Fixture;
   using FixtureDef = b2FixtureDef;
-  using LineJoint = b2DistanceJoint;
-  using LineJointDef = b2DistanceJointDef;
   using MassData = b2MassData;
   using Shape = b2Shape;
   using PolygonShape = b2PolygonShape;
