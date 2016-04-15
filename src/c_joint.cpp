@@ -19,7 +19,7 @@ namespace spacegun {
     prismaticJointDef_.bodyA = &bA;
     prismaticJointDef_.bodyB = &bB;
 
-    world.CreateJoint(&lineJointDef_);
+    //world.CreateJoint(&lineJointDef_);
     world.CreateJoint(&prismaticJointDef_);
   }
 

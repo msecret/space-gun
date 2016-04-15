@@ -365,7 +365,7 @@ int main()
       BLUE, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
-  auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 50, 45,
+  auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
   auto shield1 = setupShieldEntity(baseShield1, ship);
 

@@ -26,17 +26,19 @@ namespace spacegun {
       Joint(Entity* entity) :
         connectedBody_(entity)
       {
-        lineJointDef_.collideConnected = false;
-        lineJointDef_.localAnchorA = Vector2d(-80.0f, 0);
-        lineJointDef_.length = -60.0f;
+        lineJointDef_.collideConnected = true;
+        lineJointDef_.localAnchorA = Vector2d(27.0f, 0);
+        lineJointDef_.length = 27.0f;
         lineJointDef_.frequencyHz = 0.1f;
         lineJointDef_.dampingRatio = 0.9f;
         prismaticJointDef_.collideConnected = false;
         prismaticJointDef_.enableLimit = true;
-        prismaticJointDef_.enableMotor = false;
-        prismaticJointDef_.localAnchorA = Vector2d(-50.0f, 0);
-        prismaticJointDef_.lowerTranslation = 0.0f;
-        prismaticJointDef_.upperTranslation = 0.0f;
+        prismaticJointDef_.enableMotor = true;
+        prismaticJointDef_.localAnchorA = Vector2d(-40.0f, 0);
+        prismaticJointDef_.lowerTranslation = -25.0f;
+        prismaticJointDef_.upperTranslation = 30.0f;
+        prismaticJointDef_.maxMotorForce = 2;
+        prismaticJointDef_.motorSpeed = -0.5;
       }
       void init(Body& bA, Body& bB, World& world);
       Entity* getOtherEntity();
