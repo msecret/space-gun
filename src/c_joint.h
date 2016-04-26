@@ -37,7 +37,7 @@ namespace spacegun {
         prismaticJointDef_.localAnchorA = Vector2d(-40.0f, 0);
         prismaticJointDef_.lowerTranslation = -25.0f;
         prismaticJointDef_.upperTranslation = 30.0f;
-        prismaticJointDef_.maxMotorForce = 2;
+        prismaticJointDef_.maxMotorForce = 1.5;
         prismaticJointDef_.motorSpeed = -0.5;
       }
       void init(Body& bA, Body& bB, World& world);

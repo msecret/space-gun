@@ -61,7 +61,7 @@ const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
 const Color COL_SHIELD = Color(168, 100, 100, 150);
 
-const float THRUST_FACTOR = 1500;
+const float THRUST_FACTOR = 1800;
 
 class CollisionListener : public b2ContactListener
 {
