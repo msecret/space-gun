@@ -35,6 +35,7 @@ namespace spacegun {
       void setVel(Vector2d newVel);
       Vector2d getPos();
       void setPos(Vector2d newPos);
+      void setJointPos(Entity& e);
       Vector2d getInitialPosition();
       void move(Vector2d vel);
       float getAngle();

@@ -4,6 +4,7 @@
 #include "lib/entity.h"
 
 #include "c_boundable.h"
+#include "c_joint.h"
 #include "c_moveable.h"
 #include "s_bound.h"
 
@@ -36,6 +37,10 @@ namespace spacegun {
     newPos.y = wrapAround(currentPos.y, bounds.y);
 
     moveable->setPos(newPos);
+    if (entity.hasComponent(COMPONENT_TYPE_JOINT)) {
+      auto joint = entity.getComponent<Joint>(COMPONENT_TYPE_JOINT);
+      moveable->setJointPos();
+    }
   }
 
   float Bound::wrapAround(float coordinate, float max)

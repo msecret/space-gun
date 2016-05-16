@@ -110,6 +110,11 @@ namespace spacegun {
     bodyDef_.position = newPos;
   }
 
+  void Moveable::setJointPos(Entity& e)
+  {
+
+  }
+
   Vector2d Moveable::getInitialPosition()
   {
     return initialPos_;
