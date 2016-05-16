@@ -61,7 +61,7 @@ const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
 const Color COL_SHIELD = Color(168, 100, 100, 150);
 
-const float THRUST_FACTOR = 1800;
+const float THRUST_FACTOR = 1000;
 
 class CollisionListener : public b2ContactListener
 {
@@ -186,8 +186,10 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 Entity* setupShieldEntity(Entity* e, Entity* ship)
 {
   Joint* joint = new Joint(ship);
+  Joint* jointB = new Joint(e, true);
 
   e->addComponent(joint);
+  ship->addComponent(jointB);
 
   return e;
 }

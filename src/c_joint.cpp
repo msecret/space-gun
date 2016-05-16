@@ -14,13 +14,15 @@ namespace spacegun {
 
   void Joint::init(Body& bA, Body& bB, World& world)
   {
-    lineJointDef_.bodyA = &bA;
-    lineJointDef_.bodyB = &bB;
-    prismaticJointDef_.bodyA = &bA;
-    prismaticJointDef_.bodyB = &bB;
+    if (!isJoint_) {
+      lineJointDef_.bodyA = &bA;
+      lineJointDef_.bodyB = &bB;
+      prismaticJointDef_.bodyA = &bA;
+      prismaticJointDef_.bodyB = &bB;
 
-    //world.CreateJoint(&lineJointDef_);
-    world.CreateJoint(&prismaticJointDef_);
+      //world.CreateJoint(&lineJointDef_);
+      world.CreateJoint(&prismaticJointDef_);
+    }
   }
 
   Entity* Joint::getOtherEntity()

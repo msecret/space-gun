@@ -39,7 +39,6 @@ namespace spacegun {
     moveable->setPos(newPos);
     if (entity.hasComponent(COMPONENT_TYPE_JOINT)) {
       auto joint = entity.getComponent<Joint>(COMPONENT_TYPE_JOINT);
-      moveable->setJointPos();
     }
   }
 

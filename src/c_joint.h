@@ -24,7 +24,8 @@ namespace spacegun {
   {
     public:
       Joint(Entity* entity) :
-        connectedBody_(entity)
+        connectedBody_(entity),
+        isJoint_(false)
       {
         lineJointDef_.collideConnected = true;
         lineJointDef_.localAnchorA = Vector2d(27.0f, 0);
@@ -40,6 +41,10 @@ namespace spacegun {
         prismaticJointDef_.maxMotorForce = 1.5;
         prismaticJointDef_.motorSpeed = -0.5;
       }
+      Joint(Entity* entity, bool isJoint) :
+        connectedBody_(entity),
+        isJoint_(isJoint)
+      { }
       void init(Body& bA, Body& bB, World& world);
       Entity* getOtherEntity();
       const string getType();
@@ -50,6 +55,7 @@ namespace spacegun {
       b2DistanceJointDef lineJointDef_;
       b2PrismaticJoint* prismaticJoint_;
       b2PrismaticJointDef prismaticJointDef_;
+      bool isJoint_;
   };
 }
 
