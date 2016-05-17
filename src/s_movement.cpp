@@ -46,6 +46,7 @@ namespace spacegun {
     auto shape = xs->getShape();
 
     if (e.hasComponent(COMPONENT_TYPE_JOINT)) {
+      // TODO this has to check if it's the joint or the thing being joint on.
       m->setDensity(1.5f);
     }
     m->init(*world, *shape);
@@ -56,6 +57,7 @@ namespace spacegun {
       auto j = e.getComponent<Joint>(COMPONENT_TYPE_JOINT);
       auto otherEntity = j->getOtherEntity();
       auto bodyA = m->getBody();
+      m->setJoint(*j);
 
       auto mB = otherEntity->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
       auto bodyB = mB->getBody();

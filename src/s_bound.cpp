@@ -33,12 +33,14 @@ namespace spacegun {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto currentPos = moveable->getPos();
 
-    newPos.x = wrapAround(currentPos.x, bounds.x);
-    newPos.y = wrapAround(currentPos.y, bounds.y);
+    if (currentPos.x < 0 ||
+        currentPos.y < 0 ||
+        currentPos.x > bounds.x ||
+        currentPos.y > bounds.y) {
+      newPos.x = wrapAround(currentPos.x, bounds.x);
+      newPos.y = wrapAround(currentPos.y, bounds.y);
 
-    moveable->setPos(newPos);
-    if (entity.hasComponent(COMPONENT_TYPE_JOINT)) {
-      auto joint = entity.getComponent<Joint>(COMPONENT_TYPE_JOINT);
+      moveable->setPos(newPos);
     }
   }
 
