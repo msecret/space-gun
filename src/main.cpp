@@ -369,7 +369,10 @@ int main()
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
   auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
+  auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
+      COL_SHIELD,  world);
   auto shield1 = setupShieldEntity(baseShield1, ship);
+  auto shield2 = setupShieldEntity(baseShield2, shipP2);
 
   // setup systems
   Bound bound;
@@ -409,6 +412,7 @@ int main()
   manager.addEntity(*ship);
   manager.addEntity(*shipP2);
   manager.addEntity(*shield1);
+  manager.addEntity(*shield2);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);

@@ -47,7 +47,8 @@ namespace spacegun {
     initialPos_(initialPos),
     body_(nullptr),
     fixture_(nullptr),
-    setMassData_(false)
+    setMassData_(false),
+    localJoint_(nullptr)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -233,7 +234,7 @@ namespace spacegun {
         COMPONENT_TYPE_MOVEABLE);
     auto currentPos = getPos();
     auto otherPos = otherMoveable->getPos();
-    auto offset = currentPos - otherPos;
+    auto offset = otherPos - currentPos;
     auto newOtherPos = pos + offset;
 
     otherMoveable->getBody()->SetTransform(newOtherPos, body_->GetAngle());
