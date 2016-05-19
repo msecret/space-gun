@@ -48,6 +48,7 @@ namespace spacegun {
       void init(Body& bA, Body& bB, World& world);
       Entity* getOtherEntity();
       const string getType();
+      bool isJoint();
 
     private:
       Entity* connectedBody_;

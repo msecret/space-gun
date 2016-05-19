@@ -34,4 +34,9 @@ namespace spacegun {
   {
     return COMPONENT_TYPE_JOINT;
   }
+
+  bool Joint::isJoint()
+  {
+    return isJoint_;
+  }
 }

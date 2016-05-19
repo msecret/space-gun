@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <string>
 
 #include "lib/entity.h"
@@ -45,16 +46,14 @@ namespace spacegun {
     auto xs = s->getShapeComponent();
     auto shape = xs->getShape();
 
-    if (e.hasComponent(COMPONENT_TYPE_JOINT)) {
-      // TODO this has to check if it's the joint or the thing being joint on.
-      m->setDensity(1.5f);
-    }
     m->init(*world, *shape);
     if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
       m->setDamageable(e);
     }
     if (e.hasComponent(COMPONENT_TYPE_JOINT)) {
+
       auto j = e.getComponent<Joint>(COMPONENT_TYPE_JOINT);
+
       auto otherEntity = j->getOtherEntity();
       auto bodyA = m->getBody();
       m->setJoint(*j);

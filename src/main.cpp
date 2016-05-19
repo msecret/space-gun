@@ -61,7 +61,7 @@ const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
 const Color COL_SHIELD = Color(168, 100, 100, 150);
 
-const float THRUST_FACTOR = 1000;
+const float THRUST_FACTOR = 1700;
 
 class CollisionListener : public b2ContactListener
 {
@@ -140,7 +140,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 
   moveable->setFriction(.0001f);
   moveable->setRestitution(0.80f);
-  moveable->setDensity(6.0f);
+  moveable->setDensity(8.0f);
 
   auto entity = new Entity();
   entity->addComponent(moveable);
@@ -190,6 +190,9 @@ Entity* setupShieldEntity(Entity* e, Entity* ship)
 
   e->addComponent(joint);
   ship->addComponent(jointB);
+
+  auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+  moveable->setDensity(0.5f);
 
   return e;
 }
