@@ -27,11 +27,6 @@ namespace spacegun {
         connectedBody_(entity),
         isJoint_(false)
       {
-        lineJointDef_.collideConnected = true;
-        lineJointDef_.localAnchorA = Vector2d(27.0f, 0);
-        lineJointDef_.length = 27.0f;
-        lineJointDef_.frequencyHz = 0.1f;
-        lineJointDef_.dampingRatio = 0.9f;
         prismaticJointDef_.collideConnected = false;
         prismaticJointDef_.enableLimit = true;
         prismaticJointDef_.enableMotor = true;
@@ -52,8 +47,6 @@ namespace spacegun {
 
     private:
       Entity* connectedBody_;
-      b2DistanceJoint* lineJoint_;
-      b2DistanceJointDef lineJointDef_;
       b2PrismaticJoint* prismaticJoint_;
       b2PrismaticJointDef prismaticJointDef_;
       bool isJoint_;

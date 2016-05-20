@@ -15,12 +15,9 @@ namespace spacegun {
   void Joint::init(Body& bA, Body& bB, World& world)
   {
     if (!isJoint_) {
-      lineJointDef_.bodyA = &bA;
-      lineJointDef_.bodyB = &bB;
       prismaticJointDef_.bodyA = &bA;
       prismaticJointDef_.bodyB = &bB;
 
-      //world.CreateJoint(&lineJointDef_);
       world.CreateJoint(&prismaticJointDef_);
     }
   }
