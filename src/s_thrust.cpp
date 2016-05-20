@@ -68,7 +68,7 @@ namespace spacegun {
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
 
-    auto torque = ev.getDirection() * thrustFactor * 5;
+    auto torque = ev.getDirection() * thrustFactor * 9;
 
     moveable->applyTorque(torque);
   }

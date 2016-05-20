@@ -1,10 +1,12 @@
 
+#include <iostream>
 #include <string>
 
 #include "lib/entity.h"
 
 #include "s_movement.h"
 #include "c_damageable.h"
+#include "c_joint.h"
 #include "c_moveable.h"
 #include "c_rectangular.h"
 #include "c_shaped.h"
@@ -47,6 +49,19 @@ namespace spacegun {
     m->init(*world, *shape);
     if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
       m->setDamageable(e);
+    }
+    if (e.hasComponent(COMPONENT_TYPE_JOINT)) {
+
+      auto j = e.getComponent<Joint>(COMPONENT_TYPE_JOINT);
+
+      auto otherEntity = j->getOtherEntity();
+      auto bodyA = m->getBody();
+      m->setJoint(*j);
+
+      auto mB = otherEntity->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+      auto bodyB = mB->getBody();
+
+      j->init(*bodyA, *bodyB, *world);
     }
   }
 

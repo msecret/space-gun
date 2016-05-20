@@ -4,6 +4,7 @@
 #include "lib/entity.h"
 
 #include "c_boundable.h"
+#include "c_joint.h"
 #include "c_moveable.h"
 #include "s_bound.h"
 
@@ -32,19 +33,24 @@ namespace spacegun {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto currentPos = moveable->getPos();
 
-    newPos.x = wrapAround(currentPos.x, bounds.x);
-    newPos.y = wrapAround(currentPos.y, bounds.y);
+    if (currentPos.x < 0 ||
+        currentPos.y < 0 ||
+        currentPos.x > bounds.x ||
+        currentPos.y > bounds.y) {
+      newPos.x = wrapAround(currentPos.x, bounds.x);
+      newPos.y = wrapAround(currentPos.y, bounds.y);
 
-    moveable->setPos(newPos);
+      moveable->setPos(newPos);
+    }
   }
 
   float Bound::wrapAround(float coordinate, float max)
   {
     if (coordinate < 0) {
-      return max;
+      return max - 80;
     }
     if (coordinate > max) {
-      return 0;
+      return 80;
     }
 
     return coordinate;
