@@ -83,23 +83,34 @@ namespace spacegun {
       if (entity.hasComponent(COMPONENT_TYPE_ORIENTED)) {
         SDL_Rect majorPart = { width * 0.2, 0, width * 0.8, height };
         SDL_Rect minorPart = { 0, 0, width * 0.2, height };
-        SDL_FillRect(s, &majorPart, SDL_MapRGB(s->format,
+        SDL_FillRect(s, &majorPart, SDL_MapRGBA(s->format,
               color.r,
               color.g,
-              color.b));
-        SDL_FillRect(s, &minorPart, SDL_MapRGB(s->format,
+              color.b,
+              color.a));
+        SDL_FillRect(s, &minorPart, SDL_MapRGBA(s->format,
               250,
               250,
-              250));
+              250,
+              255));
       } else {
-        SDL_FillRect(s, NULL, SDL_MapRGB(s->format,
+        SDL_FillRect(s, NULL, SDL_MapRGBA(s->format,
               color.r,
               color.g,
-              color.b));
+              color.b,
+              color.a));
       }
     }
 
     t = renderer_->createTexture(*s);
+    // TODO fix duplicate if statement and getting of painted
+    if (entity.hasComponent(COMPONENT_TYPE_PAINTED)) {
+      auto p = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
+      auto color = p->getColor();
+      if (color.a < 255) {
+        SDL_SetTextureAlphaMod(t, color.a);
+      }
+    }
 
     r->init(s, t);
   }
