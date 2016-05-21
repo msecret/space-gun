@@ -59,7 +59,7 @@ const Color RED = Color(135, 42, 0, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
-const Color COL_SHIELD = Color(168, 100, 100, 150);
+const Color COL_SHIELD = Color(80, 200, 200, 175);
 
 const float THRUST_FACTOR = 1700;
 
