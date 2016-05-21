@@ -109,6 +109,7 @@ namespace spacegun {
       auto color = p->getColor();
       if (color.a < 255) {
         SDL_SetTextureAlphaMod(t, color.a);
+        SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
       }
     }
 
