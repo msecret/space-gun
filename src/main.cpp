@@ -167,7 +167,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   Keyboardable* keyboardable = new Keyboardable(keyMap);
   Mortal* mortal = new Mortal();
   Notification* notification = new Notification(pos, name, col);
-  Oriented* oriented = new Oriented();
+  Oriented* oriented = new Oriented(*moveable);
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
   damageable->setDamageFactor(0.001f);
