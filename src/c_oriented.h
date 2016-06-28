@@ -14,10 +14,6 @@ namespace spacegun {
   using namespace aronnax;
 
   const string COMPONENT_TYPE_ORIENTED = "oriented";
-  const Vector2d ORIENTATATION_N = Vector2d(0, -1);
-  const Vector2d ORIENTATATION_E = Vector2d(1, 0);
-  const Vector2d ORIENTATATION_S = Vector2d(0, 1);
-  const Vector2d ORIENTATATION_W = Vector2d(-1, 0);
 
   class Oriented : public aronnax::Component
   {
@@ -28,6 +24,9 @@ namespace spacegun {
       const string getType() {
         return COMPONENT_TYPE_ORIENTED;
       };
+      // TODO move to Moveable
+      float getNormalizedAngle();
+      bool facingNorth();
 
     private:
       Moveable* moveable_;
