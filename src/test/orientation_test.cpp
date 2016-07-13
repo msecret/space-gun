@@ -41,3 +41,7 @@ TEST_F(OrientedTest, getType) {
   EXPECT_EQ(COMPONENT_TYPE_ORIENTED, actual);
 }
 
+TEST_F(OrientedTest, facingNorth) {
+  auto actual = oriented_->facingNorth();
+  EXPECT_FALSE(actual);
+}
