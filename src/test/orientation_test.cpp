@@ -12,25 +12,31 @@ using spacegun::Oriented;
 class OrientedTest : public testing::Test {
   protected:
     virtual void SetUp() {
+      expectedAngle_ = 15.0;
+      moveable_ = new Moveable(Vector2d(), Vector2d(), expectedAngle_);
+      oriented_ = new Oriented(*moveable_);
     }
+
+    virtual void TearDown() {
+      delete oriented_;
+      delete moveable_;
+    }
+
+  Oriented* oriented_;
+  Moveable* moveable_;
+  float expectedAngle_;
 };
 
-Oriented setupOriented(float angle)
-{
-  Moveable m(Vector2d(), Vector2d(), angle);
-  Oriented o(m);
-}
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
 
 TEST_F(OrientedTest, Constructor) {
-  float expectedAngle = 32.0;
-  auto testOriented = setupOriented(expectedAngle);
-  EXPECT_EQ(expectedAngle, testOriented.getNormalizedAngle());
+  auto expected = 139.43671;
+  EXPECT_FLOAT_EQ(expected, oriented_->getNormalizedAngle());
 }
 
 TEST_F(OrientedTest, getType) {
   using spacegun::COMPONENT_TYPE_ORIENTED;
-  auto testOriented = setupOriented(0);
-  auto actual = testOriented.getType();
+  auto actual = oriented_->getType();
 
   EXPECT_EQ(COMPONENT_TYPE_ORIENTED, actual);
 }
