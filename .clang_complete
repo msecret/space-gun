@@ -1,1 +1,1 @@
--Wall -g -std=c++11 -lSDL
+-Wall -g -std=c++11 -lpthread -L/usr/lib -Wl,-Bstatic -lBox2D -Wl,-Bdynamic -L/usr/lib -lSDL2 -Wl,--no-undefined -lm -ldl -lpthread -lrt -L/usr/local/lib -lSDL2_ttf

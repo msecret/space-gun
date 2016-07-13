@@ -7,6 +7,8 @@
 #include "lib/component.h"
 #include "lib/units.h"
 
+#include "c_moveable.h"
+
 namespace spacegun {
   using namespace std;
   using namespace aronnax;
@@ -16,10 +18,19 @@ namespace spacegun {
   class Oriented : public aronnax::Component
   {
     public:
-      Oriented() {};
+      Oriented(Moveable& moveable) :
+        moveable_(&moveable)
+      {};
       const string getType() {
         return COMPONENT_TYPE_ORIENTED;
       };
+      // TODO move to Moveable
+      float getNormalizedAngle();
+      bool facingNorth();
+
+    private:
+      Moveable* moveable_;
+
   };
 
 }
