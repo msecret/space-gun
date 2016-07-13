@@ -1,11 +1,11 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 
 #include "lib/units.h"
 #include "c_thrustable.h"
 #include "c_moveable.h"
+#include "c_oriented.h"
 #include "s_thrust.h"
 
 namespace spacegun {
@@ -44,6 +44,7 @@ namespace spacegun {
       aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
     auto thrustable = entity.getComponent<Thrustable>(
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
@@ -51,7 +52,8 @@ namespace spacegun {
 
     auto angle = moveable->getAngle();
 
-    auto force = getForce(direction, angle);
+    auto facingNorth = oriented->facingNorth();
+    auto force = getForce(direction, angle, !facingNorth);
     force *= thrustFactor;
     if (direction == Vector2d(1, 1)) {
       force *= 3;
@@ -73,7 +75,7 @@ namespace spacegun {
     moveable->applyTorque(torque);
   }
 
-  Vector2d Thrust::getForce(Vector2d direction, float angle)
+  Vector2d Thrust::getForce(Vector2d direction, float angle, bool facingSouth)
   {
     Vector2d right = { 1, 0 };
     Vector2d left = { -1, 0 };
@@ -93,6 +95,9 @@ namespace spacegun {
       force = currForce;
       force.x *= direction.x;
       force.y *= direction.y;
+      if (facingSouth) {
+        force.x *= -1;
+      }
     }
 
     return force;
