@@ -20,10 +20,10 @@ namespace spacegun {
     return angle;
   }
 
-  bool Oriented::facingNorth()
+  bool Oriented::facingSouth()
   {
     auto angle = getNormalizedAngle();
-    if (angle < 90 || angle > 270) {
+    if (angle > 45 && angle < 135) {
       return true;
     }
     return false;

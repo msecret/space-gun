@@ -1,11 +1,11 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 
 #include "lib/units.h"
 #include "c_thrustable.h"
 #include "c_moveable.h"
+#include "c_oriented.h"
 #include "s_thrust.h"
 
 namespace spacegun {
@@ -51,7 +51,13 @@ namespace spacegun {
 
     auto angle = moveable->getAngle();
 
-    auto force = getForce(direction, angle);
+    bool facingSouth = false;
+    if (entity.hasComponent(COMPONENT_TYPE_ORIENTED)) {
+      auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
+      facingSouth = oriented->facingSouth();
+    }
+
+    auto force = getForce(direction, angle, facingSouth);
     force *= thrustFactor;
     if (direction == Vector2d(1, 1)) {
       force *= 3;
@@ -73,7 +79,7 @@ namespace spacegun {
     moveable->applyTorque(torque);
   }
 
-  Vector2d Thrust::getForce(Vector2d direction, float angle)
+  Vector2d Thrust::getForce(Vector2d direction, float angle, bool facingSouth)
   {
     Vector2d right = { 1, 0 };
     Vector2d left = { -1, 0 };
@@ -84,6 +90,9 @@ namespace spacegun {
     currForce.y = sin(angle);
 
     if (direction == right || direction == left) {
+      if (facingSouth) {
+        direction.x *= -1;
+      }
       float ninety = 1.5708f * direction.x;
       auto cs = cos(ninety);
       auto sn = sin(ninety);

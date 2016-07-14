@@ -26,7 +26,7 @@ namespace spacegun {
       };
       // TODO move to Moveable
       float getNormalizedAngle();
-      bool facingNorth();
+      bool facingSouth();
 
     private:
       Moveable* moveable_;
