@@ -44,7 +44,6 @@ namespace spacegun {
       aronnax::Entity& entity)
   {
     auto moveable = entity.getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
-    auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
     auto thrustable = entity.getComponent<Thrustable>(
         COMPONENT_TYPE_THRUSTABLE);
     auto thrustFactor = thrustable->getFactor();
@@ -52,8 +51,13 @@ namespace spacegun {
 
     auto angle = moveable->getAngle();
 
-    auto facingNorth = oriented->facingNorth();
-    auto force = getForce(direction, angle, !facingNorth);
+    bool facingSouth = false;
+    if (entity.hasComponent(COMPONENT_TYPE_ORIENTED)) {
+      auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
+      facingSouth = oriented->facingSouth();
+    }
+
+    auto force = getForce(direction, angle, facingSouth);
     force *= thrustFactor;
     if (direction == Vector2d(1, 1)) {
       force *= 3;
@@ -86,6 +90,9 @@ namespace spacegun {
     currForce.y = sin(angle);
 
     if (direction == right || direction == left) {
+      if (facingSouth) {
+        direction.x *= -1;
+      }
       float ninety = 1.5708f * direction.x;
       auto cs = cos(ninety);
       auto sn = sin(ninety);
@@ -95,9 +102,6 @@ namespace spacegun {
       force = currForce;
       force.x *= direction.x;
       force.y *= direction.y;
-      if (facingSouth) {
-        force.x *= -1;
-      }
     }
 
     return force;
