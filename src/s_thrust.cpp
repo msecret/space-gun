@@ -53,8 +53,10 @@ namespace spacegun {
 
     bool facingSouth = false;
     if (entity.hasComponent(COMPONENT_TYPE_ORIENTED)) {
-      auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
-      facingSouth = oriented->facingSouth();
+      if (thrustable->isOrientedStrafe()) {
+        auto oriented = entity.getComponent<Oriented>(COMPONENT_TYPE_ORIENTED);
+        facingSouth = oriented->facingSouth();
+      }
     }
 
     auto force = getForce(direction, angle, facingSouth);

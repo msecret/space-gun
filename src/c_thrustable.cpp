@@ -64,4 +64,9 @@ namespace spacegun {
   {
     return directionFactors_[3];
   }
+
+  bool Thrustable::isOrientedStrafe()
+  {
+    return isOrientedStrafe_;
+  }
 }
