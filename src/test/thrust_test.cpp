@@ -69,6 +69,16 @@ TEST(Thrustable, getsetUpDownFactor) {
   EXPECT_EQ(actualLeft, expectedLeft);
 }
 
+TEST(Thrustable, isOrientedStrafe) {
+  Thrustable ca;
+
+  EXPECT_TRUE(ca.isOrientedStrafe());
+
+  Thrustable cb(1.0, false);
+
+  EXPECT_FALSE(cb.isOrientedStrafe());
+}
+
 TEST(Thrust, getType) {
   Thrustable c;
 
