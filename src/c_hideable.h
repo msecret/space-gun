@@ -5,16 +5,12 @@
 #include <string>
 
 #include "lib/component.h"
-#include "lib/entity.h"
-#include "lib/units.h"
 
 #include "alias.h"
 
 namespace spacegun {
   using std::string;
   using aronnax::Component;
-  using aronnax::Entity;
-  using aronnax::Vector2d;
 
   const string COMPONENT_TYPE_HIDEABLE = "hideable";
 

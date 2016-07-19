@@ -1,11 +1,8 @@
 
-#include "lib/entity.h"
-
 #include "c_hideable.h"
 
 namespace spacegun {
   using std::string;
-  using aronnax::Entity;
 
   extern const string COMPONENT_TYPE_HIDEABLE;
 
