@@ -2,6 +2,7 @@
 #include "lib/entity.h"
 #include "lib/renderer.h"
 
+#include "c_hideable.h"
 #include "c_moveable.h"
 #include "c_oriented.h"
 #include "c_rectangular.h"
@@ -51,6 +52,11 @@ namespace spacegun {
     if (renderer_ == nullptr) {
       // TODO this is techincally an error condition, what should be done?
       return;
+    }
+
+    if (entity.hasComponent(COMPONENT_TYPE_HIDEABLE)) {
+      auto hideable = entity.getComponent<Hideable>(COMPONENT_TYPE_HIDEABLE);
+      if (hideable->getHidden()) return;
     }
 
     auto c = entity.getComponent<Rectangular>(COMPONENT_TYPE_RECTANGULAR);
