@@ -240,6 +240,8 @@ int main()
   EvUserMovement left(Vector2d(-1, 0));
   EvUserRotation clockwise(1.0f);
   EvUserRotation counterClockwise(-1.0f);
+  const unsigned int WEAPON_CLASS_BEAM = 1;
+  EvWeaponFired beamWeapon(WEAPON_CLASS_BEAM);
 
   keyMap["W"] = &up;
   keyMap["D"] = &right;
@@ -247,6 +249,7 @@ int main()
   keyMap["A"] = &left;
   keyMap["E"] = &clockwise;
   keyMap["Q"] = &counterClockwise;
+  keyMap["G"] = &beamWeapon;
 
   keyMapP2["Keypad 8"] = &up;
   keyMapP2["Keypad 6"] = &right;
