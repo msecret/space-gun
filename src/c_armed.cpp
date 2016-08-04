@@ -1,4 +1,7 @@
 
+#include <cstdio>
+#include <iostream>
+
 #include <Box2D/Box2D.h>
 
 #include "lib/entity.h"
@@ -19,5 +22,11 @@ namespace spacegun {
   const string Armed::getType()
   {
     return COMPONENT_TYPE_ARMED;
+  }
+
+  void Armed::activate() {
+    using std::cout;
+    using std::endl;
+    cout << "in armed -> activate" << endl;
   }
 }

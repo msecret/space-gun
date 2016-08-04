@@ -29,8 +29,7 @@ namespace spacegun {
       { }
       const string getType();
       Entity* getWeapon();
-
-
+      void activate();
 
     private:
       Entity* weaponEntity_;

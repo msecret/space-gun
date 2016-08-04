@@ -19,6 +19,7 @@
 
 #include "alias.h"
 
+#include "c_armed.h"
 #include "c_boundable.h"
 #include "c_damageable.h"
 #include "c_evented.h"
