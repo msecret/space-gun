@@ -45,4 +45,5 @@ namespace spacegun {
   template class KeyboardEvents<aronnax::Ev>;
   template class KeyboardEvents<aronnax::EvUserMovement>;
   template class KeyboardEvents<aronnax::EvUserRotation>;
+  template class KeyboardEvents<aronnax::EvWeaponFired>;
 }

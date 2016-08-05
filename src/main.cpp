@@ -36,6 +36,7 @@
 #include "c_thrustable.h"
 #include "c_universal.h"
 
+#include "s_arm.h"
 #include "s_bound.h"
 #include "s_damage.h"
 #include "s_death.h"
@@ -155,7 +156,8 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   return entity;
 }
 
-Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
+Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name,
+    Entity* weaponEntity)
 {
   auto painted = e->getComponent<Painted>(COMPONENT_TYPE_PAINTED);
   auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
@@ -163,6 +165,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   auto col = painted->getColor();
   auto pos = moveable->getPos();
 
+  Armed* armed = new Armed(weaponEntity);
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
@@ -173,6 +176,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 
   damageable->setDamageFactor(0.001f);
 
+  e->addComponent(armed);
   e->addComponent(damageable);
   e->addComponent(evented);
   e->addComponent(keyboardable);
@@ -372,8 +376,12 @@ int main()
       world);
   auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 50, 45,
       BLUE, world);
-  auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
-  auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
+
+  auto weaponEntityP1 = new Entity();
+  auto weaponEntityP2 = new Entity();
+
+  auto ship = setupPlayerEntity(base, keyMap, "PlayerA", weaponEntityP1);
+  auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB", weaponEntityP2);
   auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
   auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
@@ -382,12 +390,14 @@ int main()
   auto shield2 = setupShieldEntity(baseShield2, shipP2);
 
   // setup systems
+  Arm arm;
   Bound bound;
   Death death;
   Damage damage;
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
+  KeyboardEvents<EvWeaponFired> keyboardEventsW;
   Impacts impacts;
   Movement movement;
   Notify notify(&renderer);
@@ -420,6 +430,7 @@ int main()
   manager.addEntity(*shipP2);
   manager.addEntity(*shield1);
   manager.addEntity(*shield2);
+  manager.addSystem(&arm);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);
@@ -427,6 +438,7 @@ int main()
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
+  manager.addSystem(&keyboardEventsW);
   manager.addSystem(&movement);
   manager.addSystem(&notify);
   manager.addSystem(&rectangle);
