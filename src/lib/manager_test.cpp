@@ -117,7 +117,7 @@ TEST_F(ManagerTest, addEntity) {
   NiceMock<MockSystem> testSystem;
   NiceMock<MockEntity> entity;
 
-  std::vector<std::string> expectedComponentList; 
+  std::vector<std::string> expectedComponentList;
   expectedComponentList.push_back(testType);
 
   ON_CALL(testSystem, getType())
