@@ -24,6 +24,7 @@
 #include "c_evented.h"
 #include "c_keyboardable.h"
 #include "c_joint.h"
+#include "c_joint_solid.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
 #include "c_notification.h"
@@ -193,6 +194,25 @@ Entity* setupShieldEntity(Entity* e, Entity* ship)
 
   auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.5f);
+
+  return e;
+}
+
+Entity* setupWeaponEntity(Entity* e, Entity* playerEntity) {
+  Vector2d initV = { 0, 0 };
+  Vector2d initP = { 0, 0 };
+  float angle = 0;
+  // TODO change to player entity
+  /*
+  auto playerMoveable = playerEntity->getComponent<Moveable>(
+      COMPONENT_TYPE_MOVEABLE);
+  auto initP = playerMoveable->getPos();
+  auto angle = playerMoveable->getAngle() + 90.0;
+  */
+
+  JointSolid* joint = new JointSolid(playerEntity);
+
+  e->addComponent(joint);
 
   return e;
 }
@@ -370,6 +390,11 @@ int main()
       BLUE, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
+
+  auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
+      initPlayerV, 45, 5, GREEN, world);
+  auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
+
   auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
   auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
@@ -416,6 +441,7 @@ int main()
   manager.addEntity(*shipP2);
   manager.addEntity(*shield1);
   manager.addEntity(*shield2);
+  manager.addEntity(*weaponP1);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);

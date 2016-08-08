@@ -26,7 +26,7 @@ namespace spacegun {
         isJoint_(false)
       {
         jointDef_.referenceAngle = 1.5708;
-        jointDef_.dampingRatio= 0;
+        jointDef_.dampingRatio= 1;
       }
       JointSolid(Entity* entity, bool isJoint) :
         connectedBody_(entity),

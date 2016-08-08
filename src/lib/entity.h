@@ -2,8 +2,10 @@
 #ifndef _h_Entity
 #define _h_Entity
 
+#include <exception>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -49,7 +51,7 @@ namespace aronnax {
         return static_cast<TComponent*>(components_[i]);
       }
     }
-    exit(1);
+    throw std::runtime_error("Component not found");
   }
 
 }
