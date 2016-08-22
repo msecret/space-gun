@@ -444,6 +444,7 @@ int main()
   //manager.addEntity(*shield1);
   //manager.addEntity(*shield2);
   manager.addEntity(*weaponP1);
+  manager.addEntity(*joinerA);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);
@@ -451,8 +452,10 @@ int main()
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
-  manager.addSystem(&joints);
   manager.addSystem(&movement);
+  // Note: joints has to be placed after movement because requires the body
+  // to be initialized.
+  manager.addSystem(&joints);
   manager.addSystem(&notify);
   manager.addSystem(&rectangle);
   manager.addSystem(&thrust);
