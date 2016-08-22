@@ -40,6 +40,7 @@
 #include "s_damage.h"
 #include "s_death.h"
 #include "s_keyboard_events.h"
+#include "s_joints.h"
 #include "s_impacts.h"
 #include "s_movement.h"
 #include "s_notify.h"
@@ -184,24 +185,23 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   return e;
 }
 
-Entity* setupShieldEntity(Entity* e, Entity* ship)
+Entity* setupShieldEntity(Entity* shield, Entity* ship)
 {
+  /*
   Joint* joint = new Joint(ship);
-  Joint* jointB = new Joint(e, true);
+  Joint* jointB = new Joint(shield, true);
 
-  e->addComponent(joint);
+  shield->addComponent(joint);
   ship->addComponent(jointB);
 
-  auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+  auto moveable = shield->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.5f);
+  */
 
-  return e;
+  return shield;
 }
 
-Entity* setupWeaponEntity(Entity* e, Entity* playerEntity) {
-  Vector2d initV = { 0, 0 };
-  Vector2d initP = { 0, 0 };
-  float angle = 0;
+Entity* setupWeaponEntity(Entity* weapon, Entity* ship) {
   // TODO change to player entity
   /*
   auto playerMoveable = playerEntity->getComponent<Moveable>(
@@ -209,12 +209,7 @@ Entity* setupWeaponEntity(Entity* e, Entity* playerEntity) {
   auto initP = playerMoveable->getPos();
   auto angle = playerMoveable->getAngle() + 90.0;
   */
-
-  JointSolid* joint = new JointSolid(playerEntity);
-
-  e->addComponent(joint);
-
-  return e;
+  return weapon;
 }
 
 int main()
@@ -391,16 +386,23 @@ int main()
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
 
+  // Setup weapon
+  auto joinerA = new Entity();
   auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
       initPlayerV, 45, 5, GREEN, world);
   auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
-  auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
-      COL_SHIELD,  world);
-  auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
-      COL_SHIELD,  world);
-  auto shield1 = setupShieldEntity(baseShield1, ship);
-  auto shield2 = setupShieldEntity(baseShield2, shipP2);
+  auto cJoint = new JointSolid(ship, weaponP1);
+  auto cUniv = new Universal(world);
+  joinerA->addComponent(cJoint);
+  joinerA->addComponent(cUniv);
+
+  //auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+  //    COL_SHIELD,  world);
+  //auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
+  //    COL_SHIELD,  world);
+  //auto shield1 = setupShieldEntity(baseShield1, ship);
+  //auto shield2 = setupShieldEntity(baseShield2, shipP2);
 
   // setup systems
   Bound bound;
@@ -409,6 +411,7 @@ int main()
   Events events;
   KeyboardEvents<EvUserMovement> keyboardEventsM;
   KeyboardEvents<EvUserRotation> keyboardEventsR;
+  Joints joints;
   Impacts impacts;
   Movement movement;
   Notify notify(&renderer);
@@ -434,13 +437,12 @@ int main()
   manager.addEntity(*asteroidO);
   manager.addEntity(*asteroidP);
   manager.addEntity(*asteroidQ);
-  manager.addEntity(*asteroidR);
-  manager.addEntity(*asteroidS);
+  manager.addEntity(*asteroidR); manager.addEntity(*asteroidS);
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addEntity(*shipP2);
-  manager.addEntity(*shield1);
-  manager.addEntity(*shield2);
+  //manager.addEntity(*shield1);
+  //manager.addEntity(*shield2);
   manager.addEntity(*weaponP1);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
@@ -449,6 +451,7 @@ int main()
   manager.addSystem(&events);
   manager.addSystem(&keyboardEventsM);
   manager.addSystem(&keyboardEventsR);
+  manager.addSystem(&joints);
   manager.addSystem(&movement);
   manager.addSystem(&notify);
   manager.addSystem(&rectangle);

@@ -50,19 +50,5 @@ namespace spacegun {
     if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
       m->setDamageable(e);
     }
-    if (e.hasComponent(COMPONENT_TYPE_JOINT)) {
-
-      auto j = e.getComponent<Joint>(COMPONENT_TYPE_JOINT);
-
-      auto otherEntity = j->getOtherEntity();
-      auto bodyA = m->getBody();
-      m->setJoint(*j);
-
-      auto mB = otherEntity->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
-      auto bodyB = mB->getBody();
-
-      j->init(*bodyA, *bodyB, *world);
-    }
   }
-
 }

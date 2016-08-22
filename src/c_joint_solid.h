@@ -11,6 +11,7 @@
 #include "lib/units.h"
 
 #include "alias.h"
+#include "c_joint.h"
 
 namespace spacegun {
   using std::string;
@@ -18,30 +19,26 @@ namespace spacegun {
   using aronnax::Entity;
   using aronnax::Vector2d;
 
-  class JointSolid: public Component
+  class JointSolid : public Joint
   {
     public:
-      JointSolid(Entity* entity) :
-        connectedBody_(entity),
-        isJoint_(false)
+      JointSolid(Entity* entityA, Entity* entityB) :
+        jointA_(entityA),
+        jointB_(entityB)
       {
         jointDef_.referenceAngle = 1.5708;
-        jointDef_.dampingRatio= 1;
+        jointDef_.dampingRatio= 0;
       }
-      JointSolid(Entity* entity, bool isJoint) :
-        connectedBody_(entity),
-        isJoint_(isJoint)
-      { }
-      void init(Body& bA, Body& bB, World& world);
-      Entity* getOtherEntity();
+      void init(World& world);
+      Entity* getEntityA();
+      Entity* getEntityB();
       const string getType();
-      bool isJoint();
 
     private:
-      Entity* connectedBody_;
+      Entity* jointA_;
+      Entity* jointB_;
       b2WeldJoint* joint_;
       b2WeldJointDef jointDef_;
-      bool isJoint_;
   };
 }
 

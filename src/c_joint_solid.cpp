@@ -12,28 +12,30 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_JOINT;
 
-  void JointSolid::init(Body& bA, Body& bB, World& world)
+  void JointSolid::init(World& world)
   {
-    if (!isJoint_) {
-      jointDef_.bodyA = &bA;
-      jointDef_.bodyB = &bB;
+    auto moveableA = jointA_->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto moveableB = jointB_->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+    auto bA = moveableA->getBody();
+    auto bB = moveableB->getBody();
+    jointDef_.bodyA = bA;
+    jointDef_.bodyB = bB;
 
-      world.CreateJoint(&jointDef_);
-    }
+    world.CreateJoint(&jointDef_);
   }
 
-  Entity* JointSolid::getOtherEntity()
+  Entity* JointSolid::getEntityA()
   {
-    return connectedBody_;
+    return jointA_;
+  }
+
+  Entity* JointSolid::getEntityB()
+  {
+    return jointB_;
   }
 
   const string JointSolid::getType()
   {
     return COMPONENT_TYPE_JOINT;
-  }
-
-  bool JointSolid::isJoint()
-  {
-    return isJoint_;
   }
 }
