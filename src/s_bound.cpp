@@ -4,7 +4,6 @@
 #include "lib/entity.h"
 
 #include "c_boundable.h"
-#include "c_joint.h"
 #include "c_moveable.h"
 #include "s_bound.h"
 

@@ -334,26 +334,6 @@ namespace aronnax {
 
       unsigned int getEventCode() { return EV_PLAYER_DEATH; }
   };
-
-  const unsigned int EV_WEAPON_FIRED = 301;
-  class EvWeaponFired : public Ev
-  {
-    public:
-      EvWeaponFired(unsigned int weaponClass) :
-        weaponClass_(weaponClass)
-      { }
-
-      bool getActive() {
-        return active_;
-      }
-      unsigned int getEventCode() { return EV_WEAPON_FIRED; }
-      unsigned int getWeaponClass() { return weaponClass_; }
-
-
-    private:
-      bool active_;
-      bool weaponClass_;
-  };
 }
 
 #endif

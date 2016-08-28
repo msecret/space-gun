@@ -125,20 +125,3 @@ TEST(EvPlayerDeath, getEventCode) {
 
   EXPECT_EQ(actual, EV_PLAYER_DEATH);
 }
-
-TEST(EvWeaponFired, getEventCode) {
-  auto ev = EvWeaponFired(1);
-
-  auto actual = ev.getEventCode();
-
-  EXPECT_EQ(actual, EV_WEAPON_FIRED);
-}
-
-TEST(EvWeaponFired, getWeaponClass) {
-  unsigned int expectedType = 2;
-  auto ev = EvWeaponFired(expectedType);
-
-  auto actual = ev.getWeaponClass();
-
-  EXPECT_EQ(actual, expectedType);
-}

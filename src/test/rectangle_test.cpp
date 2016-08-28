@@ -6,7 +6,6 @@
 #include "../lib/renderer.h"
 #include "../lib/units.h"
 
-#include "../c_hideable.h"
 #include "../c_moveable.h"
 #include "../c_rectangular.h"
 #include "../c_rendered.h"
@@ -129,23 +128,14 @@ TEST(RectangleRenderer, render) {
   auto testM = Moveable(expectedP, expectedV, expectedAngle);
   auto testP = Painted(expectedC);
   auto testR = Rendered();
-  auto testH = Hideable(true);
-  auto testEntityA = new aronnax::Entity();
-  auto testEntityB = new aronnax::Entity();
+  auto testEntity = new aronnax::Entity();
   auto testRR = RectangleRenderer(&mockRenderer);
 
-  testEntityA->addComponent(&testC);
-  testEntityA->addComponent(&testM);
-  testEntityA->addComponent(&testP);
-  testEntityA->addComponent(&testR);
-  entities.push_back(testEntityA);
-
-  testEntityB->addComponent(&testC);
-  testEntityB->addComponent(&testM);
-  testEntityB->addComponent(&testP);
-  testEntityB->addComponent(&testR);
-  testEntityB->addComponent(&testH);
-  entities.push_back(testEntityB);
+  testEntity->addComponent(&testC);
+  testEntity->addComponent(&testM);
+  testEntity->addComponent(&testP);
+  testEntity->addComponent(&testR);
+  entities.push_back(testEntity);
 
   EXPECT_CALL(mockRenderer, drawRectangle(
         expectedP,
@@ -155,6 +145,5 @@ TEST(RectangleRenderer, render) {
 
   testRR.render(testDt, entities);
 
-  delete testEntityA;
-  delete testEntityB;
+  delete testEntity;
 }

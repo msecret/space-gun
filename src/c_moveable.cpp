@@ -14,8 +14,7 @@ namespace spacegun {
     initialPos_(Vector2d(0, 0)),
     body_(nullptr),
     fixture_(nullptr),
-    setMassData_(false),
-    localJoint_(nullptr)
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -30,8 +29,7 @@ namespace spacegun {
     initialPos_(initialPos),
     body_(nullptr),
     fixture_(nullptr),
-    setMassData_(false),
-    localJoint_(nullptr)
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -47,8 +45,7 @@ namespace spacegun {
     initialPos_(initialPos),
     body_(nullptr),
     fixture_(nullptr),
-    setMassData_(false),
-    localJoint_(nullptr)
+    setMassData_(false)
   {
     b2BodyDef def;
     def.type = b2_dynamicBody;
@@ -108,9 +105,6 @@ namespace spacegun {
   void Moveable::setPos(Vector2d newPos)
   {
     if (body_) {
-      if (localJoint_ != nullptr) {
-        setJointPos(newPos);
-      }
       body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
@@ -207,11 +201,6 @@ namespace spacegun {
     }
   }
 
-  void Moveable::setJoint(Joint& joint)
-  {
-    localJoint_ = &joint;
-  }
-
   void Moveable::applyForce(const Vector2d& v)
   {
     body_->ApplyForceToCenter(v, true);
@@ -225,18 +214,5 @@ namespace spacegun {
   Body* Moveable::getBody()
   {
     return body_;
-  }
-
-  void Moveable::setJointPos(const Vector2d& pos)
-  {
-    auto otherE = localJoint_->getOtherEntity();
-    auto otherMoveable = otherE->getComponent<Moveable>(
-        COMPONENT_TYPE_MOVEABLE);
-    auto currentPos = getPos();
-    auto otherPos = otherMoveable->getPos();
-    auto offset = otherPos - currentPos;
-    auto newOtherPos = pos + offset;
-
-    otherMoveable->getBody()->SetTransform(newOtherPos, body_->GetAngle());
   }
 }

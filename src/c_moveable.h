@@ -11,7 +11,6 @@
 #include "lib/units.h"
 
 #include "alias.h"
-#include "c_joint.h"
 
 namespace spacegun {
   using namespace std;
@@ -48,7 +47,6 @@ namespace spacegun {
       float getMass();
       void setMass(float mass, const Vector2d& center,
           float inertia);
-      void setJoint(Joint& joint);
 
       void applyForce(const Vector2d& v);
       void applyTorque(float torque);
@@ -63,8 +61,6 @@ namespace spacegun {
       FixtureDef fixtureDef_;
       MassData massData_;
       bool setMassData_;
-      Joint* localJoint_;
-      void setJointPos(const Vector2d& pos);
 
   };
 }

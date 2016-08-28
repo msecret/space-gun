@@ -40,12 +40,8 @@ LIBDISTS = $(addprefix $(DISTDIR)/,$(LIBS))
 GTEST_HEADERS = $(GTEST_DIR)/include
 GMOCK_HEADERS = $(GMOCK_DIR)/include
 
-ifndef LIBGTEST
-LIBGTEST = /usr/lib/libgtest_main.a /usr/lib/libgtest.so
-endif
-ifndef LIBGMOCK
-LIBGMOCK = /usr/lib/libgmock_main.a /usr/lib/libgmock.so
-endif
+LIBGTEST = /usr/lib/libgtest_main.so /usr/lib/libgtest.so
+LIBGMOCK = /usr/lib/libgmock_main.so /usr/lib/libgmock.so
 
 SUBDIRS = src/lib
 
