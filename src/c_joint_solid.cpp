@@ -18,6 +18,12 @@ namespace spacegun {
     auto moveableB = jointB_->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto bA = moveableA->getBody();
     auto bB = moveableB->getBody();
+
+    auto bAPos = moveableA->getPos();
+    moveableB->setDensity(2.0f);
+
+    jointDef_.localAnchorA = Vector2d(-20, -35);
+    jointDef_.localAnchorB = Vector2d(20, 35);
     jointDef_.bodyA = bA;
     jointDef_.bodyB = bB;
 

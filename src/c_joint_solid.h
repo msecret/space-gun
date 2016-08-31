@@ -26,7 +26,8 @@ namespace spacegun {
         jointA_(entityA),
         jointB_(entityB)
       {
-        jointDef_.dampingRatio= 0.5;
+        jointDef_.dampingRatio = 0.5;
+        jointDef_.referenceAngle = 1.508;
       }
       void init(World& world);
       Entity* getEntityA();

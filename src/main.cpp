@@ -389,7 +389,7 @@ int main()
   // Setup weapon
   auto joinerA = new Entity();
   auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
-      initPlayerV, 45, 5, GREEN, world);
+      initPlayerV, 60, 5, GREEN, world);
   auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
   auto cJoint = new JointSolid(ship, weaponP1);
