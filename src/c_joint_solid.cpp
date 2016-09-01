@@ -19,9 +19,7 @@ namespace spacegun {
     auto bA = moveableA->getBody();
     auto bB = moveableB->getBody();
 
-    auto bAPos = moveableA->getPos();
-    moveableB->setDensity(2.0f);
-
+    // configurable
     jointDef_.localAnchorA = Vector2d(-20, -35);
     jointDef_.localAnchorB = Vector2d(20, 35);
     jointDef_.bodyA = bA;
@@ -38,10 +36,5 @@ namespace spacegun {
   Entity* JointSolid::getEntityB()
   {
     return jointB_;
-  }
-
-  const string JointSolid::getType()
-  {
-    return COMPONENT_TYPE_JOINT;
   }
 }
