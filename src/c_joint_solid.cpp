@@ -19,9 +19,8 @@ namespace spacegun {
     auto bA = moveableA->getBody();
     auto bB = moveableB->getBody();
 
-    // configurable
-    jointDef_.localAnchorA = Vector2d(-20, -35);
-    jointDef_.localAnchorB = Vector2d(20, 35);
+    jointDef_.localAnchorA = -relativeAnchor_;
+    jointDef_.localAnchorB = relativeAnchor_;
     jointDef_.bodyA = bA;
     jointDef_.bodyB = bB;
 
@@ -36,5 +35,10 @@ namespace spacegun {
   Entity* JointSolid::getEntityB()
   {
     return jointB_;
+  }
+
+  void JointSolid::setRelativeAnchor(Vector2d anchor)
+  {
+    relativeAnchor_ = anchor;
   }
 }

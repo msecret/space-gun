@@ -22,23 +22,26 @@ namespace spacegun {
   class JointSolid : public Joint
   {
     public:
-      JointSolid(Entity* entityA, Entity* entityB) :
+      JointSolid(Entity* entityA, Entity* entityB, float angle) :
         jointA_(entityA),
-        jointB_(entityB)
+        jointB_(entityB),
+        angle_(angle)
       {
         jointDef_.dampingRatio = 0.5;
-        // Configurable
-        jointDef_.referenceAngle = 1.508;
+        jointDef_.referenceAngle = angle_;
       }
       void init(World& world);
       Entity* getEntityA();
       Entity* getEntityB();
+      void setRelativeAnchor(Vector2d anchor);
 
     private:
       Entity* jointA_;
       Entity* jointB_;
       b2WeldJoint* joint_;
       b2WeldJointDef jointDef_;
+      float angle_;
+      Vector2d relativeAnchor_;
   };
 }
 

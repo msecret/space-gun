@@ -392,7 +392,8 @@ int main()
       initPlayerV, 60, 5, GREEN, world);
   auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
-  auto cJoint = new JointSolid(ship, weaponP1);
+  auto cJoint = new JointSolid(ship, weaponP1, 1.508);
+  cJoint->setRelativeAnchor(Vector2d(20, 35));
   auto cUniv = new Universal(world);
   joinerA->addComponent(cJoint);
   joinerA->addComponent(cUniv);
