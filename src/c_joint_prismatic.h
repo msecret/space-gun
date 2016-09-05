@@ -19,39 +19,45 @@ namespace spacegun {
   using aronnax::Entity;
   using aronnax::Vector2d;
 
+  struct JointMotor
+  {
+    float maxMotorForce, motorSpeed;
+
+    JointMotor(float maxSpeed, float speed) :
+      maxMotorForce(maxSpeed),
+      motorSpeed(speed)
+    { }
+  };
+
   class JointPrismatic : public Joint
   {
     public:
-      JointPrismatic(Entity* entityA, Entity* entityB) :
+      JointPrismatic(Entity* entityA, Entity* entityB, JointMotor* motor) :
         jointA_(entityA),
         jointB_(entityB)
       {
-        // TODO make configurable
         jointDef_.collideConnected = false;
         jointDef_.enableLimit = true;
-        // configurable
-        jointDef_.enableMotor = true;
-        // configurable
-        jointDef_.localAnchorA = Vector2d(-40.0f, 0);
-        // configurable
-        jointDef_.lowerTranslation = -25.0f;
-        // configurable
-        jointDef_.upperTranslation = 30.0f;
-        // configurable
-        jointDef_.maxMotorForce = 1.5;
-        // configurable
-        jointDef_.motorSpeed = -0.5;
+
+        if (motor) {
+          jointDef_.enableMotor = true;
+          jointDef_.maxMotorForce = motor->maxMotorForce;
+          jointDef_.motorSpeed = -motor->motorSpeed;
+        }
       }
       void init(World& world);
       Entity* getEntityA();
       Entity* getEntityB();
-      const string getType();
+      void setRelativeAnchor(Vector2d anchor);
+      void setTranslation(float lowerTranslation, float upperTranslation);
 
     private:
       Entity* jointA_;
       Entity* jointB_;
       b2PrismaticJoint* joint_;
       b2PrismaticJointDef jointDef_;
+      Vector2d relativeAnchor_;
+      Vector2d translation_;
   };
 }
 

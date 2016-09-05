@@ -24,6 +24,7 @@
 #include "c_evented.h"
 #include "c_keyboardable.h"
 #include "c_joint.h"
+#include "c_joint_prismatic.h"
 #include "c_joint_solid.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
@@ -187,16 +188,16 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 
 Entity* setupShieldEntity(Entity* shield, Entity* ship)
 {
-  /*
-  Joint* joint = new Joint(ship);
-  Joint* jointB = new Joint(shield, true);
-
-  shield->addComponent(joint);
-  ship->addComponent(jointB);
+  auto joinerShield = new Entity();
+  JointMotor motor(1.5, -0.5);
+  auto pJoint = new JointPrismatic(ship, shield, &motor);
+  pJoint->setRelativeAnchor(Vector2d(-40.0f, 0));
+  auto cUniv = new Universal(world);
+  jointerShield->addComponent(cJoint);
+  joinerShield->addComponent(cUniv);
 
   auto moveable = shield->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.5f);
-  */
 
   return shield;
 }
@@ -386,24 +387,17 @@ int main()
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
 
+  // Setup shield
+  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+      COL_SHIELD,  world);
+  auto shieldP1 = setupShieldEntity(baseShield1, ship);
+
   // Setup weapon
   auto joinerA = new Entity();
   auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
       initPlayerV, 60, 5, GREEN, world);
   auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
-  auto cJoint = new JointSolid(ship, weaponP1, 1.508);
-  cJoint->setRelativeAnchor(Vector2d(20, 35));
-  auto cUniv = new Universal(world);
-  joinerA->addComponent(cJoint);
-  joinerA->addComponent(cUniv);
-
-  //auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
-  //    COL_SHIELD,  world);
-  //auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
-  //    COL_SHIELD,  world);
-  //auto shield1 = setupShieldEntity(baseShield1, ship);
-  //auto shield2 = setupShieldEntity(baseShield2, shipP2);
 
   // setup systems
   Bound bound;

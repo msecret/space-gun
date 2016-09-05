@@ -22,6 +22,9 @@ namespace spacegun {
     auto bAPos = moveableA->getPos();
     moveableB->setDensity(2.0f);
 
+    jointDef_.localAnchorA = relativeAnchor_;
+    jointDef_.lowerTranslation = translation_.x;
+    jointDef_.upperTranslation = translation_.y;
     jointDef_.localAnchorA = Vector2d(-20, -35);
     jointDef_.localAnchorB = Vector2d(20, 35);
     jointDef_.bodyA = bA;
@@ -41,8 +44,15 @@ namespace spacegun {
     return jointB_;
   }
 
-  const string JointPrismatic::getType()
+  void JointPrismatic::setRelativeAnchor(Vector2d anchor)
   {
-    return COMPONENT_TYPE_JOINT;
+    relativeAnchor_ = anchor;
+  }
+
+  void JointPrismatic::setTranslation(float lowerTranslation,
+      float upperTranslation)
+  {
+    translation_.x = lowerTranslation;
+    translation_.y = upperTranslation;
   }
 }
