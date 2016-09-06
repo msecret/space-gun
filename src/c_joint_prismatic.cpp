@@ -25,8 +25,6 @@ namespace spacegun {
     jointDef_.localAnchorA = relativeAnchor_;
     jointDef_.lowerTranslation = translation_.x;
     jointDef_.upperTranslation = translation_.y;
-    jointDef_.localAnchorA = Vector2d(-20, -35);
-    jointDef_.localAnchorB = Vector2d(20, 35);
     jointDef_.bodyA = bA;
     jointDef_.bodyB = bB;
 
