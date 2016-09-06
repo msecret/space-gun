@@ -392,9 +392,13 @@ int main()
 
   // Setup shield
   auto joinerShieldP1 = new Entity();
+  auto joinerShieldP2 = new Entity();
   auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
+  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
+      COL_SHIELD,  world);
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
+  auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
 
   // Setup weapon
   //auto joinerA = new Entity();
@@ -442,6 +446,8 @@ int main()
   manager.addEntity(*shipP2);
   manager.addEntity(*joinerShieldP1);
   manager.addEntity(*shieldP1);
+  manager.addEntity(*joinerShieldP2);
+  manager.addEntity(*shieldP2);
   //manager.addEntity(*weaponP1);
   //manager.addEntity(*joinerA);
   manager.addSystem(&bound);

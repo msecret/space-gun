@@ -22,7 +22,7 @@ namespace spacegun {
     auto bAPos = moveableA->getPos();
     moveableB->setDensity(2.0f);
 
-    jointDef_.localAnchorA = relativeAnchor_;
+    jointDef_.localAnchorA = -relativeAnchor_;
     jointDef_.lowerTranslation = translation_.x;
     jointDef_.upperTranslation = translation_.y;
     jointDef_.bodyA = bA;
