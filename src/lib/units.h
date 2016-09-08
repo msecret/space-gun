@@ -334,6 +334,30 @@ namespace aronnax {
 
       unsigned int getEventCode() { return EV_PLAYER_DEATH; }
   };
+
+  const unsigned int EV_MOVE = 205;
+  class EvMove : public Ev
+  {
+    public:
+      EvMove(Vector2d pos) :
+        pos_(pos)
+      { }
+
+      unsigned int getEventCode() { return EV_MOVE; }
+
+      Vector2d getPos()
+      {
+        return pos_;
+      }
+
+      void setPos(const Vector2d& pos)
+      {
+        pos_ = pos;
+      }
+
+    private:
+      Vector2d pos_;
+  };
 }
 
 #endif
