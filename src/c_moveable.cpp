@@ -107,6 +107,12 @@ namespace spacegun {
   {
     if (body_) {
       body_->SetTransform(newPos, body_->GetAngle());
+      void* bodyUserData= body_->GetUserData();
+      if ( bodyUserData ) {
+        auto entity = static_cast<Entity*>(bodyUserData);
+        EvMove ev(newPos);
+        entity->emit(EV_MOVE, &ev);
+      }
     }
     bodyDef_.position = newPos;
   }
