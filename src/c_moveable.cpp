@@ -1,4 +1,9 @@
 
+
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
 #include <Box2D/Box2D.h>
 
 #include "lib/entity.h"
@@ -106,13 +111,21 @@ namespace spacegun {
   void Moveable::setPos(Vector2d newPos)
   {
     if (body_) {
-      body_->SetTransform(newPos, body_->GetAngle());
       void* bodyUserData= body_->GetUserData();
       if ( bodyUserData ) {
         auto entity = static_cast<Entity*>(bodyUserData);
         EvMove ev(newPos);
         entity->emit(EV_MOVE, &ev);
       }
+      body_->SetTransform(newPos, body_->GetAngle());
+    }
+    bodyDef_.position = newPos;
+  }
+
+  void Moveable::setTransform(Vector2d newPos)
+  {
+    if (body_) {
+      body_->SetTransform(newPos, body_->GetAngle());
     }
     bodyDef_.position = newPos;
   }

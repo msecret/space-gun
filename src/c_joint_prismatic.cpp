@@ -2,6 +2,7 @@
 #include <Box2D/Box2D.h>
 
 #include "lib/entity.h"
+#include "lib/units.h"
 
 #include "c_moveable.h"
 #include "c_joint_prismatic.h"
