@@ -51,9 +51,6 @@ namespace spacegun {
     using std::cout;
     using std::endl;
 
-    cout << "bindEntity" << endl;
-    cout << &parentEntity << endl;
-
     parentEntity.on(EV_MOVE, [&](EvMove* ev) {
       cout << "on ev move" << endl;
 
@@ -65,7 +62,8 @@ namespace spacegun {
 
         auto parentPos = parentMoveable->getPos();
         auto childPos = childMoveable->getPos();
-        auto offset = parentPos - childPos;
+        auto offset = childPos - parentPos;
+        auto evPos = ev->getPos();
         auto newPos = ev->getPos() + offset;
 
         childMoveable->setTransform(newPos);
