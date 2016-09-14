@@ -48,12 +48,7 @@ namespace spacegun {
 
   void Joints::bindEntity(Entity& parentEntity, Entity& childEntity)
   {
-    using std::cout;
-    using std::endl;
-
     parentEntity.on(EV_MOVE, [&](EvMove* ev) {
-      cout << "on ev move" << endl;
-
       if (childEntity.hasComponent(COMPONENT_TYPE_MOVEABLE)) {
         auto parentMoveable = parentEntity.getComponent<Moveable>(
             COMPONENT_TYPE_MOVEABLE);

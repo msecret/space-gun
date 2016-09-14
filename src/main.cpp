@@ -76,17 +76,21 @@ class CollisionListener : public b2ContactListener
       void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
       if ( bodyUserDataA ) {
         auto entity = static_cast<Entity*>(bodyUserDataA);
-        vector<float> total;
-        total = setupImpact(total, *impulse);
-        EvImpact ev(total);
-        entity->emit(EV_IMPACT, &ev);
+        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+          vector<float> total;
+          total = setupImpact(total, *impulse);
+          EvImpact ev(total);
+          entity->emit(EV_IMPACT, &ev);
+        }
       }
       if ( bodyUserDataB ) {
         auto entity = static_cast<Entity*>(bodyUserDataB);
-        vector<float> total;
-        total = setupImpact(total, *impulse);
-        EvImpact ev(total);
-        entity->emit(EV_IMPACT, &ev);
+        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+          vector<float> total;
+          total = setupImpact(total, *impulse);
+          EvImpact ev(total);
+          entity->emit(EV_IMPACT, &ev);
+        }
       }
     }
 

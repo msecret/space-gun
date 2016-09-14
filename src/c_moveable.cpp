@@ -63,7 +63,7 @@ namespace spacegun {
     fixtureDef_.density = 1;
   };
 
-  void Moveable::init(World& world, Shape& shape)
+  void Moveable::init(World& world, Shape& shape, Entity& e)
   {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
@@ -72,10 +72,6 @@ namespace spacegun {
     if (setMassData_) {
       body_->SetMassData(&massData_);
     }
-  }
-
-  void Moveable::setDamageable(Entity& e)
-  {
     body_->SetUserData(&e);
   }
 
