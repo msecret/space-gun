@@ -3,8 +3,6 @@
 #include <set>
 #include <string>
 
-#include "SDL2/SDL.h"
-
 #include "entity.h"
 #include "manager.h"
 
