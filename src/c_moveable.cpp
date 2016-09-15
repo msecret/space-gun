@@ -1,7 +1,13 @@
 
+
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
 #include <Box2D/Box2D.h>
 
 #include "lib/entity.h"
+#include "lib/units.h"
 
 #include "./c_moveable.h"
 
@@ -57,7 +63,7 @@ namespace spacegun {
     fixtureDef_.density = 1;
   };
 
-  void Moveable::init(World& world, Shape& shape)
+  void Moveable::init(World& world, Shape& shape, Entity& e)
   {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
@@ -66,10 +72,6 @@ namespace spacegun {
     if (setMassData_) {
       body_->SetMassData(&massData_);
     }
-  }
-
-  void Moveable::setDamageable(Entity& e)
-  {
     body_->SetUserData(&e);
   }
 
@@ -103,6 +105,20 @@ namespace spacegun {
   }
 
   void Moveable::setPos(Vector2d newPos)
+  {
+    if (body_) {
+      void* bodyUserData= body_->GetUserData();
+      if ( bodyUserData ) {
+        auto entity = static_cast<Entity*>(bodyUserData);
+        EvMove ev(newPos);
+        entity->emit(EV_MOVE, &ev);
+      }
+      body_->SetTransform(newPos, body_->GetAngle());
+    }
+    bodyDef_.position = newPos;
+  }
+
+  void Moveable::setTransform(Vector2d newPos)
   {
     if (body_) {
       body_->SetTransform(newPos, body_->GetAngle());

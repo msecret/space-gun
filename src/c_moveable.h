@@ -27,14 +27,14 @@ namespace spacegun {
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos,
                float initialAngle);
-      void init(World& world, Shape& shape);
-      void setDamageable(Entity& e);
+      void init(World& world, Shape& shape, Entity& e);
       const string getType();
       Vector2d getVel();
       // TODO should this be set force?
       void setVel(Vector2d newVel);
       Vector2d getPos();
       void setPos(Vector2d newPos);
+      void setTransform(Vector2d newPos);
       Vector2d getInitialPosition();
       void move(Vector2d vel);
       float getAngle();

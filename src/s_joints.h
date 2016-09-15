@@ -10,18 +10,23 @@
 namespace spacegun {
   using namespace std;
 
-  class Joints: public aronnax::System
+  using aronnax::Entity;
+  using aronnax::Entities;
+  using aronnax::System;
+
+  class Joints: public System
   {
     public:
       Joints() {};
-      void init(aronnax::Entities& entities);
-      void update(const uint32_t dt, aronnax::Entities& entities) {};
-      void render(const uint32_t dt, aronnax::Entities& entities) {};
-      void onAddEntity(aronnax::Entity& entity);
+      void init(Entities& entities);
+      void update(const uint32_t dt, Entities& entities) {};
+      void render(const uint32_t dt, Entities& entities) {};
+      void onAddEntity(Entity& entity);
       const string& getType();
 
     private:
-      void bindEntity(aronnax::Entity& entity);
+      void initEntity(Entity& entity);
+      void bindEntity(Entity& parentEntity, Entity& childEntity);
 
   };
 }

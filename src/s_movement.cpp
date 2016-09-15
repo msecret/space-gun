@@ -46,9 +46,6 @@ namespace spacegun {
     auto xs = s->getShapeComponent();
     auto shape = xs->getShape();
 
-    m->init(*world, *shape);
-    if (e.hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
-      m->setDamageable(e);
-    }
+    m->init(*world, *shape, e);
   }
 }

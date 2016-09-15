@@ -24,6 +24,7 @@
 #include "c_evented.h"
 #include "c_keyboardable.h"
 #include "c_joint.h"
+#include "c_joint_prismatic.h"
 #include "c_joint_solid.h"
 #include "c_mortal.h"
 #include "c_moveable.h"
@@ -75,17 +76,21 @@ class CollisionListener : public b2ContactListener
       void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
       if ( bodyUserDataA ) {
         auto entity = static_cast<Entity*>(bodyUserDataA);
-        vector<float> total;
-        total = setupImpact(total, *impulse);
-        EvImpact ev(total);
-        entity->emit(EV_IMPACT, &ev);
+        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+          vector<float> total;
+          total = setupImpact(total, *impulse);
+          EvImpact ev(total);
+          entity->emit(EV_IMPACT, &ev);
+        }
       }
       if ( bodyUserDataB ) {
         auto entity = static_cast<Entity*>(bodyUserDataB);
-        vector<float> total;
-        total = setupImpact(total, *impulse);
-        EvImpact ev(total);
-        entity->emit(EV_IMPACT, &ev);
+        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+          vector<float> total;
+          total = setupImpact(total, *impulse);
+          EvImpact ev(total);
+          entity->emit(EV_IMPACT, &ev);
+        }
       }
     }
 
@@ -185,18 +190,21 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   return e;
 }
 
-Entity* setupShieldEntity(Entity* shield, Entity* ship)
+Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
+    World& world)
 {
-  /*
-  Joint* joint = new Joint(ship);
-  Joint* jointB = new Joint(shield, true);
+  JointMotor motor(1.5, -0.5);
+  auto pJoint = new JointPrismatic(ship, shield, &motor);
+  auto cUniv = new Universal(world);
 
-  shield->addComponent(joint);
-  ship->addComponent(jointB);
+  pJoint->setRelativeAnchor(Vector2d(-40.0f, 0));
+  pJoint->setTranslation(-25.0, 30.0);
+
+  joinerShield->addComponent(pJoint);
+  joinerShield->addComponent(cUniv);
 
   auto moveable = shield->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.5f);
-  */
 
   return shield;
 }
@@ -386,23 +394,22 @@ int main()
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
 
+  // Setup shield
+  auto joinerShieldP1 = new Entity();
+  auto joinerShieldP2 = new Entity();
+  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+      COL_SHIELD,  world);
+  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
+      COL_SHIELD,  world);
+  auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
+  auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
+
   // Setup weapon
-  auto joinerA = new Entity();
-  auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
-      initPlayerV, 45, 5, GREEN, world);
-  auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
+  //auto joinerA = new Entity();
+  //auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
+  //    initPlayerV, 60, 5, GREEN, world);
+  //auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
-  auto cJoint = new JointSolid(ship, weaponP1);
-  auto cUniv = new Universal(world);
-  joinerA->addComponent(cJoint);
-  joinerA->addComponent(cUniv);
-
-  //auto baseShield1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
-  //    COL_SHIELD,  world);
-  //auto baseShield2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 35, 45,
-  //    COL_SHIELD,  world);
-  //auto shield1 = setupShieldEntity(baseShield1, ship);
-  //auto shield2 = setupShieldEntity(baseShield2, shipP2);
 
   // setup systems
   Bound bound;
@@ -441,10 +448,12 @@ int main()
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addEntity(*shipP2);
-  //manager.addEntity(*shield1);
-  //manager.addEntity(*shield2);
-  manager.addEntity(*weaponP1);
-  manager.addEntity(*joinerA);
+  manager.addEntity(*joinerShieldP1);
+  manager.addEntity(*shieldP1);
+  manager.addEntity(*joinerShieldP2);
+  manager.addEntity(*shieldP2);
+  //manager.addEntity(*weaponP1);
+  //manager.addEntity(*joinerA);
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);

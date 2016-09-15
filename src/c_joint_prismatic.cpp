@@ -2,9 +2,10 @@
 #include <Box2D/Box2D.h>
 
 #include "lib/entity.h"
+#include "lib/units.h"
 
 #include "c_moveable.h"
-#include "c_joint_solid.h"
+#include "c_joint_prismatic.h"
 
 namespace spacegun {
   using std::string;
@@ -12,33 +13,45 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_JOINT;
 
-  void JointSolid::init(World& world)
+  void JointPrismatic::init(World& world)
   {
     auto moveableA = jointA_->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto moveableB = jointB_->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
     auto bA = moveableA->getBody();
     auto bB = moveableB->getBody();
 
+    auto bAPos = moveableA->getPos();
+    moveableB->setDensity(2.0f);
+
     jointDef_.localAnchorA = -relativeAnchor_;
-    jointDef_.localAnchorB = relativeAnchor_;
+    jointDef_.lowerTranslation = translation_.x;
+    jointDef_.upperTranslation = translation_.y;
     jointDef_.bodyA = bA;
     jointDef_.bodyB = bB;
 
     world.CreateJoint(&jointDef_);
   }
 
-  Entity* JointSolid::getEntityA()
+  // TODO move to base class
+  Entity* JointPrismatic::getEntityA()
   {
     return jointA_;
   }
 
-  Entity* JointSolid::getEntityB()
+  Entity* JointPrismatic::getEntityB()
   {
     return jointB_;
   }
 
-  void JointSolid::setRelativeAnchor(Vector2d anchor)
+  void JointPrismatic::setRelativeAnchor(Vector2d anchor)
   {
     relativeAnchor_ = anchor;
+  }
+
+  void JointPrismatic::setTranslation(float lowerTranslation,
+      float upperTranslation)
+  {
+    translation_.x = lowerTranslation;
+    translation_.y = upperTranslation;
   }
 }

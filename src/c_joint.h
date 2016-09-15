@@ -27,7 +27,7 @@ namespace spacegun {
       virtual void init(World& world) {};
       virtual Entity* getEntityA() {};
       virtual Entity* getEntityB() {};
-      virtual const string getType() {};
+      virtual const string getType();
   };
 }
 
