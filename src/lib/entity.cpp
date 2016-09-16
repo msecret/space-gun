@@ -2,8 +2,6 @@
 #include <memory>
 #include <string>
 
-#include "SDL2/SDL.h"
-
 #include "component.h"
 #include "entity.h"
 #include "renderer.h"

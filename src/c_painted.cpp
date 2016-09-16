@@ -1,8 +1,6 @@
 
 #include <string>
 
-#include <SDL2/SDL.h>
-
 #include "lib/units.h"
 
 #include "./c_painted.h"
