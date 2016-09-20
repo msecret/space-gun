@@ -54,8 +54,9 @@ TEST(Moveable, init) {
   PolygonShape p;
   p.SetAsBox(2, 1);
   Moveable c;
+  Entity e;
 
-  c.init(w, p);
+  c.init(w, p, e);
 
   auto actual = c.getBody();
 
@@ -103,13 +104,14 @@ TEST(Moveable, getAngle) {
   World w(g);
   PolygonShape p;
   p.SetAsBox(2, 1);
+  Entity e;
 
   Moveable c = Moveable(vel, initPos, expectedAngle);
 
   auto actual = c.getAngle();
   EXPECT_EQ(actual, expectedAngle);
 
-  c.init(w, p);
+  c.init(w, p, e);
 
   actual = c.getAngle();
   EXPECT_EQ(actual, expectedAngle);
@@ -161,8 +163,9 @@ TEST(Moveable, getsetMass) {
   World w(g);
   PolygonShape p;
   p.SetAsBox(2, 1);
+  Entity e;
 
-  c.init(w, p);
+  c.init(w, p, e);
 
   actual = c.getMass();
 
@@ -212,8 +215,9 @@ TEST(Moveable, applyForce) {
   p.SetAsBox(2, 1);
 
   Moveable m(initV, initP);
+  Entity e;
 
-  m.init(w, p);
+  m.init(w, p, e);
 
   auto actual = m.getVel();
 
