@@ -2,6 +2,7 @@
 #include "lib/entity.h"
 #include "lib/renderer.h"
 
+#include "c_sprited.h"
 #include "c_moveable.h"
 #include "c_oriented.h"
 #include "c_rectangular.h"
@@ -100,6 +101,11 @@ namespace spacegun {
               color.b,
               color.a));
       }
+    } else if (entity.hasComponent(COMPONENT_TYPE_SPRITED)) {
+      auto sprited = entity.getComponent<Sprited>(COMPONENT_TYPE_SPRITED);
+      auto imgPath = sprited->getFilePath().c_str();
+      // TODO replace with interfaced code
+      s = SDL_LoadBMP(imgPath);
     }
 
     t = renderer_->createTexture(*s);

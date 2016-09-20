@@ -6,6 +6,7 @@
 #include "../lib/renderer.h"
 #include "../lib/units.h"
 
+#include "../c_sprited.h"
 #include "../c_moveable.h"
 #include "../c_rectangular.h"
 #include "../c_rendered.h"
@@ -94,7 +95,7 @@ TEST(RectangleRenderer, getType) {
   EXPECT_EQ(COMPONENT_TYPE_RECTANGULAR, actual);
 }
 
-TEST(RectangleRenderer, init) {
+TEST(RectangleRenderer, initPainted) {
   MockRenderer mockRenderer;
   auto testC = Rectangular(5, 7);
   auto testR = Rendered();
@@ -104,6 +105,26 @@ TEST(RectangleRenderer, init) {
   auto testEntity = new aronnax::Entity();
   testEntity->addComponent(&testC);
   testEntity->addComponent(&testR);
+  entities.push_back(testEntity);
+
+  auto testRR = RectangleRenderer(&mockRenderer);
+
+  EXPECT_CALL(mockRenderer, createTexture(_)).Times(1);
+
+  testRR.init(entities);
+
+  delete testEntity;
+}
+
+TEST(RectangleRenderer, initSprited) {
+  MockRenderer mockRenderer;
+  auto testC = Rectangular(5, 7);
+  auto testS = Sprited("/path/to/img");
+
+  aronnax::Entities entities;
+  auto testEntity = new aronnax::Entity();
+  testEntity->addComponent(&testC);
+  testEntity->addComponent(&testS);
   entities.push_back(testEntity);
 
   auto testRR = RectangleRenderer(&mockRenderer);
