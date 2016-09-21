@@ -102,7 +102,7 @@ TEST(Thrust, onAddEntity) {
   Thrustable ct(factor);
   Entity* e = new Entity();
   Thrust s;
-  cm.init(w, p);
+  cm.init(w, p, *e);
 
   e->addComponent(&cm);
   e->addComponent(&ct);
