@@ -53,7 +53,6 @@ $(TARGET): $(OBJS) subdirs
 
 $(TEST): $(OBJS) $(TESTDIR)/*.cpp $(LIBDISTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBGTEST) $(LIBGMOCK) $(LIBDISTS) $(LIBBOX2D) $(LFLAGS)
-	./$(TEST)
 
 $(OBJS): | $(DISTDIR)
 $(DISTDIR):
