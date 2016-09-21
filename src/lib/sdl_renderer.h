@@ -6,6 +6,7 @@
 #include <string>
 
 #include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 
 #include "renderer.h"
 #include "units.h"
@@ -33,6 +34,7 @@ class SDLRenderer : public IRenderer
         string message,
         const Color& color);
     SDL_Texture* createTexture(SDL_Surface& s);
+    SDL_Surface* loadImg(const string& filePath);
 
   private:
     // TODO should this be a pointer?

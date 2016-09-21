@@ -45,7 +45,7 @@
 #include "s_impacts.h"
 #include "s_movement.h"
 #include "s_notify.h"
-#include "s_rectangle_renderer.h"
+#include "s_sdl_paint_renderer.h"
 #include "s_sdl_events.h"
 #include "s_thrust.h"
 #include "s_universe.h"
@@ -422,7 +422,7 @@ int main()
   Impacts impacts;
   Movement movement;
   Notify notify(&renderer);
-  RectangleRenderer rectangle(&renderer);
+  SDLPaintRenderer paintedRenderer(&renderer);
   Thrust thrust;
   Universe universe;;
 
@@ -466,7 +466,7 @@ int main()
   // to be initialized.
   manager.addSystem(&joints);
   manager.addSystem(&notify);
-  manager.addSystem(&rectangle);
+  manager.addSystem(&paintedRenderer);
   manager.addSystem(&thrust);
   manager.addSystem(&universe);
 

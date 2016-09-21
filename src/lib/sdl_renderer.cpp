@@ -139,4 +139,10 @@ namespace aronnax {
     return texture;
   }
 
+  SDL_Surface* SDLRenderer::loadImg(const string& filePath)
+  {
+    auto cimgPath = filePath.c_str();
+    auto s = SDL_LoadBMP(cimgPath);
+    return s;
+  }
 }

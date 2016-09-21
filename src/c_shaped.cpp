@@ -26,4 +26,9 @@ namespace spacegun {
     return shapeComponent_->getShape();
   }
 
+  Vector2d Shaped::getBoundingBox()
+  {
+    return shapeComponent_->getBoundingBox();
+  }
+
 }

@@ -1,25 +1,27 @@
 
-#ifndef _h_RetcangleRenderer
-#define _h_RectangleRenderer
+#ifndef _h_SDLSpriteRenderer_
+#define _h_SDLSpriteRenderer
 
 #include <cstdint>
 
 #include "lib/entity.h"
-#include "lib/renderer.h"
+#include "lib/sdl_renderer.h"
 #include "lib/system.h"
+
 
 namespace spacegun {
   using std::string;
   using aronnax::Color;
   using aronnax::Entity;
   using aronnax::Entities;
+  using aronnax::SDLRenderer;
   using aronnax::System;
 
-  class RectangleRenderer: public System
+  class SDLSpriteRenderer: public System
   {
     public:
-      RectangleRenderer();
-      RectangleRenderer(IRenderer* renderer);
+      SDLSpriteRenderer();
+      SDLSpriteRenderer(SDLRenderer* renderer);
       void init(Entities& entities);
       void update(const uint32_t dt, Entities& entities) {};
       void render(const uint32_t dt, Entities& entities);
@@ -27,9 +29,9 @@ namespace spacegun {
       const string& getType();
 
     private:
-      IRenderer* renderer_;
-      void renderRectangle(const uint32_t dt, Entity&);
-      void initRectangle(Entity&);
+      SDLRenderer* renderer_;
+      void renderSprite(const uint32_t dt, Entity&);
+      void initSprite(Entity&);
 
   };
 }
