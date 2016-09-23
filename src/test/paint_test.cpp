@@ -12,7 +12,7 @@
 #include "../c_rectangular.h"
 #include "../c_shaped.h"
 #include "../c_painted.h"
-#include "../s_sdl_paint_renderer.h"
+#include "../s_paint_renderer.h"
 
 using namespace std;
 using namespace spacegun;
@@ -23,23 +23,30 @@ using aronnax::Vector2d;
 using aronnax::Vector2d;
 using ::testing::_;
 
-class MockRenderer: public SDLRenderer
+namespace aronnax {
+class MockRenderer: public IRenderer
 {
   public:
-    MOCK_METHOD0(Die, void());
-    virtual ~MockRenderer() { Die(); }
-
-    MOCK_METHOD0(render, void());
-    MOCK_METHOD0(beforeRender, void());
-    MOCK_METHOD0(afterRender, void());
-    using SDLRenderer::drawCircle;
-    MOCK_METHOD4(drawRectangle, void(const Vector2d& pos,
-          const Vector2d& box, SDL_Texture* texture, float angle));
-    using SDLRenderer::drawPolygon;
-    using SDLRenderer::drawText;
-    MOCK_METHOD1(createTexture, SDL_Texture*(SDL_Surface& s));
-    MOCK_METHOD1(loadImg, SDL_Surface*(const string& filePath));
+    MOCK_METHOD0(render,
+        void());
+    MOCK_METHOD0(beforeRender,
+        void());
+    MOCK_METHOD0(afterRender,
+        void());
+    MOCK_METHOD2(drawCircle,
+        void(const Vector2d& pos, const Vector2d& r));
+    MOCK_METHOD4(drawRectangle,
+        void(const Vector2d& pos, const Vector2d& box, SDL_Texture* texture, float angle));
+    MOCK_METHOD1(drawPolygon,
+        void(const Vector2d& pos));
+    MOCK_METHOD3(drawText,
+        void(const Vector2d& pos, string message, const Color& color));
+    MOCK_METHOD1(createTexture,
+        SDL_Texture*(SDL_Surface& s));
+    MOCK_METHOD1(loadImg,
+        SDL_Surface*(const string& filePath));
 };
+}
 
 TEST(Painted, DefaultConstructor) {
   aronnax::Color expected;
@@ -85,15 +92,40 @@ TEST(Painted, getsetColor) {
   EXPECT_EQ(expected, actual);
 }
 
-TEST(SDLPaintRenderer, constructor) {
-  auto testRR = SDLPaintRenderer();
+TEST(PaintRenderer, constructor) {
+  auto testRR = PaintRenderer<SDLRenderer>();
 }
 
-TEST(SDLPaintRenderer, getType) {
-  SDLPaintRenderer testRR;
+TEST(PaintRenderer, getType) {
+  PaintRenderer<SDLRenderer> testRR;
 
   auto actual = testRR.getType();
 
   EXPECT_EQ(COMPONENT_TYPE_PAINTED, actual);
 }
 
+TEST(PaintRenderer, init) {
+  auto color = Color(10, 100, 200, 255);
+  auto entity = new Entity();
+
+  auto rectangular = Rectangular(10, 10);
+  auto rendered = Rendered();
+  auto shaped = Shaped(rectangular);
+  auto painted = Painted(color);
+
+  Entities entities;
+  entity->addComponent(&rectangular);
+  entity->addComponent(&rendered);
+  entity->addComponent(&shaped);
+  entity->addComponent(&painted);
+  entities.push_back(entity);
+
+  MockRenderer mockRenderer;
+  auto paintRenderer = PaintRenderer<MockRenderer>(&mockRenderer);
+
+  EXPECT_CALL(mockRenderer, createTexture(_)).Times(1);
+
+  paintRenderer.init(entities);
+
+  delete entity;
+}

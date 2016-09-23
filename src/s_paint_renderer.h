@@ -1,6 +1,12 @@
 
+#ifndef _h_PaintRenderer
+#define _h_PaintRenderer
+
+#include <cstdint>
+
 #include "lib/entity.h"
 #include "lib/sdl_renderer.h"
+#include "lib/system.h"
 
 #include "c_sprited.h"
 #include "c_moveable.h"
@@ -8,45 +14,71 @@
 #include "c_rendered.h"
 #include "c_painted.h"
 #include "c_shaped.h"
-#include "s_sdl_paint_renderer.h"
 
 namespace spacegun {
   using std::string;
   using aronnax::Color;
   using aronnax::Entity;
   using aronnax::Entities;
+  using aronnax::SDLRenderer;
+  using aronnax::System;
+
+  template <typename TRenderer>
+  class PaintRenderer: public System
+  {
+    public:
+      PaintRenderer();
+      PaintRenderer(TRenderer* renderer);
+      void init(Entities& entities);
+      void update(const uint32_t dt, Entities& entities) {};
+      void render(const uint32_t dt, Entities& entities);
+      void onAddEntity(Entity& entity) {};
+      const string& getType();
+
+    private:
+      TRenderer* renderer_;
+      void renderRectangle(const uint32_t dt, Entity&);
+      void initRectangle(Entity&);
+
+  };
 
   extern const string COMPONENT_TYPE_PAINTED;
 
-  SDLPaintRenderer::SDLPaintRenderer()
+  template <class TRenderer>
+  PaintRenderer<TRenderer>::PaintRenderer()
   {
     renderer_ = nullptr;
   }
 
-  SDLPaintRenderer::SDLPaintRenderer(SDLRenderer* renderer) :
+  template <class TRenderer>
+  PaintRenderer<TRenderer>::PaintRenderer(TRenderer* renderer) :
     renderer_(renderer)
   { }
 
-  void SDLPaintRenderer::init(Entities& entities)
+  template <class TRenderer>
+  void PaintRenderer<TRenderer>::init(Entities& entities)
   {
     for (auto e : entities) {
       initRectangle(*e);
     }
   }
 
-  void SDLPaintRenderer::render(const uint32_t dt, Entities& entities)
+  template <class TRenderer>
+  void PaintRenderer<TRenderer>::render(const uint32_t dt, Entities& entities)
   {
     for (auto e : entities) {
       this->renderRectangle(dt, *e);
     }
   }
 
-  const string& SDLPaintRenderer::getType()
+  template <class TRenderer>
+  const string& PaintRenderer<TRenderer>::getType()
   {
     return COMPONENT_TYPE_PAINTED;
   }
 
-  void SDLPaintRenderer::renderRectangle(const uint32_t dt,
+  template <class TRenderer>
+  void PaintRenderer<TRenderer>::renderRectangle(const uint32_t dt,
       Entity& entity)
   {
     if (renderer_ == nullptr) {
@@ -66,7 +98,8 @@ namespace spacegun {
     renderer_->drawRectangle(pos, box, texture, angle);
   }
 
-  void SDLPaintRenderer::initRectangle(Entity& entity)
+  template <class TRenderer>
+  void PaintRenderer<TRenderer>::initRectangle(Entity& entity)
   {
     SDL_Surface *s;
     SDL_Texture *t;
@@ -77,6 +110,7 @@ namespace spacegun {
     auto width = boundBox.x;
     auto height = boundBox.y;
 
+    // TODO move to renderer
     s = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 
     auto p = entity.getComponent<Painted>(COMPONENT_TYPE_PAINTED);
@@ -96,6 +130,7 @@ namespace spacegun {
             250,
             255));
     } else {
+      // TODO move to renderer
       SDL_FillRect(s, NULL, SDL_MapRGBA(s->format,
             color.r,
             color.g,
@@ -113,4 +148,6 @@ namespace spacegun {
     r->init(s, t);
   }
 }
+
+#endif
 

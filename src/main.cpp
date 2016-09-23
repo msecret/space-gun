@@ -45,7 +45,7 @@
 #include "s_impacts.h"
 #include "s_movement.h"
 #include "s_notify.h"
-#include "s_sdl_paint_renderer.h"
+#include "s_paint_renderer.h"
 #include "s_sdl_events.h"
 #include "s_thrust.h"
 #include "s_universe.h"
@@ -422,7 +422,7 @@ int main()
   Impacts impacts;
   Movement movement;
   Notify notify(&renderer);
-  SDLPaintRenderer paintedRenderer(&renderer);
+  PaintRenderer<SDLRenderer> paintedRenderer(&renderer);
   Thrust thrust;
   Universe universe;;
 
