@@ -1,22 +1,42 @@
 
+#ifndef _h_SpriteRenderer_
+#define _h_SpriteRenderer
+
+#include <cstdint>
 
 #include "lib/entity.h"
-#include "lib/renderer.h"
-#include "lib/sdl_renderer.h"
+#include "lib/system.h"
 
 #include "c_moveable.h"
 #include "c_rendered.h"
 #include "c_shaped.h"
 #include "c_sprited.h"
-#include "s_sprite_renderer.h"
 
 namespace spacegun {
   using std::string;
   using aronnax::Color;
   using aronnax::Entity;
   using aronnax::Entities;
-  using aronnax::IRenderer;
-  using aronnax::SDLRenderer;
+  using aronnax::System;
+
+  template <typename TRenderer>
+  class SpriteRenderer: public System
+  {
+    public:
+      SpriteRenderer();
+      SpriteRenderer(TRenderer* renderer);
+      void init(Entities& entities);
+      void update(const uint32_t dt, Entities& entities) {};
+      void render(const uint32_t dt, Entities& entities);
+      void onAddEntity(Entity& entity) {};
+      const string& getType();
+
+    private:
+      TRenderer* renderer_;
+      void renderSprite(const uint32_t dt, Entity&);
+      void initSprite(Entity&);
+
+  };
 
   extern const string COMPONENT_TYPE_SPRITED;
 
@@ -94,8 +114,6 @@ namespace spacegun {
 
     r->init(s, t);
   }
-
-  template class SpriteRenderer<SDLRenderer>;
-  template class SpriteRenderer<IRenderer>;
 }
 
+#endif
