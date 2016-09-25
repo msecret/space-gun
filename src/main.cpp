@@ -392,9 +392,9 @@ int main()
       12,
       RED,
       world);
-  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 50, 45, SHIP,
+  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 40, 60, SHIP,
       world);
-  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 50, 45,
+  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 40, 60,
       SHIP, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
