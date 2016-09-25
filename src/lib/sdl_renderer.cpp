@@ -78,6 +78,7 @@ namespace aronnax {
     r.h = int(box.y);
 
     SDL_SetRenderDrawBlendMode(renderer_, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderTarget(renderer_, texture);
 
     SDL_RenderCopyEx(
       renderer_,
