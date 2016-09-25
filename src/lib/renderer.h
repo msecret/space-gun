@@ -29,6 +29,7 @@ namespace aronnax {
           string message,
           const Color& color) = 0;
       virtual SDL_Texture* createTexture(SDL_Surface& s) = 0;
+      virtual SDL_Surface* loadImg(const string& filePath) = 0;
   };
 
 }

@@ -55,4 +55,9 @@ namespace spacegun {
     return shape_;
   }
 
+  Vector2d Rectangular::getBoundingBox()
+  {
+    return box_;
+  }
+
 }

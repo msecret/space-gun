@@ -6,6 +6,7 @@
 #include <string>
 
 #include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 
 #include "renderer.h"
 #include "units.h"
@@ -16,13 +17,14 @@ namespace aronnax {
 class SDLRenderer : public IRenderer
 {
   public:
-    ~SDLRenderer();
+    virtual ~SDLRenderer();
+    SDLRenderer() {};
     SDLRenderer(SDL_Window* window);
-    void render();
-    void beforeRender();
-    void afterRender();
+    virtual void render();
+    virtual void beforeRender();
+    virtual void afterRender();
     void drawCircle(const Vector2d& pos, const Vector2d& r);
-    void drawRectangle(
+    virtual void drawRectangle(
         const Vector2d& pos,
         const Vector2d& box,
         SDL_Texture* texture,
@@ -32,11 +34,12 @@ class SDLRenderer : public IRenderer
         const Vector2d& pos,
         string message,
         const Color& color);
-    SDL_Texture* createTexture(SDL_Surface& s);
+    virtual SDL_Texture* createTexture(SDL_Surface& s);
+    virtual SDL_Surface* loadImg(const string& filePath);
 
   private:
     // TODO should this be a pointer?
-    SDL_Window& screen_;
+    SDL_Window* screen_;
     SDL_Renderer* renderer_;
     TTF_Font* font_;
 };

@@ -29,6 +29,7 @@ namespace spacegun {
       ~Rectangular();
       const string getType();
       PolygonShape* getShape();
+      Vector2d getBoundingBox();
       float getW();
       float getH();
       void setW(float w);

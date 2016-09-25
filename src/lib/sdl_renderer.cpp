@@ -23,11 +23,11 @@ namespace aronnax {
   {
     TTF_CloseFont(font_);
     SDL_DestroyRenderer(renderer_);
-    SDL_DestroyWindow(&screen_);
+    SDL_DestroyWindow(screen_);
   }
 
   SDLRenderer::SDLRenderer(SDL_Window* window):
-    screen_(*window)
+    screen_(window)
   {
     SDL_Renderer* rendererPtr = nullptr;
     rendererPtr = SDL_CreateRenderer(window, -1, 0);
@@ -139,4 +139,10 @@ namespace aronnax {
     return texture;
   }
 
+  SDL_Surface* SDLRenderer::loadImg(const string& filePath)
+  {
+    auto cimgPath = filePath.c_str();
+    auto s = SDL_LoadBMP(cimgPath);
+    return s;
+  }
 }

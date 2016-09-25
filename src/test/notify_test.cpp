@@ -21,21 +21,30 @@ using aronnax::Vector2d;
 
 using namespace spacegun;
 
+namespace aronnax {
 class MockRenderer: public IRenderer
 {
   public:
-    MOCK_METHOD0(render, void());
-    MOCK_METHOD0(beforeRender, void());
-    MOCK_METHOD0(afterRender, void());
-    MOCK_METHOD4(drawRectangle, void(const Vector2d& pos,
-          const Vector2d& box, SDL_Texture* texture, float angle));
-    MOCK_METHOD2(drawCircle, void(const Vector2d& pos,
-          const Vector2d& r));
-    MOCK_METHOD3(drawText, void(const Vector2d& pos, string message,
-          const Color& color));
-    MOCK_METHOD1(drawPolygon, void(const Vector2d& pos));
-    MOCK_METHOD1(createTexture, SDL_Texture*(SDL_Surface& s));
+    MOCK_METHOD0(render,
+        void());
+    MOCK_METHOD0(beforeRender,
+        void());
+    MOCK_METHOD0(afterRender,
+        void());
+    MOCK_METHOD2(drawCircle,
+        void(const Vector2d& pos, const Vector2d& r));
+    MOCK_METHOD4(drawRectangle,
+        void(const Vector2d& pos, const Vector2d& box, SDL_Texture* texture, float angle));
+    MOCK_METHOD1(drawPolygon,
+        void(const Vector2d& pos));
+    MOCK_METHOD3(drawText,
+        void(const Vector2d& pos, string message, const Color& color));
+    MOCK_METHOD1(createTexture,
+        SDL_Texture*(SDL_Surface& s));
+    MOCK_METHOD1(loadImg,
+        SDL_Surface*(const string& filePath));
 };
+}
 
 TEST(Notification, Constructor) {
   Vector2d expectedPos = { 20, 25 };
