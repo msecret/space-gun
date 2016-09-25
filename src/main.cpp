@@ -34,6 +34,7 @@
 #include "c_rendered.h"
 #include "c_painted.h"
 #include "c_shaped.h"
+#include "c_sprited.h"
 #include "c_thrustable.h"
 #include "c_universal.h"
 
@@ -47,6 +48,7 @@
 #include "s_notify.h"
 #include "s_paint_renderer.h"
 #include "s_sdl_events.h"
+#include "s_sprite_renderer.h"
 #include "s_thrust.h"
 #include "s_universe.h"
 
@@ -59,9 +61,9 @@ const int WORLD_W = 1280;
 const int WORLD_H = 960;
 
 const Color RED = Color(135, 42, 0, 255);
-const Color YELLOW = Color(255, 255, 0, 255);
-const Color GREEN = Color(200, 220, 68, 255);
 const Color BLUE = Color(0, 110, 255, 255);
+const Color YELLOW = Color(255, 255, 0, 255);
+const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 175);
 
 const float THRUST_FACTOR = 1700;
@@ -142,7 +144,6 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   Shaped* shaped = new Shaped(*rectangular);
   Boundable* boundable = new Boundable(bounds);
   Rendered* rendered = new Rendered();
-  Painted* painted = new Painted(c);
   Universal* universal = new Universal(world, TIMESTEP);
 
   moveable->setFriction(.0001f);
@@ -154,27 +155,30 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   entity->addComponent(rectangular);
   entity->addComponent(shaped);
   entity->addComponent(boundable);
-  entity->addComponent(painted);
   entity->addComponent(rendered);
   entity->addComponent(universal);
+
+  if (c.a > 0) {
+    Painted* painted = new Painted(c);
+    entity->addComponent(painted);
+  }
 
   return entity;
 }
 
 Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 {
-  auto painted = e->getComponent<Painted>(COMPONENT_TYPE_PAINTED);
   auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
 
-  auto col = painted->getColor();
   auto pos = moveable->getPos();
 
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
   Keyboardable* keyboardable = new Keyboardable(keyMap);
   Mortal* mortal = new Mortal();
-  Notification* notification = new Notification(pos, name, col);
+  Notification* notification = new Notification(pos, name, BLUE);
   Oriented* oriented = new Oriented(*moveable);
+  Sprited* sprited = new Sprited("img/ship-v1-gr.bmp");
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
   damageable->setDamageFactor(0.001f);
@@ -185,6 +189,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   e->addComponent(mortal);
   e->addComponent(notification);
   e->addComponent(oriented);
+  e->addComponent(sprited);
   e->addComponent(thrustable);
 
   return e;
@@ -387,19 +392,19 @@ int main()
       12,
       RED,
       world);
-  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 50, 45, GREEN,
+  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 40, 60, SHIP,
       world);
-  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 50, 45,
-      BLUE, world);
+  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 40, 60,
+      SHIP, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
 
   // Setup shield
   auto joinerShieldP1 = new Entity();
   auto joinerShieldP2 = new Entity();
-  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 45, 35,
       COL_SHIELD,  world);
-  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
+  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 45, 35,
       COL_SHIELD,  world);
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
   auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
@@ -423,6 +428,7 @@ int main()
   Movement movement;
   Notify notify(&renderer);
   PaintRenderer<SDLRenderer> paintedRenderer(&renderer);
+  SpriteRenderer<SDLRenderer> spriteRenderer(&renderer);
   Thrust thrust;
   Universe universe;;
 
@@ -467,6 +473,7 @@ int main()
   manager.addSystem(&joints);
   manager.addSystem(&notify);
   manager.addSystem(&paintedRenderer);
+  manager.addSystem(&spriteRenderer);
   manager.addSystem(&thrust);
   manager.addSystem(&universe);
 
