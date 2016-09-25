@@ -91,7 +91,7 @@ namespace spacegun {
     auto texture = rendered->getTexture();
     auto angle = moveable->getAngle();
 
-    renderer_->drawRectangle(pos, box, texture, angle + 1.5708f);
+    renderer_->drawRectangle(pos, box, texture, angle);
   }
 
   template <class TRenderer>

@@ -402,9 +402,9 @@ int main()
   // Setup shield
   auto joinerShieldP1 = new Entity();
   auto joinerShieldP2 = new Entity();
-  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 45, 35,
       COL_SHIELD,  world);
-  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
+  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 45, 35,
       COL_SHIELD,  world);
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
   auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);

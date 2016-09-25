@@ -83,7 +83,7 @@ namespace aronnax {
       texture,
       NULL,
       &r,
-      radiansToDegrees(angle),
+      radiansToDegrees(angle) + 90.0f,
       NULL,
       SDL_FLIP_NONE
     );
