@@ -178,7 +178,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   Mortal* mortal = new Mortal();
   Notification* notification = new Notification(pos, name, BLUE);
   Oriented* oriented = new Oriented(*moveable);
-  Sprited* sprited = new Sprited("img/ship-v1-gr.bmp");
+  Sprited* sprited = new Sprited("./img/ship-v1-gr.png");
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
   damageable->setDamageFactor(0.001f);

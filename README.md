@@ -14,11 +14,12 @@ A 2D realistic space exploration and combat game focusing on the charm of operat
 ## Design
 
 ## Development
-1. Install SDL libraries
-2. Install Box2d
-3. Install googletest and googlemock
-4. Build and execute tests: `make test`
-5. Build project: `make`
+1. Install SDL library
+2. Install SDL_ttf, SDL_image
+3. Install Box2d
+4. Install googletest and googlemock
+5. Build and execute tests: `make test`
+6. Build project: `make`
 
 ### Install Box2d
 Ensure `glut` and `glfw` are installed as dev dependencies.
