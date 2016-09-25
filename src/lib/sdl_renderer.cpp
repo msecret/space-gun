@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
 #include "sdl_renderer.h"
@@ -142,7 +143,7 @@ namespace aronnax {
   SDL_Surface* SDLRenderer::loadImg(const string& filePath)
   {
     auto cimgPath = filePath.c_str();
-    auto s = SDL_LoadBMP(cimgPath);
+    auto s = IMG_Load(cimgPath);
     return s;
   }
 }
