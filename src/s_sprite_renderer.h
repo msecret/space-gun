@@ -112,7 +112,7 @@ namespace spacegun {
 
     t = renderer_->createTexture(*s);
 
-    SDL_SetTextureBlendMode(t, SDL_BLENDMODE_ADD);
+    SDL_SetTextureBlendMode(t, SDL_BLENDMODE_BLEND);
     SDL_SetTextureAlphaMod(t, 255);
 
     r->init(s, t);

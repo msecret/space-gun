@@ -67,7 +67,7 @@ const int WORLD_H = 960;
 const Color BLUE = Color(0, 110, 255, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
-const Color COL_SHIELD = Color(80, 200, 200, 175);
+const Color COL_SHIELD = Color(80, 200, 200, 0);
 
 const float THRUST_FACTOR = 1700;
 
@@ -209,6 +209,7 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
     World& world)
 {
   JointMotor motor(1.5, -0.5);
+  Sprited* sprited = new Sprited("./img/shield.png");
   auto pJoint = new JointPrismatic(ship, shield, &motor);
   auto cUniv = new Universal(world);
 
@@ -217,6 +218,8 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
 
   joinerShield->addComponent(pJoint);
   joinerShield->addComponent(cUniv);
+
+  shield->addComponent(sprited);
 
   auto moveable = shield->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.5f);

@@ -142,13 +142,7 @@ namespace aronnax {
 
   SDL_Texture* SDLRenderer::createTexture(SDL_Surface& s)
   {
-    auto windowFormat = SDL_GetWindowPixelFormat(screen_);
-    SDL_PixelFormat *format;
-    format->format = windowFormat;
-    auto converedS = SDL_ConvertSurface(&s, format, NULL);
-    if (converedS == NULL) throw std::runtime_error(SDL_GetError());
-
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, converedS);
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, &s);
 
     if (texture == NULL) {
       // fprintf(stderr, "CreateTexture failed: %s\n", SDL_GetError());
