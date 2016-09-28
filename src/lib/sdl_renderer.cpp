@@ -45,6 +45,16 @@ namespace aronnax {
       throw std::runtime_error(TTF_GetError());
     }
     font_ = fixed;
+
+    auto filePath = "./img/space.jpg";
+    auto s = IMG_Load(filePath);
+    if (s == NULL) {
+      throw std::runtime_error(SDL_GetError());
+    }
+    bg_ = SDL_CreateTextureFromSurface(renderer_, s);
+    if (bg_ == NULL) {
+      throw std::runtime_error(SDL_GetError());
+    }
   }
 
   void SDLRenderer::render()
@@ -54,8 +64,9 @@ namespace aronnax {
   void SDLRenderer::beforeRender()
   {
     // TODO move bg color elsewhere
-    SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 255);
     SDL_RenderClear(renderer_);
+    SDL_SetTextureBlendMode(bg_, SDL_BLENDMODE_NONE);
+    SDL_RenderCopy(renderer_, bg_, NULL, NULL);
   }
 
   void SDLRenderer::afterRender()
@@ -131,10 +142,17 @@ namespace aronnax {
 
   SDL_Texture* SDLRenderer::createTexture(SDL_Surface& s)
   {
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, &s);
+    auto windowFormat = SDL_GetWindowPixelFormat(screen_);
+    SDL_PixelFormat *format;
+    format->format = windowFormat;
+    auto converedS = SDL_ConvertSurface(&s, format, NULL);
+    if (converedS == NULL) throw std::runtime_error(SDL_GetError());
+
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer_, converedS);
 
     if (texture == NULL) {
       // fprintf(stderr, "CreateTexture failed: %s\n", SDL_GetError());
+      throw std::runtime_error(SDL_GetError());
       exit(1);
     }
 

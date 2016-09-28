@@ -42,6 +42,7 @@ class SDLRenderer : public IRenderer
     SDL_Window* screen_;
     SDL_Renderer* renderer_;
     TTF_Font* font_;
+    SDL_Texture* bg_;
 };
 
 }
