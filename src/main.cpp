@@ -1,5 +1,9 @@
 
 #include <cstdio>
+#include <iostream>
+#include <sstream>
+
+#include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <map>
@@ -60,13 +64,19 @@ const float TIMESTEP = 0.8;
 const int WORLD_W = 1280;
 const int WORLD_H = 960;
 
-const Color RED = Color(135, 42, 0, 255);
 const Color BLUE = Color(0, 110, 255, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 175);
 
 const float THRUST_FACTOR = 1700;
+
+Color randomGray() {
+  auto r = rand() % 210;
+  Color color(r, r, r, 255);
+  return color;
+}
+
 
 class CollisionListener : public b2ContactListener
 {
@@ -284,113 +294,113 @@ int main()
   keyMapP2["Keypad 7"] = &counterClockwise;
 
   // setup asteroids
-  auto asteroidA = setupBaseEntity(initPosA, initVelA, 10, 13, RED,
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, 10, 13, randomGray(),
       world);
-  auto asteroidB = setupBaseEntity(initPosB, initVelB, 15, 11, RED,
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, 15, 11, randomGray(),
       world);
-  auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, RED,
+  auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, randomGray(),
       world);
   auto asteroidD = setupBaseEntity(Vector2d(200, 200),
       Vector2d( -0.3, 0.2),
       25,
       28,
-      RED,
+      randomGray(),
       world);
   auto asteroidE = setupBaseEntity(Vector2d(250, 400),
       Vector2d( 0.5, -0.2),
       32,
       36,
-      RED,
+      randomGray(),
       world);
   auto asteroidF = setupBaseEntity(Vector2d(450, 300),
       Vector2d( -0.1, -0.3),
       42,
       43,
-      RED,
+      randomGray(),
       world);
   auto asteroidG = setupBaseEntity(Vector2d(250, 400),
       Vector2d( -0.1, -0.1),
       45,
       48,
-      RED,
+      randomGray(),
       world);
   auto asteroidH = setupBaseEntity(Vector2d(800, 600),
       Vector2d( -0.8, -0.1),
       30,
       30,
-      RED,
+      randomGray(),
       world);
   auto asteroidI = setupBaseEntity(Vector2d(600, 800),
       Vector2d( -0.5, -0.75),
       43,
       36,
-      RED,
+      randomGray(),
       world);
   auto asteroidJ = setupBaseEntity(Vector2d(800, 900),
       Vector2d( 1.2, -0.75),
       20,
       16,
-      RED,
+      randomGray(),
       world);
   auto asteroidK = setupBaseEntity(Vector2d(400, 900),
       Vector2d( -1.0, -0.4),
       20,
       16,
-      RED,
+      randomGray(),
       world);
   auto asteroidL = setupBaseEntity(Vector2d(1200, 300),
       Vector2d( 0.3, -1.4),
       45,
       30,
-      RED,
+      randomGray(),
       world);
   auto asteroidM = setupBaseEntity(Vector2d(1000, 500),
       Vector2d( 0.8, 1.1),
       9.0,
       13,
-      RED,
+      randomGray(),
       world);
   auto asteroidN = setupBaseEntity(Vector2d(600, 600),
       Vector2d( 1.4, 2.1),
       12,
       18,
-      RED,
+      randomGray(),
       world);
   auto asteroidO = setupBaseEntity(Vector2d(1000, 700),
       Vector2d( 1.2, -1.8),
       26,
       29,
-      RED,
+      randomGray(),
       world);
   auto asteroidP = setupBaseEntity(Vector2d(500, 500),
       Vector2d( -0.2, 1.4),
       25,
       25,
-      RED,
+      randomGray(),
       world);
   auto asteroidQ = setupBaseEntity(Vector2d(400, 700),
       Vector2d( 0.5, 0.3),
       27,
       29,
-      RED,
+      randomGray(),
       world);
   auto asteroidR = setupBaseEntity(Vector2d(200, 700),
       Vector2d( 0.2, -0.86),
       30,
       40,
-      RED,
+      randomGray(),
       world);
   auto asteroidS = setupBaseEntity(Vector2d(600, 900),
       Vector2d( 0.4, 0.8),
       15,
       18,
-      RED,
+      randomGray(),
       world);
   auto asteroidT = setupBaseEntity(Vector2d(800, 900),
       Vector2d( 1.1, -0.3),
       11,
       12,
-      RED,
+      randomGray(),
       world);
   auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 40, 60, SHIP,
       world);
@@ -435,9 +445,9 @@ int main()
   // setup to manager
   manager.addEntity(*asteroidA);
   manager.addEntity(*asteroidB);
-  manager.addEntity(*asteroidC);
   manager.addEntity(*asteroidD);
   manager.addEntity(*asteroidE);
+  manager.addEntity(*asteroidC);
   manager.addEntity(*asteroidF);
   manager.addEntity(*asteroidG);
   manager.addEntity(*asteroidH);
