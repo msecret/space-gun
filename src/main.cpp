@@ -405,9 +405,9 @@ int main()
       12,
       randomGray(),
       world);
-  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 40, 60, SHIP,
+  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 60, 40, SHIP,
       world);
-  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 40, 60,
+  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 60, 40,
       SHIP, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
@@ -415,9 +415,9 @@ int main()
   // Setup shield
   auto joinerShieldP1 = new Entity();
   auto joinerShieldP2 = new Entity();
-  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 45, 35,
+  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
-  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 45, 35,
+  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
       COL_SHIELD,  world);
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
   auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
