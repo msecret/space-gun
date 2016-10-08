@@ -22,6 +22,7 @@
 #include "lib/system.h"
 
 #include "alias.h"
+#include "constants.h"
 
 #include "c_boundable.h"
 #include "c_damageable.h"
@@ -148,7 +149,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 {
   float randAngle = static_cast <float> (rand()) / (
       static_cast <float> (RAND_MAX/180.0));
-  Vector2d bounds = Vector2d(WORLD_W / 10, WORLD_H / 10);
+  Vector2d bounds = Vector2d(WORLD_W / DRAW_FACTOR, WORLD_H / DRAW_FACTOR);
   Moveable* moveable = new Moveable(initV, initP, randAngle);
   Rectangular* rectangular = new Rectangular(w, h);
   Shaped* shaped = new Shaped(*rectangular);
