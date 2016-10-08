@@ -224,7 +224,8 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
   shield->addComponent(sprited);
 
   auto moveable = shield->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
-  moveable->setDensity(0.5f);
+  moveable->setDensity(0.01f);
+  moveable->setFriction(1.0f);
 
   return shield;
 }
