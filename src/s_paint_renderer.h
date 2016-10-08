@@ -8,6 +8,7 @@
 #include "lib/sdl_renderer.h"
 #include "lib/system.h"
 
+#include "constants.h"
 #include "c_sprited.h"
 #include "c_moveable.h"
 #include "c_oriented.h"
@@ -39,6 +40,8 @@ namespace spacegun {
       TRenderer* renderer_;
       void renderRectangle(const uint32_t dt, Entity&);
       void initRectangle(Entity&);
+      Vector2d transformForDrawing(const Vector2d& value);
+
 
   };
 
@@ -92,10 +95,13 @@ namespace spacegun {
 
     auto box = shaped->getBoundingBox();
     Vector2d pos = moveable->getPos();
+    auto transformedBox = transformForDrawing(box);
+    auto transformedPos = transformForDrawing(pos);
     auto texture = rendered->getTexture();
     auto angle = moveable->getAngle();
+    // TODO add transform for drawing
 
-    renderer_->drawRectangle(pos, box, texture, angle);
+    renderer_->drawRectangle(transformedPos, transformedBox, texture, angle);
   }
 
   template <class TRenderer>
@@ -146,6 +152,15 @@ namespace spacegun {
     }
 
     r->init(s, t);
+  }
+
+  template <class TRenderer>
+  Vector2d PaintRenderer<TRenderer>::transformForDrawing(const Vector2d& val)
+  {
+    Vector2d transformed;
+    transformed.x = val.x * DRAW_FACTOR;
+    transformed.y = val.y * DRAW_FACTOR;
+    return transformed;
   }
 }
 

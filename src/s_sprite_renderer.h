@@ -7,6 +7,7 @@
 #include "lib/entity.h"
 #include "lib/system.h"
 
+#include "constants.h"
 #include "c_moveable.h"
 #include "c_rendered.h"
 #include "c_shaped.h"
@@ -35,6 +36,7 @@ namespace spacegun {
       TRenderer* renderer_;
       void renderSprite(const uint32_t dt, Entity&);
       void initSprite(Entity&);
+      Vector2d transformForDrawing(const Vector2d& value);
 
   };
 
@@ -69,8 +71,7 @@ namespace spacegun {
 
   template <class TRenderer>
   const string& SpriteRenderer<TRenderer>::getType()
-  {
-    return COMPONENT_TYPE_SPRITED;
+  { return COMPONENT_TYPE_SPRITED;
   }
 
   template <class TRenderer>
@@ -88,10 +89,13 @@ namespace spacegun {
 
     auto box = shaped->getBoundingBox();
     Vector2d pos = moveable->getPos();
+    auto transformedBox = transformForDrawing(box);
+    auto transformedPos = transformForDrawing(pos);
+
     auto texture = rendered->getTexture();
     auto angle = moveable->getAngle();
 
-    renderer_->drawRectangle(pos, box, texture, angle);
+    renderer_->drawRectangle(transformedPos, transformedBox, texture, angle);
   }
 
   template <class TRenderer>
@@ -116,6 +120,15 @@ namespace spacegun {
     SDL_SetTextureAlphaMod(t, 255);
 
     r->init(s, t);
+  }
+
+  template <class TRenderer>
+  Vector2d SpriteRenderer<TRenderer>::transformForDrawing(const Vector2d& val)
+  {
+    Vector2d transformed;
+    transformed.x = val.x * DRAW_FACTOR;
+    transformed.y = val.y * DRAW_FACTOR;
+    return transformed;
   }
 }
 
