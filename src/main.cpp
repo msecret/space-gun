@@ -69,7 +69,7 @@ const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 0);
 
-const float THRUST_FACTOR = 1700;
+const float THRUST_FACTOR = 0.75;
 
 Color randomGray() {
   auto r = rand() % 210;
@@ -148,7 +148,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 {
   float randAngle = static_cast <float> (rand()) / (
       static_cast <float> (RAND_MAX/180.0));
-  Vector2d bounds = Vector2d(WORLD_W, WORLD_H);
+  Vector2d bounds = Vector2d(WORLD_W / 10, WORLD_H / 10);
   Moveable* moveable = new Moveable(initV, initP, randAngle);
   Rectangular* rectangular = new Rectangular(w, h);
   Shaped* shaped = new Shaped(*rectangular);
@@ -158,7 +158,7 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
 
   moveable->setFriction(.0001f);
   moveable->setRestitution(0.80f);
-  moveable->setDensity(8.0f);
+  moveable->setDensity(7.0f);
 
   auto entity = new Entity();
   entity->addComponent(moveable);
@@ -181,6 +181,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
 
   auto pos = moveable->getPos();
+  pos.x = pos.x * 10;
 
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
@@ -191,7 +192,7 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   Sprited* sprited = new Sprited("./img/ship-v1-gr.png");
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
 
-  damageable->setDamageFactor(0.001f);
+  damageable->setDamageFactor(2.0f);
 
   e->addComponent(damageable);
   e->addComponent(evented);
@@ -208,13 +209,13 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
     World& world)
 {
-  JointMotor motor(1.5, -0.5);
+  JointMotor motor(0.15, -0.05);
   Sprited* sprited = new Sprited("./img/shield.png");
   auto pJoint = new JointPrismatic(ship, shield, &motor);
   auto cUniv = new Universal(world);
 
-  pJoint->setRelativeAnchor(Vector2d(-40.0f, 0));
-  pJoint->setTranslation(-25.0, 30.0);
+  pJoint->setRelativeAnchor(Vector2d(-4.0f, 0));
+  pJoint->setTranslation(-2.5, 3.0);
 
   joinerShield->addComponent(pJoint);
   joinerShield->addComponent(cUniv);
@@ -263,16 +264,16 @@ int main()
   world.SetContactListener(&collisionListener);
 
   // initial values
-  Vector2d initVelA = { 10, 20 };
-  Vector2d initVelB = { 90, 40 };
-  Vector2d initVelC = { .1, .3 };
-  Vector2d initPosA = { 10, 30 };
-  Vector2d initPosB = { 500, 120 };
-  Vector2d initPosC = { 300, 400 };
-  Vector2d initPlayer = { 100, 40 };
+  Vector2d initVelA = { 0.1, 0.2 };
+  Vector2d initVelB = { 0.4, 0.03 };
+  Vector2d initVelC = { .01, .03 };
+  Vector2d initPosA = { 1, 3 };
+  Vector2d initPosB = { 50, 12 };
+  Vector2d initPosC = { 30, 40 };
+  Vector2d initPlayer = { 10, 4 };
   Vector2d initPlayerV = { 0, 0 };
-  float initWC = 80;
-  float initHC = 50;
+  float initWC = 8.0;
+  float initHC = 5.0;
   map<string, Ev*> keyMap;
   map<string, Ev*> keyMapP2;
   EvUserMovement up(Vector2d(1, 1));
@@ -297,117 +298,105 @@ int main()
   keyMapP2["Keypad 7"] = &counterClockwise;
 
   // setup asteroids
-  auto asteroidA = setupBaseEntity(initPosA, initVelA, 10, 13, randomGray(),
+  auto asteroidA = setupBaseEntity(initPosA, initVelA, 1, 1, randomGray(),
       world);
-  auto asteroidB = setupBaseEntity(initPosB, initVelB, 15, 11, randomGray(),
+  auto asteroidB = setupBaseEntity(initPosB, initVelB, 1, 1, randomGray(),
       world);
   auto asteroidC = setupBaseEntity(initPosC, initVelC, initWC, initHC, randomGray(),
       world);
-  auto asteroidD = setupBaseEntity(Vector2d(200, 200),
-      Vector2d( -0.3, 0.2),
-      25,
-      28,
+  auto asteroidD = setupBaseEntity(Vector2d(20, 20),
+      Vector2d( -0.09, 0.02),
+      2.5,
+      2.8,
       randomGray(),
       world);
-  auto asteroidE = setupBaseEntity(Vector2d(250, 400),
-      Vector2d( 0.5, -0.2),
-      32,
-      36,
+  auto asteroidE = setupBaseEntity(Vector2d(25, 40),
+      Vector2d( 0.05, -0.02),
+      3.2,
+      3.6,
       randomGray(),
       world);
-  auto asteroidF = setupBaseEntity(Vector2d(450, 300),
+  auto asteroidF = setupBaseEntity(Vector2d(45, 30),
       Vector2d( -0.1, -0.3),
-      42,
-      43,
+      4.2,
+      4.3,
       randomGray(),
       world);
-  auto asteroidG = setupBaseEntity(Vector2d(250, 400),
-      Vector2d( -0.1, -0.1),
-      45,
-      48,
+  auto asteroidG = setupBaseEntity(Vector2d(25, 40),
+      Vector2d( -0.01, -0.01),
+      4.5,
+      4.8,
       randomGray(),
       world);
-  auto asteroidH = setupBaseEntity(Vector2d(800, 600),
-      Vector2d( -0.8, -0.1),
-      30,
-      30,
+  auto asteroidH = setupBaseEntity(Vector2d(80, 60),
+      Vector2d( -0.08, -0.01),
+      3.0,
+      3.0,
       randomGray(),
       world);
-  auto asteroidI = setupBaseEntity(Vector2d(600, 800),
-      Vector2d( -0.5, -0.75),
-      43,
-      36,
+  auto asteroidI = setupBaseEntity(Vector2d(60, 80),
+      Vector2d( -0.05, -0.075),
+      4.3,
+      3.6,
       randomGray(),
       world);
-  auto asteroidJ = setupBaseEntity(Vector2d(800, 900),
-      Vector2d( 1.2, -0.75),
-      20,
-      16,
+  auto asteroidJ = setupBaseEntity(Vector2d(80, 90),
+      Vector2d( .12, -0.075),
+      2.0,
+      1.6,
       randomGray(),
       world);
-  auto asteroidK = setupBaseEntity(Vector2d(400, 900),
-      Vector2d( -1.0, -0.4),
-      20,
-      16,
+  auto asteroidK = setupBaseEntity(Vector2d(40, 90),
+      Vector2d( -.010, -0.04),
+      2.0,
+      1.6,
       randomGray(),
       world);
-  auto asteroidL = setupBaseEntity(Vector2d(1200, 300),
-      Vector2d( 0.3, -1.4),
-      45,
-      30,
+  auto asteroidL = setupBaseEntity(Vector2d(120, 30),
+      Vector2d( 0.03, -.14),
+      4.5,
+      3.0,
       randomGray(),
       world);
-  auto asteroidM = setupBaseEntity(Vector2d(1000, 500),
-      Vector2d( 0.8, 1.1),
-      9.0,
-      13,
+  auto asteroidM = setupBaseEntity(Vector2d(100, 50),
+      Vector2d( 0.08, .11),
+      1.9,
+      1.3,
       randomGray(),
       world);
-  auto asteroidN = setupBaseEntity(Vector2d(600, 600),
-      Vector2d( 1.4, 2.1),
-      12,
-      18,
+  auto asteroidN = setupBaseEntity(Vector2d(60, 60),
+      Vector2d( 0.14, 0.021),
+      1.2,
+      1.8,
       randomGray(),
       world);
-  auto asteroidO = setupBaseEntity(Vector2d(1000, 700),
-      Vector2d( 1.2, -1.8),
-      26,
-      29,
+  auto asteroidO = setupBaseEntity(Vector2d(100, 70),
+      Vector2d( 0.012, -0.18),
+      2.6,
+      2.9,
       randomGray(),
       world);
-  auto asteroidP = setupBaseEntity(Vector2d(500, 500),
-      Vector2d( -0.2, 1.4),
-      25,
-      25,
+  auto asteroidP = setupBaseEntity(Vector2d(50, 50),
+      Vector2d( -0.02, 0.014),
+      2.5,
+      2.5,
       randomGray(),
       world);
-  auto asteroidQ = setupBaseEntity(Vector2d(400, 700),
-      Vector2d( 0.5, 0.3),
-      27,
-      29,
+  auto asteroidS = setupBaseEntity(Vector2d(60, 90),
+      Vector2d( 0.04, 0.08),
+      1.5,
+      1.8,
       randomGray(),
       world);
-  auto asteroidR = setupBaseEntity(Vector2d(200, 700),
-      Vector2d( 0.2, -0.86),
-      30,
-      40,
+  auto asteroidT = setupBaseEntity(Vector2d(80, 90),
+      Vector2d( 0.011, -0.03),
+      1.1,
+      1.2,
       randomGray(),
       world);
-  auto asteroidS = setupBaseEntity(Vector2d(600, 900),
-      Vector2d( 0.4, 0.8),
-      15,
-      18,
-      randomGray(),
+  auto base = setupBaseEntity(Vector2d(10, 10), initPlayerV, 6, 4, SHIP,
       world);
-  auto asteroidT = setupBaseEntity(Vector2d(800, 900),
-      Vector2d( 1.1, -0.3),
-      11,
-      12,
-      randomGray(),
-      world);
-  auto base = setupBaseEntity(Vector2d(100, 100), initPlayerV, 60, 40, SHIP,
-      world);
-  auto baseP2 = setupBaseEntity(Vector2d(1100, 40), initPlayerV, 60, 40,
+  auto baseP2 = setupBaseEntity(Vector2d(110, 4), initPlayerV, 6, 4,
       SHIP, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
@@ -415,9 +404,9 @@ int main()
   // Setup shield
   auto joinerShieldP1 = new Entity();
   auto joinerShieldP2 = new Entity();
-  auto baseShieldP1 = setupBaseEntity(Vector2d(100, 100), initPlayerV, 35, 45,
+  auto baseShieldP1 = setupBaseEntity(Vector2d(10, 10), initPlayerV, 3.5, 4.5,
       COL_SHIELD,  world);
-  auto baseShieldP2 = setupBaseEntity(Vector2d(1100, 100), initPlayerV, 35, 45,
+  auto baseShieldP2 = setupBaseEntity(Vector2d(110, 10), initPlayerV, 3.5, 4.5,
       COL_SHIELD,  world);
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
   auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
@@ -462,8 +451,9 @@ int main()
   manager.addEntity(*asteroidN);
   manager.addEntity(*asteroidO);
   manager.addEntity(*asteroidP);
-  manager.addEntity(*asteroidQ);
-  manager.addEntity(*asteroidR); manager.addEntity(*asteroidS);
+  //manager.addEntity(*asteroidQ);
+  //manager.addEntity(*asteroidR);
+  manager.addEntity(*asteroidS);
   manager.addEntity(*asteroidT);
   manager.addEntity(*ship);
   manager.addEntity(*shipP2);

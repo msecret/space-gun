@@ -46,10 +46,10 @@ namespace spacegun {
   float Bound::wrapAround(float coordinate, float max)
   {
     if (coordinate < 0) {
-      return max - 80;
+      return max - 8;
     }
     if (coordinate > max) {
-      return 80;
+      return 8;
     }
 
     return coordinate;
