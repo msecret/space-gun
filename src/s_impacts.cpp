@@ -52,6 +52,10 @@ namespace spacegun {
         [&](EvImpact* ev) {
       handleImpact(entity, *ev);
     });
+    entity.on(EV_PLAYER_DEATH,
+        [&](EvPlayerDeath* ev) {
+      handleDeath(entity);
+    });
   }
 
   void Impacts::handleImpact(Entity& entity, EvImpact& ev)
@@ -68,6 +72,23 @@ namespace spacegun {
       using std::cout;
       using std::endl;
       cout << msg << endl;
+      auto s = entity.getComponent<Notification>(COMPONENT_TYPE_NOTIFICATION);
+      auto lineNum = c->notificationLine;
+      s->updateLine(lineNum, msg);
+    }
+  }
+
+  void Impacts::handleDeath(Entity& entity)
+  {
+    auto c = entity.getComponent<Damageable>(COMPONENT_TYPE_DAMAGEABLE);
+
+    if (entity.hasComponent(COMPONENT_TYPE_NOTIFICATION)) {
+      using std::cout;
+      using std::endl;
+      cout << "reset notification" << endl;
+      std::ostringstream buffer;
+      buffer << "health: " << int(c->getHealth());
+      std::string msg = buffer.str();
       auto s = entity.getComponent<Notification>(COMPONENT_TYPE_NOTIFICATION);
       auto lineNum = c->notificationLine;
       s->updateLine(lineNum, msg);

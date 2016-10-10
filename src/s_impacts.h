@@ -28,6 +28,7 @@ namespace spacegun {
     private:
       void bindEntity(Entity& entity);
       void handleImpact(Entity& entity, EvImpact& ev);
+      void handleDeath(Entity& entity);
 
   };
 }

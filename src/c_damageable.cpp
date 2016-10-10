@@ -1,4 +1,6 @@
 
+#include <cstdio>
+#include <iostream>
 #include <iostream>
 
 #include "c_damageable.h"
@@ -37,6 +39,9 @@ namespace spacegun {
 
   void Damageable::resetHealth()
   {
+    using std::cout;
+    using std::endl;
+    cout << "reset" << endl;
     health_ = initialHealth_;
   }
 
