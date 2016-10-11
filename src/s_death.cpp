@@ -18,6 +18,7 @@ namespace spacegun {
   using aronnax::EV_PLAYER_DEATH;
   using aronnax::Entity;
   using aronnax::Entities;
+  using aronnax::EvImpact;
   using aronnax::EvPlayerDeath;
   using aronnax::Vector2d;
 
@@ -76,6 +77,10 @@ namespace spacegun {
       auto s = entity.getComponent<Notification>(COMPONENT_TYPE_NOTIFICATION);
       auto lineNum = mortal->notificationLine;
       s->updateLine(lineNum, msg);
+      vector<float> total;
+      total.push_back(0.0);
+      EvImpact ev(total);
+      entity.emit(EV_IMPACT, &ev);
     }
   }
 
