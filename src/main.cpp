@@ -69,6 +69,7 @@ const Color BLUE = Color(0, 110, 255, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 0);
+int playerI = 0;
 
 const float THRUST_FACTOR = 0.75;
 
@@ -183,6 +184,12 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 
   auto pos = moveable->getPos();
   pos.x = pos.x * 10;
+  string imgName = "";
+  if (playerI == 0) {
+    imgName = "./img/osiri-v2-p1.png";
+  } else {
+    imgName = "./img/osiri-v2-p2.png";
+  }
 
   Damageable* damageable = new Damageable(100);
   Evented* evented = new Evented();
@@ -190,8 +197,10 @@ Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
   Mortal* mortal = new Mortal();
   Notification* notification = new Notification(pos, name, BLUE);
   Oriented* oriented = new Oriented(*moveable);
-  Sprited* sprited = new Sprited("./img/ship-v1-gr.png");
+  Sprited* sprited = new Sprited(imgName);
   Thrustable* thrustable = new Thrustable(THRUST_FACTOR);
+
+   playerI += 1;
 
   damageable->setDamageFactor(2.0f);
 
@@ -396,7 +405,7 @@ int main()
       1.2,
       randomGray(),
       world);
-  auto base = setupBaseEntity(Vector2d(10, 10), initPlayerV, 6, 4, SHIP,
+  auto base = setupBaseEntity(Vector2d(10, 10), initPlayerV, 6, 3.6, SHIP,
       world);
   auto baseP2 = setupBaseEntity(Vector2d(110, 4), initPlayerV, 6, 4,
       SHIP, world);
