@@ -301,12 +301,12 @@ int main()
   keyMap["E"] = &clockwise;
   keyMap["Q"] = &counterClockwise;
 
-  keyMapP2["Keypad 8"] = &up;
-  keyMapP2["Keypad 6"] = &right;
-  keyMapP2["Keypad 5"] = &down;
-  keyMapP2["Keypad 4"] = &left;
-  keyMapP2["Keypad 9"] = &clockwise;
-  keyMapP2["Keypad 7"] = &counterClockwise;
+  keyMapP2["I"] = &up;
+  keyMapP2["L"] = &right;
+  keyMapP2["K"] = &down;
+  keyMapP2["J"] = &left;
+  keyMapP2["O"] = &clockwise;
+  keyMapP2["U"] = &counterClockwise;
 
   // setup asteroids
   auto asteroidA = setupBaseEntity(initPosA, initVelA, 1, 1, randomGray(),
@@ -405,9 +405,9 @@ int main()
       1.2,
       randomGray(),
       world);
-  auto base = setupBaseEntity(Vector2d(10, 10), initPlayerV, 6, 3.6, SHIP,
+  auto base = setupBaseEntity(Vector2d(10, 10), initPlayerV, 6, 4.235, SHIP,
       world);
-  auto baseP2 = setupBaseEntity(Vector2d(110, 4), initPlayerV, 6, 4,
+  auto baseP2 = setupBaseEntity(Vector2d(110, 4), initPlayerV, 6, 4.235,
       SHIP, world);
   auto ship = setupPlayerEntity(base, keyMap, "PlayerA");
   auto shipP2 = setupPlayerEntity(baseP2, keyMapP2, "PlayerB");
