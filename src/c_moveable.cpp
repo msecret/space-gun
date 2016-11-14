@@ -16,18 +16,38 @@ namespace spacegun {
 
   extern const string COMPONENT_TYPE_MOVEABLE;
 
+  b2BodyDef construct(b2BodyType btype, const Vector2d& pos)
+  {
+    b2BodyDef def;
+    def.type = btype;
+    def.position.Set(pos.x, pos.y);
+    return def;
+  }
+
   Moveable::Moveable() :
     initialPos_(Vector2d(0, 0)),
     body_(nullptr),
     fixture_(nullptr),
     setMassData_(false)
   {
-    b2BodyDef def;
-    def.type = b2_dynamicBody;
-    def.position.Set(0, 0);
+    const auto vec = Vector2d(0, 0);
+    b2BodyDef def = construct(b2_dynamicBody, vec);
 
     bodyDef_ = def;
     fixtureDef_.density = 1;
+  }
+
+  Moveable::Moveable(
+        b2BodyType btype,
+        const Vector2d& initialPos) :
+    initialPos_(initialPos),
+    body_(nullptr),
+    fixture_(nullptr),
+    setMassData_(false)
+  {
+    b2BodyDef def = construct(btype, initialPos);
+
+    bodyDef_ = def;
   }
 
   Moveable::Moveable(const Vector2d& initialVel,
@@ -37,9 +57,7 @@ namespace spacegun {
     fixture_(nullptr),
     setMassData_(false)
   {
-    b2BodyDef def;
-    def.type = b2_dynamicBody;
-    def.position.Set(initialPos.x, initialPos.y);
+    b2BodyDef def = construct(b2_dynamicBody, initialPos);
     def.linearVelocity.Set(initialVel.x, initialVel.y);
 
     bodyDef_ = def;
@@ -53,9 +71,7 @@ namespace spacegun {
     fixture_(nullptr),
     setMassData_(false)
   {
-    b2BodyDef def;
-    def.type = b2_dynamicBody;
-    def.position.Set(initialPos.x, initialPos.y);
+    b2BodyDef def = construct(b2_dynamicBody, initialPos);
     def.linearVelocity.Set(initialVel.x, initialVel.y);
     def.angle = initialAngle;
 

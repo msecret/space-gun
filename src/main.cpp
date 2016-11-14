@@ -178,6 +178,26 @@ Entity* setupBaseEntity(Vector2d initP, Vector2d initV, float w, float h,
   return entity;
 }
 
+Entity* setupTargetEntity(Vector2d initP, float w, float h, World& world)
+{
+  Moveable* moveable = new Moveable(b2_staticBody, initP);
+  Rectangular* rectangular = new Rectangular(w, h);
+  Shaped* shaped = new Shaped(*rectangular);
+  Sprited* sprited = new Sprited("./img/target.png");
+  Rendered* rendered = new Rendered();
+  Universal* universal = new Universal(world, TIMESTEP);
+
+  auto entity = new Entity();
+  entity->addComponent(moveable);
+  entity->addComponent(rectangular);
+  entity->addComponent(shaped);
+  entity->addComponent(sprited);
+  entity->addComponent(rendered);
+  entity->addComponent(universal);
+
+  return entity;
+}
+
 Entity* setupPlayerEntity(Entity* e, map<string, Ev*>& keyMap, string name)
 {
   auto moveable = e->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
@@ -429,6 +449,10 @@ int main()
   //auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
 
 
+  // Setup target area
+  auto target = setupTargetEntity(Vector2d(64.0, 48.0), 6.0, 4.235,
+      world);
+
   // setup systems
   Bound bound;
   Death death;
@@ -472,6 +496,8 @@ int main()
   manager.addEntity(*shieldP1);
   manager.addEntity(*joinerShieldP2);
   manager.addEntity(*shieldP2);
+
+  manager.addEntity(*target);
   //manager.addEntity(*weaponP1);
   //manager.addEntity(*joinerA);
   manager.addSystem(&bound);

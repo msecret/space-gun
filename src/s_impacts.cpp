@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <cstdio>
 
 #include "lib/units.h"
 #include "s_impacts.h"

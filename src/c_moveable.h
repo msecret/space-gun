@@ -22,6 +22,8 @@ namespace spacegun {
   {
     public:
       Moveable();
+      Moveable(b2BodyType btype,
+               const Vector2d& initialPos);
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos);
       Moveable(const Vector2d& initialVel,
