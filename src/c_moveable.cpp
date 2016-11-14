@@ -47,6 +47,10 @@ namespace spacegun {
   {
     b2BodyDef def = construct(btype, initialPos);
 
+    if (btype == b2_staticBody) {
+      fixtureDef_.isSensor = true;
+    }
+
     bodyDef_ = def;
   }
 
