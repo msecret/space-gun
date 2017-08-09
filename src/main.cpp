@@ -39,6 +39,7 @@
 #include "c_rendered.h"
 #include "c_painted.h"
 #include "c_shaped.h"
+#include "c_smasher.h"
 #include "c_sprited.h"
 #include "c_thrustable.h"
 #include "c_universal.h"
