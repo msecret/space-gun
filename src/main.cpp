@@ -66,6 +66,7 @@ const int WORLD_W = 1280;
 const int WORLD_H = 960;
 
 const Color BLUE = Color(0, 110, 255, 255);
+const Color GREEN = Color(171, 210, 23, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 0);
@@ -237,6 +238,24 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
   moveable->setFriction(1.0f);
 
   return shield;
+}
+
+Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
+    World& world)
+{
+  auto pJoint = new JointSolid(ship, beam, 1.5708);
+  auto cUniv = new Universal(world);
+
+  pJoint->setRelativeAnchor(Vector2d(-2.7f, -3.1f));
+
+  joinerBeam->addComponent(pJoint);
+  joinerBeam->addComponent(cUniv);
+
+  auto moveable = beam->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
+  moveable->setDensity(0.001f);
+  moveable->setFriction(1.0f);
+
+  return beam;
 }
 
 Entity* setupWeaponEntity(Entity* weapon, Entity* ship) {
@@ -422,6 +441,12 @@ int main()
   auto shieldP1 = setupShieldEntity(baseShieldP1, ship, joinerShieldP1, world);
   auto shieldP2 = setupShieldEntity(baseShieldP2, shipP2, joinerShieldP2, world);
 
+  // Setup beams
+  auto joinerBeamP1 = new Entity();
+  auto baseBeamP1 = setupBaseEntity(Vector2d(10, 10),
+    initPlayerV, 6, 1, GREEN, world);
+  auto beamP1 = setupBeamEntity(baseBeamP1, ship, joinerBeamP1, world);
+
   // Setup weapon
   //auto joinerA = new Entity();
   //auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
@@ -474,6 +499,9 @@ int main()
   manager.addEntity(*shieldP2);
   //manager.addEntity(*weaponP1);
   //manager.addEntity(*joinerA);
+  manager.addEntity(*joinerBeamP1);
+  manager.addEntity(*beamP1);
+  //
   manager.addSystem(&bound);
   manager.addSystem(&damage);
   manager.addSystem(&impacts);
