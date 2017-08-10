@@ -71,6 +71,7 @@ const Color GREEN = Color(171, 210, 23, 255);
 const Color YELLOW = Color(255, 255, 0, 255);
 const Color SHIP = Color(0.0f, 0.0f, 0.0f, 0.0f);
 const Color COL_SHIELD = Color(80, 200, 200, 0);
+const Color COL_BEAM = Color(80, 200, 200, 0);
 int playerI = 0;
 
 const float THRUST_FACTOR = 0.75;
@@ -244,6 +245,7 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
 Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
     World& world)
 {
+  Sprited* sprited = new Sprited("./img/beam.png");
   auto pJoint = new JointSolid(ship, beam, 1.5708);
   auto cUniv = new Universal(world);
 
@@ -251,6 +253,8 @@ Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
 
   joinerBeam->addComponent(pJoint);
   joinerBeam->addComponent(cUniv);
+
+  beam->addComponent(sprited);
 
   auto moveable = beam->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.001f);
@@ -445,15 +449,8 @@ int main()
   // Setup beams
   auto joinerBeamP1 = new Entity();
   auto baseBeamP1 = setupBaseEntity(Vector2d(10, 10),
-    initPlayerV, 6, 1, GREEN, world);
+    initPlayerV, 6, 0.5, COL_BEAM, world);
   auto beamP1 = setupBeamEntity(baseBeamP1, ship, joinerBeamP1, world);
-
-  // Setup weapon
-  //auto joinerA = new Entity();
-  //auto weaponBaseP1 = setupBaseEntity(Vector2d(100 + 25, 100 + 45),
-  //    initPlayerV, 60, 5, GREEN, world);
-  //auto weaponP1 = setupWeaponEntity(weaponBaseP1, ship);
-
 
   // setup systems
   Bound bound;
