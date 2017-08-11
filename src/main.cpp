@@ -82,6 +82,27 @@ Color randomGray() {
   return color;
 }
 
+vector<float> setupImpact(vector<float>& t, const b2ContactImpulse& impulse)
+{
+  auto normalImpulses = impulse.normalImpulses;
+  for(unsigned int i = 0; i < sizeof(normalImpulses); i=i+1) {
+    t.push_back(normalImpulses[i]);
+  }
+
+  return t;
+}
+
+void damageHandler(void * bodyUserData, const b2ContactImpulse*  impulse)
+{
+  auto entity = static_cast<Entity*>(bodyUserData);
+  if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+    vector<float> total;
+    total = setupImpact(total, *impulse);
+    EvImpact ev(total);
+    entity->emit(EV_IMPACT, &ev);
+  }
+}
+
 
 class CollisionListener : public b2ContactListener
 {
@@ -92,22 +113,10 @@ class CollisionListener : public b2ContactListener
       void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
       void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
       if ( bodyUserDataA ) {
-        auto entity = static_cast<Entity*>(bodyUserDataA);
-        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
-          vector<float> total;
-          total = setupImpact(total, *impulse);
-          EvImpact ev(total);
-          entity->emit(EV_IMPACT, &ev);
-        }
+        damageHandler(bodyUserDataA, impulse);
       }
       if ( bodyUserDataB ) {
-        auto entity = static_cast<Entity*>(bodyUserDataB);
-        if (entity->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
-          vector<float> total;
-          total = setupImpact(total, *impulse);
-          EvImpact ev(total);
-          entity->emit(EV_IMPACT, &ev);
-        }
+        damageHandler(bodyUserDataB, impulse);
       }
     }
 

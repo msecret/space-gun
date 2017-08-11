@@ -6,7 +6,7 @@ ifndef GMOCK_DIR
 GMOCK_DIR := /usr/include/gmock
 endif
 
-LIBBOX2D = /usr/lib/libBox2D.so
+LIBBOX2D = /usr/lib/libBox2D.a
 export CC = g++
 export LIBNAME = gaming.a
 export XFLAGS = -Wall -g -std=c++11
