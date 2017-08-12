@@ -113,8 +113,9 @@ void beamHandler(void * bodyUserDataA, void * bodyUserDataB,
   if (entityA->hasComponent(COMPONENT_TYPE_SMASHER)) {
     if (entityB->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
       vector<float> total;
-      // TODO replace damage factor with data from smasher component.
-      total = setupImpact(total, *impulse, 80.0f);
+      auto smasher = entityA->getComponent<Smasher>(COMPONENT_TYPE_SMASHER);
+      float damage = smasher->getDamage();
+      total = setupImpact(total, *impulse, damage);
       EvImpact ev(total);
       entityB->emit(EV_IMPACT, &ev);
     }
@@ -272,7 +273,7 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
 Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
     World& world)
 {
-  Smasher* smasher = new Smasher(5.0f);
+  Smasher* smasher = new Smasher(50.0f);
   Sprited* sprited = new Sprited("./img/beam.png");
   auto pJoint = new JointSolid(ship, beam, 1.5708);
   auto cUniv = new Universal(world);
