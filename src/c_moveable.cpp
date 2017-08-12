@@ -219,6 +219,7 @@ namespace spacegun {
 
   void Moveable::applyForce(const Vector2d& v)
   {
+    printf("force %d %d\n", v.x, v.y);
     body_->ApplyForceToCenter(v, true);
   }
 

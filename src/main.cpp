@@ -82,11 +82,12 @@ Color randomGray() {
   return color;
 }
 
-vector<float> setupImpact(vector<float>& t, const b2ContactImpulse& impulse)
+vector<float> setupImpact(vector<float>& t, const b2ContactImpulse& impulse,
+    float factor=1)
 {
   auto normalImpulses = impulse.normalImpulses;
   for(unsigned int i = 0; i < sizeof(normalImpulses); i=i+1) {
-    t.push_back(normalImpulses[i]);
+    t.push_back(normalImpulses[i] * factor);
   }
 
   return t;
@@ -103,6 +104,23 @@ void damageHandler(void * bodyUserData, const b2ContactImpulse*  impulse)
   }
 }
 
+void beamHandler(void * bodyUserDataA, void * bodyUserDataB,
+    const b2ContactImpulse* impulse)
+{
+  auto entityA = static_cast<Entity*>(bodyUserDataA);
+  auto entityB = static_cast<Entity*>(bodyUserDataB);
+
+  if (entityA->hasComponent(COMPONENT_TYPE_SMASHER)) {
+    if (entityB->hasComponent(COMPONENT_TYPE_DAMAGEABLE)) {
+      vector<float> total;
+      // TODO replace damage factor with data from smasher component.
+      total = setupImpact(total, *impulse, 80.0f);
+      EvImpact ev(total);
+      entityB->emit(EV_IMPACT, &ev);
+    }
+  }
+}
+
 
 class CollisionListener : public b2ContactListener
 {
@@ -112,11 +130,11 @@ class CollisionListener : public b2ContactListener
     {
       void* bodyUserDataA = contact->GetFixtureA()->GetBody()->GetUserData();
       void* bodyUserDataB = contact->GetFixtureB()->GetBody()->GetUserData();
-      if ( bodyUserDataA ) {
+      if ( bodyUserDataA && bodyUserDataB) {
         damageHandler(bodyUserDataA, impulse);
-      }
-      if ( bodyUserDataB ) {
         damageHandler(bodyUserDataB, impulse);
+        beamHandler(bodyUserDataA, bodyUserDataB, impulse);
+        beamHandler(bodyUserDataB, bodyUserDataA, impulse);
       }
     }
 
@@ -254,6 +272,7 @@ Entity* setupShieldEntity(Entity* shield, Entity* ship, Entity* joinerShield,
 Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
     World& world)
 {
+  Smasher* smasher = new Smasher(5.0f);
   Sprited* sprited = new Sprited("./img/beam.png");
   auto pJoint = new JointSolid(ship, beam, 1.5708);
   auto cUniv = new Universal(world);
@@ -264,6 +283,7 @@ Entity* setupBeamEntity(Entity* beam, Entity* ship, Entity* joinerBeam,
   joinerBeam->addComponent(cUniv);
 
   beam->addComponent(sprited);
+  beam->addComponent(smasher);
 
   auto moveable = beam->getComponent<Moveable>(COMPONENT_TYPE_MOVEABLE);
   moveable->setDensity(0.001f);
