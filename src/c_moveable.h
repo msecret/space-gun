@@ -27,7 +27,7 @@ namespace spacegun {
       Moveable(const Vector2d& initialVel,
                const Vector2d& initialPos,
                float initialAngle);
-      void init(World& world, Shape& shape, Entity& e);
+      void init(World& world, b2Shape& shape, Entity& e);
       const string getType();
       Vector2d getVel();
       // TODO should this be set force?

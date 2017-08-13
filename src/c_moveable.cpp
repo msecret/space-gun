@@ -63,7 +63,7 @@ namespace spacegun {
     fixtureDef_.density = 1;
   };
 
-  void Moveable::init(World& world, Shape& shape, Entity& e)
+  void Moveable::init(World& world, b2Shape& shape, Entity& e)
   {
     body_ = world.CreateBody(&bodyDef_);
     fixtureDef_.shape = &shape;
@@ -219,7 +219,6 @@ namespace spacegun {
 
   void Moveable::applyForce(const Vector2d& v)
   {
-    printf("force %d %d\n", v.x, v.y);
     body_->ApplyForceToCenter(v, true);
   }
 

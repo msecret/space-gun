@@ -25,7 +25,7 @@ namespace spacegun {
       const string getType();
       const string getShapeType();
       BaseShaped* getShapeComponent();
-      Shape* getShape();
+      b2Shape* getShape();
       Vector2d getBoundingBox();
 
     private:

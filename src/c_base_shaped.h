@@ -21,7 +21,7 @@ namespace spacegun {
     public:
       virtual ~BaseShaped() {};
       virtual const string getType() { return COMPONENT_TYPE_BASE_SHAPED; };
-      virtual Shape* getShape() = 0;
+      virtual b2Shape* getShape() = 0;
       virtual Vector2d getBoundingBox() = 0;
   };
 }

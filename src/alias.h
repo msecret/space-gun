@@ -11,7 +11,6 @@ namespace spacegun {
   using Fixture = b2Fixture;
   using FixtureDef = b2FixtureDef;
   using MassData = b2MassData;
-  using Shape = b2Shape;
   using PolygonShape = b2PolygonShape;
   using World = b2World;
 

@@ -21,7 +21,7 @@ namespace spacegun {
     return shapeComponent_;
   }
 
-  Shape* Shaped::getShape()
+  b2Shape* Shaped::getShape()
   {
     return shapeComponent_->getShape();
   }

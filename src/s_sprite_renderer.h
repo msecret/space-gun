@@ -71,7 +71,8 @@ namespace spacegun {
 
   template <class TRenderer>
   const string& SpriteRenderer<TRenderer>::getType()
-  { return COMPONENT_TYPE_SPRITED;
+  {
+    return COMPONENT_TYPE_SPRITED;
   }
 
   template <class TRenderer>
